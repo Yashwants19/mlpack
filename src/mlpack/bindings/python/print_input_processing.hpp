@@ -265,7 +265,7 @@ void PrintInputProcessing(
         << std::endl;
     std::cout << prefix << "  SetParamWithInfo[arma.Mat[double]](<const string>"
         << " '" << d.name << "', dereference(" << d.name << "_mat), <const "
-        << "bool*> " << d.name << "_dims.data)" << std::endl;
+        << "bl*> " << d.name << "_dims.data)" << std::endl;
     std::cout << prefix << "  CLI.SetPassed(<const string> '" << d.name << "')"
         << std::endl;
     std::cout << prefix << "  del " << d.name << "_mat" << std::endl;
@@ -281,7 +281,7 @@ void PrintInputProcessing(
         << std::endl;
     std::cout << prefix << "SetParamWithInfo[arma.Mat[double]](<const string>"
         << " '" << d.name << "', dereference(" << d.name << "_mat), <const "
-        << "bool*> " << d.name << "_dims.data)" << std::endl;
+        << "bl*> " << d.name << "_dims.data)" << std::endl;
     std::cout << prefix << "CLI.SetPassed(<const string> '" << d.name << "')"
         << std::endl;
     std::cout << prefix << "del " << d.name << "_mat" << std::endl;
