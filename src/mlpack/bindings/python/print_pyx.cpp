@@ -87,7 +87,7 @@ void PrintPYX(const ProgramDoc& programInfo,
   cout << "cimport numpy as np" << endl;
   cout << endl;
   cout << "from libcpp.string cimport string" << endl;
-  cout << "from libcpp cimport bool" << endl;
+  cout << "from libcpp cimport bool as bl" << endl;
   cout << "from libcpp.vector cimport vector" << endl;
   cout << endl;
   cout << "from cython.operator import dereference" << endl;
@@ -186,10 +186,14 @@ void PrintPYX(const ProgramDoc& programInfo,
       << endl;
 
   // Determine whether or not we need to copy parameters.
-  cout << "  if copy_all_inputs:" << endl;
-  cout << "    SetParam[bool](<const string> 'copy_all_inputs', "
+  cout << "  if isinstance(copy_all_inputs, bool):" << endl;
+  cout << "    if copy_all_inputs:" << endl;
+  cout << "      SetParam[bl](<const string> 'copy_all_inputs', "
       << "copy_all_inputs)" << endl;
-  cout << "    CLI.SetPassed(<const string> 'copy_all_inputs')" << endl;
+  cout << "      CLI.SetPassed(<const string> 'copy_all_inputs')" << endl;
+  cout << "  else:" << endl;
+  cout << "    raise TypeError(" <<"\"copy_all_inputs must have type 'bool'!\""
+      << ")" << endl;
 
   // Do any input processing.
   for (size_t i = 0; i < inputOptions.size(); ++i)
