@@ -192,8 +192,8 @@ void PrintPYX(const ProgramDoc& programInfo,
       << "copy_all_inputs)" << endl;
   cout << "      CLI.SetPassed(<const string> 'copy_all_inputs')" << endl;
   cout << "  else:" << endl;
-  cout << "    raise TypeError(" <<"\"'copy_all_inputs\' must have type 'bool'!\""
-      << ")" << endl;
+  cout << "    raise TypeError(" <<"\"'copy_all_inputs\' must have type "
+      << "\'bool'!\")" << endl;
 
   // Do any input processing.
   for (size_t i = 0; i < inputOptions.size(); ++i)
