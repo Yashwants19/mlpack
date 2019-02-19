@@ -123,7 +123,7 @@ void PrintInputProcessing(
       << std::endl;
   if (!d.required)
   { 
-    if(GetArmaType<T>()=="row" || GetArmaType<T>()=="col")
+    if (GetArmaType<T>() == "row" || GetArmaType<T>() == "col")
     {
       std::cout << prefix << "if " << d.name << " is not None:" << std::endl;
 
@@ -131,20 +131,20 @@ void PrintInputProcessing(
           << ", dtype=" << GetNumpyType<typename T::elem_type>() << ", "
           << "copy=CLI.HasParam('copy_all_inputs'))" << std::endl;
       std::cout << prefix << "  " << "if len(" << d.name << "_tuple[0].shape"
-	      << ") > 1:" << std::endl;
+	  << ") > 1:" << std::endl;
       std::cout << prefix << "  " << prefix << "if " << d.name << "_tuple[0]"
-	      << ".shape[0] == 1 or "<< d.name << "_tuple[0].shape[1] == 1:" 
-	      << std::endl;
+	  << ".shape[0] == 1 or " << d.name << "_tuple[0].shape[1] == 1:" 
+	  << std::endl;
       std::cout << prefix << "  " << prefix << "  " << d.name << "_tuple[0] = " 
-	      << d.name << "_tuple"<< "[0].ravel()" << std::endl;
+	  << d.name << "_tuple" << "[0].ravel()" << std::endl;
       std::cout << prefix << "  " << d.name << "_mat = arma_numpy.numpy_to_"
           << GetArmaType<T>() << "_" << GetNumpyTypeChar<T>() << "(" << d.name
           << "_tuple[0], " << d.name << "_tuple[1])" << std::endl;
       std::cout << prefix << "  SetParam[" << GetCythonType<T>(d) << "](<const "
           << "string> '" << d.name << "', dereference(" << d.name << "_mat))"
           << std::endl;
-      std::cout << prefix << "  CLI.SetPassed(<const string> '" << d.name << "')"
-          << std::endl;
+      std::cout << prefix << "  CLI.SetPassed(<const string> '" << d.name 
+	  << "')" << std::endl;
       std::cout << prefix << "  del " << d.name << "_mat";
     }
     else
@@ -157,11 +157,11 @@ void PrintInputProcessing(
       std::cout << prefix << "  " << d.name << "_mat = arma_numpy.numpy_to_"
           << GetArmaType<T>() << "_" << GetNumpyTypeChar<T>() << "(" << d.name
           << "_tuple[0], " << d.name << "_tuple[1])" << std::endl;
-      std::cout << prefix << "  SetParam[" << GetCythonType<T>(d) << "](<const "
-          << "string> '" << d.name << "', dereference(" << d.name << "_mat))"
-          << std::endl;
-      std::cout << prefix << "  CLI.SetPassed(<const string> '" << d.name << "')"
-          << std::endl;
+      std::cout << prefix << "  SetParam[" << GetCythonType<T>(d) 
+	  << "](<const " << "string> '" << d.name << "', dereference(" << d.name 
+	  << "_mat))" << std::endl;
+      std::cout << prefix << "  CLI.SetPassed(<const string> '" << d.name 
+	  << "')" << std::endl;
       std::cout << prefix << "  del " << d.name << "_mat";
     }
   }
