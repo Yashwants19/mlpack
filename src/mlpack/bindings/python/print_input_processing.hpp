@@ -133,7 +133,7 @@ void PrintInputProcessing(
       std::cout << prefix << "  " << "if len(" << d.name << "_tuple[0].shape"
 	      << ") > 1:" << std::endl;
       std::cout << prefix << "  " << prefix << "if " << d.name << "_tuple[0]"
-	      << "[0].shape == 1 or "<< d.name << "_tuple[0][1].shape == 1:" 
+	      << "[0].shape == 1 or "<< d.name << "_tuple[0][:,0].shape == 1:" 
 	      << std::endl;
       std::cout << prefix << "  " << prefix << "  " << d.name << "_tuple[0] = " 
 	      << d.name << "_tuple"<< "[0].ravel()" << std::endl;
