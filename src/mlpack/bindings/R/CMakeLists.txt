@@ -247,7 +247,7 @@ if (BUILD_R_BINDINGS)
   add_dependencies(R r_build)
 endif ()
 
-# Define a global list of models, use for building serialization.R file. 
+# Define a global list of models, use for building serialization.R file.
 define_property(GLOBAL PROPERTY R_MODELS
     BRIEF_DOCS "Global list of models"
     FULL_DOCS "Global list of models"

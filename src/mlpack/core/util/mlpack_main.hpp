@@ -363,7 +363,7 @@ static const std::string testName = "";
     mlpack::util::ProgramDoc \
     cli_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
     []() { return DESC; }, { __VA_ARGS__ })
-    
+
 PARAM_FLAG("verbose", "Display informational messages and the full list of "
     "parameters and timers at the end of execution.", "v");
 
