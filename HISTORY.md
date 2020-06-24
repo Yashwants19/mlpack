@@ -1,5 +1,7 @@
 ### mlpack ?.?.?
 ###### ????-??-??
+  * Rename InformationGain to HoeffdingInformationGain in 
+    methods/hoeffding_trees/information_gain.hpp (#____).
 
   * Add Go bindings for some missed models (#2460).
 
