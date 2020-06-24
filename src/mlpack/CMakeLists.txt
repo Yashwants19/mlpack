@@ -156,7 +156,6 @@ if (BUILD_JULIA_BINDINGS)
       "\nend\ninclude(\"functions.jl\")\ninclude(\"serialization.jl\")\nend\n")
 endif ()
 
-
 # If we are building Go bindings, we have to end the 'module' declaration in
 # models.go
 if (BUILD_GO_BINDINGS)
@@ -177,6 +176,62 @@ if (BUILD_GO_BINDINGS)
         "${CMAKE_BINARY_DIR}/src/mlpack/bindings/go/src/mlpack.org/v1/mlpack/models.go"
          ${models})
   endforeach()
+endif()
+
+# In Case of R_Bindings Move all of these header and source files to
+# <package>/src/mlpack/.
+if (BUILD_R_BINDINGS)
+  # Collect all header and source files in the library.
+  file(GLOB_RECURSE R_SRC_HPP_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.hpp)
+  file(GLOB_RECURSE R_SRC_CPP_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.cpp)
+  set(R_SRC_FILES ${R_SRC_HPP_FILES} ${R_SRC_CPP_FILES} PARENT SCOPE)
+
+  # First we have to create that directory though.
+  execute_process(
+    COMMAND ${CMAKE_COMMAND} -E
+      make_directory ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/mlpack
+  )
+
+  # Then copy each of the header and source files over to that directory.
+  set(MLPACK_SOURCES
+    "${CMAKE_BINARY_DIR}/src/mlpack/mlpack_export.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/prereqs.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/core.hpp"
+  )
+
+  foreach(mlpack_sources ${MLPACK_SOURCES})
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${mlpack_sources}
+        ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/mlpack
+    )
+  endforeach()
+
+  foreach(r_src_file ${R_SRC_FILES})
+    if ("${r_src_file}" MATCHES "methods/" OR
+        "${r_src_file}" MATCHES "core/")
+      execute_process(
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          ${CMAKE_CURRENT_SOURCE_DIR}/${r_src_file}
+          ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/mlpack/${r_src_file}
+      )
+
+      # Collect path of all source files and append to ${R_SRC}.
+      if ("${r_src_file}" MATCHES ".cpp" AND
+          NOT "${r_src_file}" MATCHES "main.cpp" AND
+          # Note: this implementation of MVU does not work.  See #189.
+          NOT "${r_src_file}" MATCHES "mvu")
+        string(APPEND R_SRC "#include <mlpack/${r_src_file}>\n")
+      endif()
+
+    endif()
+  endforeach()
+
+  # Then configure 'mlpack.h.in' using ${R_SRC}.
+  configure_file(
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/mlpack/inst/include/mlpack.h.in
+      ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/inst/include/mlpack.h
+      @ONLY)
 endif()
 
 # If we are building Markdown documentation, we have to run some setup after we
@@ -206,7 +261,7 @@ set_verbose(MLPACK_INCS_DIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE STRING
           "Installation directory for include files, relative to "
           "${CMAKE_INSTALL_PREFIX}.")
 
-# Getting the absolute path, for some reason CMAKE gets confused, 
+# Getting the absolute path, for some reason CMAKE gets confused,
 # even with CMAKE_INSTALL_INCLUDEDIR
 if (UNIX)
   GNUInstallDirs_get_absolute_install_dir(MLPACK_LIBS_DIR CMAKE_INSTALL_LIBDIR)
@@ -230,7 +285,7 @@ export(TARGETS ${INSTALL_TARGETS} NAMESPACE mlpack::
     FILE ${PROJECT_BINARY_DIR}/${TARGETS_EXPORT_NAME}.cmake)
 
 # Install version, config and target files.
-install(FILES ${PROJECT_CONFIG} ${VERSION_CONFIG} 
+install(FILES ${PROJECT_CONFIG} ${VERSION_CONFIG}
     DESTINATION ${MLPACK_CMAKE_DIR})
 
 install(EXPORT ${TARGETS_EXPORT_NAME}
