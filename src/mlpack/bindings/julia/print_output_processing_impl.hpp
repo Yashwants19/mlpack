@@ -104,7 +104,7 @@ void PrintOutputProcessing(
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
 {
-  std::string type = util::StripType(d.cppType);
+  std::string type = utils::StripType(d.cppType);
   std::cout << functionName << "_internal.IOGetParam"
       << type << "(\"" << d.name << "\")";
 }

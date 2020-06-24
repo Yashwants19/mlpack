@@ -12,9 +12,12 @@
 #ifndef MLPACK_BINDINGS_R_R_OPTION_HPP
 #define MLPACK_BINDINGS_R_R_OPTION_HPP
 #include <mlpack/core/util/param_data.hpp>
+#include "get_param.hpp"
+#include "get_printable_param.hpp"
 #include "print_input_param.hpp"
 #include "print_input_processing.hpp"
 #include "print_output_processing.hpp"
+#include "print_doc.hpp"
 #include "print_serialize_util.hpp"
 
 namespace mlpack {
@@ -82,7 +85,16 @@ class ROption
     if (identifier != "verbose")
       CLI::RestoreSettings(CLI::ProgramName(), false);
 
+    // Set the function pointers that we'll need.  All of these function
+    // pointers will be used by both the program that generates the R, and
+    // also the binding itself.  (The binding itself will only use GetParam,
+    // GetPrintableParam, and GetRawParam.)
+    CLI::GetSingleton().functionMap[data.tname]["GetParam"] = &GetParam<T>;
+    CLI::GetSingleton().functionMap[data.tname]["GetPrintableParam"] =
+        &GetPrintableParam<T>;
+
     // These are used by the R generator.
+    CLI::GetSingleton().functionMap[data.tname]["PrintDoc"] = &PrintDoc<T>;
     CLI::GetSingleton().functionMap[data.tname]["PrintInputParam"] =
         &PrintInputParam<T>;
     CLI::GetSingleton().functionMap[data.tname]["PrintOutputProcessing"] =

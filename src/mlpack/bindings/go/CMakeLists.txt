@@ -81,7 +81,6 @@ if (BUILD_GO_SHLIB)
     print_method_config.hpp
     print_method_init.hpp
     print_output_processing.hpp
-    camel_case.hpp
     strip_type.hpp
   )
 

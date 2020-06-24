@@ -129,8 +129,12 @@ if (BUILD_R_BINDINGS)
 
   set(BINDINGS_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/get_type.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/ignore_check.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/print_doc.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/print_doc_functions.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/print_doc_functions_impl.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/print_input_param.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/get_param.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/get_printable_param.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/print_input_processing.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/print_output_processing.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/print_serialize_util.hpp"

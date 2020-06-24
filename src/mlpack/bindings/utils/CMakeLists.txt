@@ -2,6 +2,7 @@
 # Anything not in this list will not be compiled into mlpack.
 set(SOURCES
   strip_type.hpp
+  camel_case.hpp
 )
 
 # add directory name to sources

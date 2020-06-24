@@ -14,12 +14,13 @@
 #define MLPACK_BINDINGS_UTILS_STRIP_TYPE_HPP
 
 namespace mlpack {
-namespace util {
+namespace bindings {
+namespace utils {
 
 /**
  * Given a C++ type name, turn it into something that has no special characters
  * that can simply be printed.  This is similar to but not identical to
- * mlpack::bindings::python::StripType().
+ * mlpack::util::StripType().
  *
  * @param cppType C++ type as a string.
  * @return Stripped type with no special characters.
@@ -42,6 +43,7 @@ inline std::string StripType(std::string cppType)
 }
 
 } // namespace util
+} // namespace bindings
 } // namespace mlpack
 
 #endif

@@ -55,7 +55,7 @@ void PrintModelTypeImport(
   // import ..<type>
 
   // First, print the struct definition.
-  std::cout << "import .." << util::StripType(d.cppType) << std::endl;
+  std::cout << "import .." << utils::StripType(d.cppType) << std::endl;
 }
 
 /**

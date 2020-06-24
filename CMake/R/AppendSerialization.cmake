@@ -6,7 +6,7 @@
 #
 #  * PROGRAM_MAIN_FILE: the file containing the mlpackMain() function.
 #  * SERIALIZATION_FILE: file to append types to
-#  * SERIALIZE: It is of bool type. If SERIALIZE is true we have to print 
+#  * SERIALIZE: It is of bool type. If SERIALIZE is true we have to print
 #               Serialize, else Deserialize.
 #
 function(append_serialization SERIALIZATION_FILE PROGRAM_MAIN_FILE SERIALIZE)

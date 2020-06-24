@@ -336,14 +336,13 @@ PARAM_FLAG("verbose", "Display informational messages and the full list of "
 #define BINDING_MATRIX_TRANSPOSED true
 
 #include <mlpack/bindings/R/R_option.hpp>
-#include <mlpack/bindings/R/ignore_check.hpp>
+#include <mlpack/bindings/R/print_doc_functions.hpp>
 
-// These functions will do nothing.
-#define PRINT_PARAM_STRING(A) std::string(" ")
-#define PRINT_PARAM_VALUE(A, B) std::string(" ")
-#define PRINT_DATASET(A) std::string(" ")
-#define PRINT_MODEL(A) std::string(" ")
-#define PRINT_CALL(...) std::string(" ")
+#define PRINT_PARAM_STRING mlpack::bindings::r::ParamString
+#define PRINT_PARAM_VALUE mlpack::bindings::r::PrintValue
+#define PRINT_DATASET mlpack::bindings::r::PrintDataset
+#define PRINT_MODEL mlpack::bindings::r::PrintModel
+#define PRINT_CALL mlpack::bindings::r::ProgramCall
 #define BINDING_IGNORE_CHECK mlpack::bindings::r::IgnoreCheck
 
 namespace mlpack {

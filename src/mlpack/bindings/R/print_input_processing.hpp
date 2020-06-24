@@ -169,7 +169,7 @@ void PrintInputProcessing(
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name << ", NA)) {"
         << std::endl;
-    MLPACK_COUT_STREAM << "    CLI_SetParam" << util::StripType(d.cppType) << "Ptr(\""
+    MLPACK_COUT_STREAM << "    CLI_SetParam" << utils::StripType(d.cppType) << "Ptr(\""
         << d.name << "\", " << d.name << ")" << std::endl;
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
   }
@@ -180,7 +180,7 @@ void PrintInputProcessing(
      *
      *     CLI_SetParam<ModelType>Ptr("<param_name>", <param_name>)
      */
-    MLPACK_COUT_STREAM << "  CLI_SetParam" << util::StripType(d.cppType) << "Ptr(\""
+    MLPACK_COUT_STREAM << "  CLI_SetParam" << utils::StripType(d.cppType) << "Ptr(\""
               << d.name << "\", " << d.name << ")" << std::endl;
   }
   MLPACK_COUT_STREAM << std::endl; // Extra line is to clear up the code a bit.

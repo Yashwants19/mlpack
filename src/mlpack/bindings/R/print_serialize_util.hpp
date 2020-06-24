@@ -59,10 +59,10 @@ void PrintSerializeUtil(
    *
    */
   MLPACK_COUT_STREAM << "  " << d.name << " <- CLI_GetParam"
-      << util::StripType(d.cppType) << "Ptr(\"" << d.name << "\")";
+      << utils::StripType(d.cppType) << "Ptr(\"" << d.name << "\")";
   MLPACK_COUT_STREAM << std::endl;
-  MLPACK_COUT_STREAM << "  attr(" << d.name << ", \"type\") <- \"" 
-      << util::StripType(d.cppType) << "\"";
+  MLPACK_COUT_STREAM << "  attr(" << d.name << ", \"type\") <- \""
+      << utils::StripType(d.cppType) << "\"";
   MLPACK_COUT_STREAM << std::endl;
 }
 

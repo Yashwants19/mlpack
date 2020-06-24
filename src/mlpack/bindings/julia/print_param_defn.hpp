@@ -83,7 +83,7 @@ void PrintParamDefn(
   //       Ptr{Nothing}, (Vector{UInt8}, UInt), buffer, length(buffer)))
   // end
 
-  std::string type = util::StripType(d.cppType);
+  std::string type = utils::StripType(d.cppType);
 
   // First, print the import of the struct.
   std::cout << "import ..." << type << std::endl;

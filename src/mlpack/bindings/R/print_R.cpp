@@ -62,6 +62,49 @@ void PrintR(const util::ProgramDoc& programInfo,
       inputOptions.push_back(it->first);
   }
 
+  // Print the documentation.
+  cout << "#' @title ";
+  cout << util::HyphenateString(programInfo.programName, "#'   ") << endl;
+  cout << "#'" << endl;
+
+  // Next print the description.
+  cout << "#' @description" << endl;
+  cout << "#' ";
+  cout << util::HyphenateString(programInfo.documentation(), "#' ") << endl;
+
+  // Next, print information on the input options.
+  cout << "#'" << endl;
+
+  for (size_t i = 0; i < inputOptions.size(); ++i)
+  {
+    const string& opt = inputOptions[i];
+    const util::ParamData& d = parameters.at(opt);
+
+    cout << "#' @param ";
+    bool out = false;
+    CLI::GetSingleton().functionMap[d.tname]["PrintDoc"](d, NULL, (void*) &out);
+
+    cout << endl;
+  }
+
+  cout << "#'" << endl;
+  cout << "#' @return A list with several components:" << endl;
+
+  for (size_t i = 0; i < outputOptions.size(); ++i)
+  {
+    const string& opt = outputOptions[i];
+    const util::ParamData& d = parameters.at(opt);
+
+    cout << "#' \\item{";
+
+    bool out = true;
+    CLI::GetSingleton().functionMap[d.tname]["PrintDoc"](d, NULL, (void*) &out);
+
+    cout << endl;
+  }
+
+  cout << "#'" << endl;
+
   cout << "#' @export" << endl;
   cout << functionName << " <- function(";
   size_t indent = functionName.size() + 13 /* <- function(*/;
