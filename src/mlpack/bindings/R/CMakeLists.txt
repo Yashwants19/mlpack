@@ -83,7 +83,7 @@ if (BUILD_R_BINDINGS)
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/utf8_codecvt_facet.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/void_cast.cpp"
   )
-  
+
   set(CPP_SOURCES
    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/r_util.cpp"
    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/rcpp_mlpack.h"
