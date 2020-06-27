@@ -15,6 +15,7 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/detail/archive_serializer_map.hpp>
 
+#include <boost/archive/impl/archive_serializer_map.ipp>
 #include <boost/archive/impl/basic_binary_iprimitive.ipp>
 #include <boost/archive/impl/basic_binary_iarchive.ipp>
 
