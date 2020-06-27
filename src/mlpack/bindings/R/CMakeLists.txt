@@ -89,20 +89,22 @@ if (BUILD_R_BINDINGS)
    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/rcpp_mlpack.h"
    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/Makevars.in"
    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/Makevars.win"
-   # This file will be auto-generated; currently using for testing only.
-   "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/test_r_binding.cpp"
   )
 
   set(R_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/R/matrix_utils.R"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/R/package.R"
-     # This file will be auto-generated; currently using for testing only.
-    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/R/test_r_binding.R"
   )
 
   set(BINDINGS_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/R_option.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/get_type.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/ignore_check.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/print_input_param.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/print_input_processing.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/print_output_processing.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/print_serialize_util.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/R_option.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/strip_type.hpp"
   )
 
   set(TESTS_SOURCES
@@ -177,6 +179,9 @@ if (BUILD_R_BINDINGS)
        DESTINATION
        "${CMAKE_CURRENT_BINARY_DIR}/mlpack/")
 
+  file(TOUCH
+      "${CMAKE_CURRENT_BINARY_DIR}/mlpack/model.txt")
+
   execute_process(COMMAND autoreconf -i
           WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/mlpack/")
 
@@ -184,7 +189,11 @@ if (BUILD_R_BINDINGS)
           WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/mlpack/")
 
    # Do the actual build.
-   add_custom_target(r_build)
+   add_custom_target(r_build ALL)
+   add_custom_command(TARGET r_build POST_BUILD
+      COMMAND rm ARGS -Rf "model.txt"
+      WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/mlpack"
+   )
    add_custom_command(TARGET r_build POST_BUILD
       COMMAND Rscript ARGS "-e" "'Rcpp::compileAttributes()'"
       COMMAND Rscript ARGS "-e" "'roxygen2::roxygenize(\".\")'"
@@ -205,6 +214,77 @@ if (BUILD_R_BINDINGS)
    add_dependencies(r_build r_copy)
    add_dependencies(R r_build)
 endif ()
+
+# Define a global list of models.
+define_property(GLOBAL PROPERTY R_MODELS
+    BRIEF_DOCS "Global list of models"
+    FULL_DOCS "Global list of models"
+)
+
+# Initialize list.
+set_property(GLOBAL PROPERTY R_MODELS "")
+
+macro (add_r_binding name)
+if (BUILD_R_BINDINGS)
+
+  # Append content to the list.
+  set_property(GLOBAL APPEND PROPERTY R_MODELS ${CMAKE_CURRENT_SOURCE_DIR}/${name}_main.cpp)
+
+  set(INCLUDE_MODEL "${CMAKE_CURRENT_SOURCE_DIR}/${name}_main.cpp")
+  string(REGEX MATCHALL "mlpack/src/[A-Za-z/._]*" INCLUDE_MODEL "${INCLUDE_MODEL}")
+  string(REGEX REPLACE "mlpack/src/" "" INCLUDE_MODEL "${INCLUDE_MODEL}")
+
+  # 1. Generate ${name}.cpp.
+  add_custom_command(OUTPUT
+      ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/${name}.cpp
+      COMMAND ${CMAKE_COMMAND}
+          -DMODEL_FILE=${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/model.txt
+          -DPROGRAM_NAME=${name}
+          -DPROGRAM_MAIN_FILE=${CMAKE_CURRENT_SOURCE_DIR}/${name}_main.cpp
+          -DINCLUDE_MODEL=${INCLUDE_MODEL}
+          -DR_CPP_IN=${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/r_method.cpp.in
+          -DR_CPP_OUT=${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/${name}.cpp
+          -P ${CMAKE_SOURCE_DIR}/CMake/R/ConfigureRCPP.cmake
+      DEPENDS ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/r_method.cpp.in
+              ${CMAKE_SOURCE_DIR}/CMake/R/ConfigureRCPP.cmake)
+
+
+  # 2. Generate ${name}.R.
+  add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/build/generate_r_${name}.cpp
+      COMMAND ${CMAKE_COMMAND}
+          -DNAME=${name}
+          -DGENERATE_CPP_IN=${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/generate_R.cpp.in
+          -DGENERATE_CPP_OUT=${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/build/generate_r_${name}.cpp
+          -DPROGRAM_MAIN_FILE=${CMAKE_CURRENT_SOURCE_DIR}/${name}_main.cpp
+          -P ${CMAKE_SOURCE_DIR}/CMake/ConfigureGenerate.cmake
+      DEPENDS ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/generate_R.cpp.in
+              ${CMAKE_SOURCE_DIR}/CMake/ConfigureGenerate.cmake
+              ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/${name}.cpp)
+
+  add_executable(generate_r_${name}
+      ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/build/generate_r_${name}.cpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/print_R.hpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/print_R.cpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/get_type.hpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/R_option.hpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/print_input_param.hpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/print_input_processing.hpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/print_serialize_util.hpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/print_output_processing.hpp
+      ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/strip_type.hpp)
+   target_link_libraries(generate_r_${name} mlpack ${MLPACK_LIBRARIES})
+   set_target_properties(generate_r_${name} PROPERTIES
+      COMPILE_FLAGS "-DBINDING_TYPE=BINDING_TYPE_R"
+      RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/build/bin/")
+  add_custom_command(TARGET generate_r_${name} POST_BUILD
+      COMMAND ${CMAKE_COMMAND}
+          -DGENERATE_BINDING_PROGRAM=${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/build/bin/generate_r_${name}
+          -DBINDING_OUTPUT_FILE=${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/R/${name}.R
+          -P ${CMAKE_SOURCE_DIR}/CMake/GenerateBinding.cmake)
+  add_dependencies(generate_r_${name} r_copy)
+  add_dependencies(r_build generate_r_${name})
+endif()
+endmacro()
 
 if (BUILD_TESTS AND BUILD_R_BINDINGS)
   add_subdirectory(tests)
