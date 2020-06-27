@@ -72,6 +72,8 @@ if (BUILD_R_BINDINGS)
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/basic_oserializer.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/basic_iarchive.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/basic_iserializer.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/basic_pointer_iserializer.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/basic_pointer_oserializer.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/basic_text_oprimitive.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/basic_serializer_map.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/binary_iarchive.cpp"
@@ -79,6 +81,7 @@ if (BUILD_R_BINDINGS)
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/extended_type_info_typeid.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/extended_type_info.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/utf8_codecvt_facet.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/src/boost/serialization/void_cast.cpp"
   )
   
   set(CPP_SOURCES
