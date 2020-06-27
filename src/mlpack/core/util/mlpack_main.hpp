@@ -332,6 +332,9 @@ PARAM_FLAG("verbose", "Display informational messages and the full list of "
 
 #elif(BINDING_TYPE == BINDING_TYPE_R) // This is a R binding.
 
+// This doesn't actually matter for this binding type.
+#define BINDING_MATRIX_TRANSPOSED true
+
 #include <mlpack/bindings/R/R_option.hpp>
 #include <mlpack/bindings/R/ignore_check.hpp>
 

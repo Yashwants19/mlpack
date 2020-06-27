@@ -65,7 +65,7 @@ void CLI_SetParamBool(const std::string& paramName, bool paramValue)
 }
 
 // [[Rcpp::export]]
-void CLI_SetParamVectorStr(const std::string& paramName,
+void CLI_SetParamVecString(const std::string& paramName,
                            const std::vector<std::string>& str)
 {
   CLI::GetParam<std::vector<std::string>>(paramName) = std::move(str);
@@ -73,8 +73,8 @@ void CLI_SetParamVectorStr(const std::string& paramName,
 }
 
 // [[Rcpp::export]]
-void CLI_SetParamVectorInt(const std::string& paramName,
-                           const std::vector<int>& ints)
+void CLI_SetParamVecInt(const std::string& paramName,
+                        const std::vector<int>& ints)
 {
   CLI::GetParam<std::vector<int>>(paramName) = std::move(ints);
   CLI::SetPassed(paramName);
@@ -171,14 +171,14 @@ bool CLI_GetParamBool(const std::string& paramName)
 }
 
 // [[Rcpp::export]]
-const std::vector<std::string>& CLI_GetParamVectorStr(const 
+const std::vector<std::string>& CLI_GetParamVecString(const
                                     std::string& paramName)
 {
   return std::move(CLI::GetParam<std::vector<std::string>>(paramName));
 }
 
 // [[Rcpp::export]]
-const std::vector<int>& CLI_GetParamVectorInt(const std::string& paramName)
+const std::vector<int>& CLI_GetParamVecInt(const std::string& paramName)
 {
   return std::move(CLI::GetParam<std::vector<int>>(paramName));
 }

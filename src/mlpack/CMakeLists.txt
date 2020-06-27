@@ -184,7 +184,7 @@ if (BUILD_R_BINDINGS)
   # Collect all header and source files in the library.
   file(GLOB_RECURSE R_SRC_HPP_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.hpp)
   file(GLOB_RECURSE R_SRC_CPP_FILES RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" *.cpp)
-  set(R_SRC_FILES ${R_SRC_HPP_FILES} ${R_SRC_CPP_FILES} PARENT SCOPE)
+  set(R_SRC_FILES ${R_SRC_HPP_FILES} ${R_SRC_CPP_FILES})
 
   # First we have to create that directory though.
   execute_process(
@@ -232,6 +232,55 @@ if (BUILD_R_BINDINGS)
       ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/mlpack/inst/include/mlpack.h.in
       ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/inst/include/mlpack.h
       @ONLY)
+
+  file(WRITE
+       "${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/R/serialization.R"
+      "#' Serialize/Unserialize an mlpack model.\n"
+      "#'\n"
+      "#' @param model Input model pointer.\n"
+      "#' @param filename Input filename.\n"
+      "#' @export\n"
+      "#' @rdname mlpack-serialization\n"
+      "Serialize <- function(model, filename) {\n"
+      "  model_serialization_function <-\n"
+      "    switch(attributes(model)$type,\n")
+
+  include("${CMAKE_SOURCE_DIR}/CMake/R/AppendSerialization.cmake")
+  # Read list content.
+  get_property(MODELS GLOBAL PROPERTY R_MODELS)
+  foreach (models IN LISTS MODELS)
+    append_serialization(
+        "${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/R/serialization.R"
+         ${models})
+  endforeach()
+
+  file(APPEND
+       "${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/R/serialization.R"
+       "      stop(\"Requested model type is not currently supported.\")\n    )\n\n"
+       "  # Read in model\n"
+       "  con <- file(as.character(filename), \"wb\")\n"
+       "  serialize(model_serialization_function(model), con)\n"
+       "  close(con)\n}\n\n\n"
+       "#' @return For Unserialize, Output model_ptr.\n"
+       "#' @export\n"
+       "#' @rdname mlpack-serialization\n"
+       "Unserialize <- function(filename) {\n"
+       "  con <- file(as.character(filename), \"rb\")\n"
+       "  model <- unserialize(con)\n\n"
+       "  model_unserialization_function <-\n"
+       "    switch(attributes(model)$type,\n")
+  foreach (models IN LISTS MODELS)
+    append_unserialization(
+        "${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/R/serialization.R"
+         ${models})
+  endforeach()
+
+  file(APPEND
+       "${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/R/serialization.R"
+       "      stop(\"Requested model type is not currently supported.\")\n    )\n\n"
+       "  model_ptr <- model_unserialization_function(model)\n"
+       "  close(con)\n"
+       "  return(model_ptr)\n}\n")
 endif()
 
 # If we are building Markdown documentation, we have to run some setup after we
