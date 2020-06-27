@@ -57,12 +57,15 @@
 #include <boost/serialization/basic_oserializer.cpp>
 #include <boost/serialization/basic_iarchive.cpp>
 #include <boost/serialization/basic_iserializer.cpp>
+#include <boost/serialization/basic_pointer_iserializer.cpp>
+#include <boost/serialization/basic_pointer_oserializer.cpp>
 #include <boost/serialization/basic_text_oprimitive.cpp>
-#include <boost/serialization/basic_serializer_map.cpp>
 #include <boost/serialization/binary_iarchive.cpp>
 #include <boost/serialization/binary_oarchive.cpp>
 #include <boost/serialization/extended_type_info_typeid.cpp>
 #include <boost/serialization/extended_type_info.cpp>
+#include <boost/serialization/basic_serializer_map.cpp>
+#include <boost/serialization/void_cast.cpp>
 #include <boost/serialization/utf8_codecvt_facet.cpp>
 
 #undef ARMA_EXTRA_MAT_PROTO
