@@ -1,6 +1,6 @@
 /**
  * @file src/r_util.cpp
- * @author Yashwant Singh
+ * @author Yashwant Singh Parihar
  *
  * Utility functions for R-bindings.
  *

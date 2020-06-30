@@ -11,6 +11,7 @@
  */
 #include "print_R.hpp"
 #include "strip_type.hpp"
+#include <mlpack/prereqs.hpp>
 #include <mlpack/core/util/hyphenate_string.hpp>
 
 using namespace mlpack;
@@ -61,24 +62,25 @@ void PrintR(const util::ProgramDoc& programInfo,
       inputOptions.push_back(it->first);
   }
 
-  cout << "#' @export" << endl;
-  cout << functionName << " <- function(";
+  MLPACK_COUT_STREAM << "#' @export" << endl;
+  MLPACK_COUT_STREAM << functionName << " <- function(";
   size_t indent = functionName.size() + 13 /* <- function(*/;
   for (size_t i = 0; i < inputOptions.size(); ++i)
   {
     const util::ParamData& d = parameters.at(inputOptions[i]);
 
     if (i != 0)
-      cout << "," << endl << std::string(indent, ' ');
+      MLPACK_COUT_STREAM << "," << endl << std::string(indent, ' ');
 
     CLI::GetSingleton().functionMap[d.tname]["PrintInputParam"](d, NULL, NULL);
   }
-  cout << ") {" << endl;
-  cout << endl;
+  MLPACK_COUT_STREAM << ") {" << endl;
+  MLPACK_COUT_STREAM << endl;
 
   // Restore CLI settings.
-  cout << "  CLI_RestoreSettings(\"" << CLI::ProgramName() << "\")" << endl;
-  cout << endl;
+  MLPACK_COUT_STREAM << "  CLI_RestoreSettings(\"" << CLI::ProgramName()
+      << "\")" << endl;
+  MLPACK_COUT_STREAM << endl;
 
   // Handle each input argument's processing before calling mlpackMain().
   for (const string& opt : inputOptions)
@@ -92,24 +94,23 @@ void PrintR(const util::ProgramDoc& programInfo,
   }
 
   // Special handling for verbose output.
-  cout << "  if (verbose) {" << endl;
-  cout << "    CLI_EnableVerbose()" << endl;
-  cout << "  } else {" << endl;
-  cout << "    CLI_DisableVerbose()" << endl;
-  cout << "  }" << endl;
-  cout << endl;
+  MLPACK_COUT_STREAM << "  if (verbose) {" << endl;
+  MLPACK_COUT_STREAM << "    CLI_EnableVerbose()" << endl;
+  MLPACK_COUT_STREAM << "  } else {" << endl;
+  MLPACK_COUT_STREAM << "    CLI_DisableVerbose()" << endl;
+  MLPACK_COUT_STREAM << "  }" << endl;
+  MLPACK_COUT_STREAM << endl;
 
   // Mark output parameters as passed.
   for (const string& opt : outputOptions)
   {
     const util::ParamData& d = parameters.at(opt);
-    cout << "  CLI_SetPassed(\"" << d.name << "\")" << endl;
+    MLPACK_COUT_STREAM << "  CLI_SetPassed(\"" << d.name << "\")" << endl;
   }
-  cout << endl;
+  MLPACK_COUT_STREAM << endl;
 
   // Call the program.
-  cout << "  " << functionName << "_mlpackMain()" << endl;
-  cout << endl;
+  MLPACK_COUT_STREAM << "  " << functionName << "_mlpackMain()" << endl;
 
   for (size_t i = 0; i < outputOptions.size(); ++i)
   {
@@ -117,28 +118,28 @@ void PrintR(const util::ProgramDoc& programInfo,
     CLI::GetSingleton().functionMap[d.tname]["PrintSerializeUtil"](d,
         NULL, NULL);
   }
-  cout << endl;
+  MLPACK_COUT_STREAM << endl;
 
   // Extract the results in order.
-  cout << "  out <- list(" << endl;
+  MLPACK_COUT_STREAM << "  out <- list(" << endl;
   string indentStr(4, ' ');
   for (size_t i = 0; i < outputOptions.size(); ++i)
   {
     if (i == 0)
-       cout << indentStr;
+       MLPACK_COUT_STREAM << indentStr;
     const util::ParamData& d = parameters.at(outputOptions[i]);
     CLI::GetSingleton().functionMap[d.tname]["PrintOutputProcessing"](d,
         NULL, NULL);
     // Print newlines if we are returning multiple output options.
     if (i + 1 < outputOptions.size())
-      cout << "," << endl << indentStr;
+      MLPACK_COUT_STREAM << "," << endl << indentStr;
   }
-  cout << endl << "  )" << endl << endl;
+  MLPACK_COUT_STREAM << endl << "  )" << endl << endl;
 
   // Restore CLI settings.
-  cout << "  CLI_ClearSettings()" << endl;
-  cout << endl;
-  cout << "  return(out)" << endl << "}" << endl;
+  MLPACK_COUT_STREAM << "  CLI_ClearSettings()" << endl;
+  MLPACK_COUT_STREAM << endl;
+  MLPACK_COUT_STREAM << "  return(out)" << endl << "}" << endl;
 }
 
 } // namespace r

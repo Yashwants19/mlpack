@@ -1,6 +1,6 @@
 /**
  * @file R_option.hpp
- * @author Yashwant Singh
+ * @author Yashwant Singh Parihar
  *
  * The R option type.
  *

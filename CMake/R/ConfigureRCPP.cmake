@@ -1,4 +1,4 @@
-# ConfigureRCPP.cmake: generate an mlpack .h file for a R binding given
+# ConfigureRCPP.cmake: generate an mlpack .cpp file for a R binding given
 # input arguments.
 #
 # This file depends on the following variables being set:
@@ -43,8 +43,8 @@ if (MODEL_SAFE_TYPES)
 endif ()
 
 file(READ "${MODEL_FILE}" MODEL_FILE_TYPE)
-if (NOT (MODEL_FILE_TYPE MATCHES "${MODEL_SAFE_TYPES}"))
-  file(APPEND "${MODEL_FILE}" "${MODEL_SAFE_TYPES}\n")
+if (NOT (MODEL_FILE_TYPE MATCHES "\"${MODEL_SAFE_TYPES}\""))
+  file(APPEND "${MODEL_FILE}" "\"${MODEL_SAFE_TYPES}\"\n")
   # Now, generate the implementation of the functions we need.
   set(MODEL_PTR_IMPLS "")
   list(LENGTH MODEL_TYPES NUM_MODEL_TYPES)
@@ -58,7 +58,7 @@ if (NOT (MODEL_FILE_TYPE MATCHES "${MODEL_SAFE_TYPES}"))
       # Define typedef for the model.
       set(MODEL_PTR_TYPEDEF "${MODEL_PTR_TYPEDEF}Rcpp::XPtr<${MODEL_TYPE}>")
 
-      # Generate the definition.
+      # Generate the implementation.
       set(MODEL_PTR_IMPLS "${MODEL_PTR_IMPLS}
 // Get the pointer to a ${MODEL_TYPE} parameter.
 // [[Rcpp::export]]
@@ -114,4 +114,6 @@ SEXP Deserialize${MODEL_SAFE_TYPE}Ptr(Rcpp::RawVector str)
     endforeach ()
   endif()
 endif()
+
+# Now configure the files.
 configure_file("${R_CPP_IN}" "${R_CPP_OUT}")
