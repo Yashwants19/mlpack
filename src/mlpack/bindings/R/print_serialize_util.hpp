@@ -2,7 +2,7 @@
  * @file bindings/R/print_serialize_util.hpp
  * @author Yashwant Singh Parihar
  *
- * Print the Serialize utility in a R binding .R file for a given
+ * Print the serialize utility in a R binding .R file for a given
  * parameter.
  *
  * mlpack is free software; you may redistribute it and/or modify it under the
@@ -76,11 +76,13 @@ void PrintSerializeUtil(
    *  attr(\<paramName\>, "type") <- "\<ModelType\>"
    *
    */
-
-  std::cout << "  " << d.name << " <- CLI_GetParam" << StripType(d.cppType)
-            << "Ptr(\"" << d.name << "\")" << std::endl;
-  std::cout << "  attr(" << d.name << ", \"type\") <- \"" 
-            << StripType(d.cppType) << "\"" << std::endl;
+  MLPACK_COUT_STREAM << std::endl;
+  MLPACK_COUT_STREAM << "  " << d.name << " <- CLI_GetParam"
+      << StripType(d.cppType) << "Ptr(\"" << d.name << "\")";
+  MLPACK_COUT_STREAM << std::endl;
+  MLPACK_COUT_STREAM << "  attr(" << d.name << ", \"type\") <- \"" 
+      << StripType(d.cppType) << "\"";
+  MLPACK_COUT_STREAM << std::endl;
 }
 
 /**

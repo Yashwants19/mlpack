@@ -38,7 +38,7 @@ void PrintOutputProcessing(
    *
    */
 
-  std::cout << "  \"" << d.name << "\" = CLI_GetParam" << GetType<T>(d)
+  MLPACK_COUT_STREAM << "  \"" << d.name << "\" = CLI_GetParam" << GetType<T>(d)
             << "(\"" << d.name << "\")";
 }
 
@@ -59,7 +59,7 @@ void PrintOutputProcessing(
    *
    */
 
-  std::cout << "  \"" << d.name << "\" = CLI_GetParam" << GetType<T>(d)
+  MLPACK_COUT_STREAM << "  \"" << d.name << "\" = CLI_GetParam" << GetType<T>(d)
             << "(\"" << d.name << "\")";
 }
 
@@ -79,7 +79,7 @@ void PrintOutputProcessing(
    *
    */
 
-  std::cout << "  \"" << d.name << "\" = CLI_GetParam" << GetType<T>(d)
+  MLPACK_COUT_STREAM << "  \"" << d.name << "\" = CLI_GetParam" << GetType<T>(d)
             << "(\"" << d.name << "\")";
 }
 
@@ -99,7 +99,7 @@ void PrintOutputProcessing(
    *
    */
 
-  std::cout << "  \"" << d.name << "\" = " << d.name;
+  MLPACK_COUT_STREAM << "  \"" << d.name << "\" = " << d.name;
 }
 
 /**
