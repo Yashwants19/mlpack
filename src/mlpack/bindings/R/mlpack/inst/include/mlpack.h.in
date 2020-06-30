@@ -1,6 +1,6 @@
 /**
  * @file inst/include/mlpack.h
- * @author Yashwant Singh
+ * @author Yashwant Singh Parihar
  *
  * Include all of the base components required to work mlpack bindings.
  *

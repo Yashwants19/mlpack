@@ -1,7 +1,7 @@
 /**
  * @file src/rcpp_mlpack.h
  * @author Dirk Eddelbuettel
- * @author Yashwant Singh
+ * @author Yashwant Singh Parihar
  *
  * Include all of the base components required to work mlpack bindings.
  *
@@ -29,6 +29,9 @@
 
 #include <Rcpp.h>
 
+// To suppress Found ‘__assert_fail’, possibly from ‘assert’ (C).
+#define BOOST_DISABLE_ASSERTS
+
 // More recently this changes from ARMA_DEFAULT_OSTREAM to ARMA_COUT_STREAM
 // and ARMA_CERR_STREAM
 #if !defined(ARMA_COUT_STREAM)
@@ -36,6 +39,9 @@
 #endif
 #if !defined(ARMA_CERR_STREAM)
   #define ARMA_CERR_STREAM Rcpp::Rcerr
+#endif
+#if !defined(ARMA_RNG_ALT)
+  #define ARMA_RNG_ALT         RcppArmadillo/Alt_R_RNG.h
 #endif
 
 #if !defined(MLPACK_COUT_STREAM)

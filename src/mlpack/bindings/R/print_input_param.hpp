@@ -13,6 +13,8 @@
 #ifndef MLPACK_BINDINGS_R_PRINT_INPUT_PARAM_HPP
 #define MLPACK_BINDINGS_R_PRINT_INPUT_PARAM_HPP
 
+#include <mlpack/prereqs.hpp>
+
 namespace mlpack {
 namespace bindings {
 namespace r {
@@ -26,11 +28,11 @@ void PrintInputParam(const util::ParamData& d,
                      const void* /* input */,
                      void* /* output */)
 {
-  std::cout << d.name;
+  MLPACK_COUT_STREAM << d.name;
   if (std::is_same<T, bool>::value)
-    std::cout << "=FALSE";
+    MLPACK_COUT_STREAM << "=FALSE";
   else if (!d.required)
-    std::cout << "=NA";
+    MLPACK_COUT_STREAM << "=NA";
 }
 
 } // namespace r

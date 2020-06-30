@@ -1,5 +1,6 @@
-# AppendModel.cmake: append model definition and gettter setter methods for
-# mlpack model types to the existing file of models.go.
+# AppendSerialization.cmake: append imports for serialization and
+# deserialization for mlpack model types to the existing list of serialization
+# and deserialization imports.
 
 # This function depends on the following variables being set:
 #
@@ -68,15 +69,7 @@ function(append_serialization SERIALIZATION_FILE PROGRAM_MAIN_FILE)
     endforeach ()
   endif()
 endfunction()
-# AppendModel.cmake: append model definition and gettter setter methods for
-# mlpack model types to the existing file of models.go.
 
-# This function depends on the following variables being set:
-#
-#  * PROGRAM_MAIN_FILE: the file containing the mlpackMain() function.
-#  * SERIALIZATION_FILE: file to append types to
-#
-# We need to parse the main file and find any PARAM_MODEL_* lines.
 function(append_unserialization SERIALIZATION_FILE PROGRAM_MAIN_FILE)
   file(READ "${PROGRAM_MAIN_FILE}" MAIN_FILE)
 
@@ -123,12 +116,12 @@ function(append_unserialization SERIALIZATION_FILE PROGRAM_MAIN_FILE)
       file(READ "${SERIALIZATION_FILE}" SERIALIZATION_FILE_CONTENTS)
       string(FIND
           "${SERIALIZATION_FILE_CONTENTS}"
-          "\"${MODEL_SAFE_TYPE}\" = Unserialize${MODEL_SAFE_TYPE}Ptr,"
+          "\"${MODEL_SAFE_TYPE}\" = Deserialize${MODEL_SAFE_TYPE}Ptr,"
           FIND_OUT)
 
       # If it doesn't exist, append it.
       if (${FIND_OUT} EQUAL -1)
-        # Now append the type to the list of types, and define any serialization
+        # Now append the type to the list of types, and define any deserialization
         # function.
         file(APPEND
             "${SERIALIZATION_FILE}"
