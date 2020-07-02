@@ -1,5 +1,5 @@
 /**
- * @file bindings/R/print_input_processing_impl.hpp
+ * @file bindings/R/print_input_processing.hpp
  * @author Yashwant Singh Parihar
  *
  * Print R code to handle input arguments.
@@ -12,7 +12,7 @@
 #ifndef MLPACK_BINDINGS_R_PRINT_INPUT_PROCESSING_IMPL_HPP
 #define MLPACK_BINDINGS_R_PRINT_INPUT_PROCESSING_IMPL_HPP
 
-#include "strip_type.hpp"
+#include <mlpack/core/util/strip_type.hpp>
 #include "get_type.hpp"
 #include <mlpack/prereqs.hpp>
 
@@ -36,8 +36,8 @@ void PrintInputProcessing(
     /**
      * This gives us code like:
      *
-     *  if (!identical(\<param_name\>, NA)) {
-     *     CLI_SetParam<type>("\<param_name\>", \<param_name\>)
+     *  if (!identical(<param_name>, NA)) {
+     *     CLI_SetParam<type>("<param_name>", <param_name>)
      *  }
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name ;
@@ -58,7 +58,7 @@ void PrintInputProcessing(
     /**
      * This gives us code like:
      *
-     *     CLI_SetParam<type>("\<param_name\>", \<param_name\>)
+     *     CLI_SetParam<type>("<param_name>", <param_name>)
      */
     MLPACK_COUT_STREAM << "  CLI_SetParam" << GetType<T>(d) << "(\""
               << d.name << "\", " << d.name << ")" << std::endl;
@@ -79,8 +79,8 @@ void PrintInputProcessing(
     /**
      * This gives us code like:
      *
-     *  if (!identical(\<param_name\>, NA)) {
-     *     CLI_SetParam<type>("\<param_name\>", to_matrix(\<param_name\>))
+     *  if (!identical(<param_name>, NA)) {
+     *     CLI_SetParam<type>("<param_name>", to_matrix(<param_name>))
      *  }
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name << ", NA)) {"
@@ -90,10 +90,11 @@ void PrintInputProcessing(
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
   }
   else
-  {    /**
+  {
+    /**
      * This gives us code like:
      *
-     *     CLI_SetParam<type>("\<param_name\>", to_matrix(\<param_name\>))
+     *     CLI_SetParam<type>("<param_name>", to_matrix(<param_name>))
      */
     MLPACK_COUT_STREAM << "  CLI_SetParam" << GetType<T>(d) << "(\""
               << d.name << "\", to_matrix(" << d.name << "))" << std::endl;
@@ -115,10 +116,10 @@ void PrintInputProcessing(
     /**
      * This gives us code like:
      *
-     *  if (!identical(\<param_name\>, NA)) {
-     *     \<param_name\> = to_matrix_with_info(\<param_name\>)
-     *     CLI_SetParam\<type\>("\<param_name\>", \<param_name\>$info,
-     *                         \<param_name\>$data)
+     *  if (!identical(<param_name>, NA)) {
+     *     <param_name> = to_matrix_with_info(<param_name>)
+     *     CLI_SetParam<type>("<param_name>", <param_name>$info,
+     *                         <param_name>$data)
      *  }
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name << ", NA)) {"
@@ -131,12 +132,13 @@ void PrintInputProcessing(
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
   }
   else
-  {    /**
+  {
+    /**
      * This gives us code like:
      *
-     *     \<param_name\> = to_matrix_with_info(\<param_name\>)
-     *     CLI_SetParam\<type\>("\<param_name\>", \<param_name\>$info,
-     *                         \<param_name\>$data)
+     *     <param_name> = to_matrix_with_info(<param_name>)
+     *     CLI_SetParam<type>("<param_name>", <param_name>$info,
+     *                         <param_name>$data)
      */
     MLPACK_COUT_STREAM << "  " << d.name << " <- to_matrix_with_info("
         << d.name << ")" << std::endl;
@@ -161,42 +163,37 @@ void PrintInputProcessing(
     /**
      * This gives us code like:
      *
-     *  if (!identical(\<param_name\>, NA)) {
-     *     CLI_SetParam\<ModelType\>Ptr("\<param_name\>", \<param_name\>)
+     *  if (!identical(<param_name>, NA)) {
+     *     CLI_SetParam<ModelType>Ptr("<param_name>", <param_name>)
      *  }
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name << ", NA)) {"
         << std::endl;
-    MLPACK_COUT_STREAM << "    CLI_SetParam" << StripType(d.cppType) << "Ptr(\""
+    MLPACK_COUT_STREAM << "    CLI_SetParam" << util::StripType(d.cppType) << "Ptr(\""
         << d.name << "\", " << d.name << ")" << std::endl;
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
   }
   else
-  {    /**
+  {
+    /**
      * This gives us code like:
      *
-     *     CLI_SetParam/<ModelType/>Ptr("\<param_name\>", \<param_name\>)
+     *     CLI_SetParam<ModelType>Ptr("<param_name>", <param_name>)
      */
-    MLPACK_COUT_STREAM << "  CLI_SetParam" << StripType(d.cppType) << "Ptr(\""
+    MLPACK_COUT_STREAM << "  CLI_SetParam" << util::StripType(d.cppType) << "Ptr(\""
               << d.name << "\", " << d.name << ")" << std::endl;
   }
   MLPACK_COUT_STREAM << std::endl; // Extra line is to clear up the code a bit.
 }
 
 /**
- * Given parameter information and the current number of spaces for indentation,
- * print the code to process the input to cout.  This code assumes that
- * data.input is true, and should not be called when data.input is false.
- *
- * The number of spaces to indent should be passed through the input pointer.
- *
  * @param d Parameter data struct.
- * @param input Pointer to size_t holding the indentation.
+ * @param * (input) Unused parameter.
  * @param * (output) Unused parameter.
  */
 template<typename T>
 void PrintInputProcessing(const util::ParamData& d,
-                          const void* /* output */,
+                          const void* /* input */,
                           void* /* output */)
 {
   PrintInputProcessing<typename std::remove_pointer<T>::type>(d);
