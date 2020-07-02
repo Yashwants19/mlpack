@@ -34,7 +34,7 @@ void PrintOutputProcessing(
   /**
    * This gives us code like:
    *
-   *  "\<paramName\>" = CLI_GetParam\<Type\>("paramName")
+   *  "<paramName>" = CLI_GetParam<Type>("paramName")
    *
    */
 
@@ -55,7 +55,7 @@ void PrintOutputProcessing(
   /**
    * This gives us code like:
    *
-   *  "\<paramName\>" = CLI_GetParam\<Type\>("paramName")
+   *  "<paramName>" = CLI_GetParam<Type>("paramName")
    *
    */
 
@@ -75,7 +75,7 @@ void PrintOutputProcessing(
   /**
    * This gives us code like:
    *
-   *  "\<paramName\>" = CLI_GetParam\<Type\>("paramName")
+   *  "<paramName>" = CLI_GetParam<Type>("paramName")
    *
    */
 
@@ -95,7 +95,7 @@ void PrintOutputProcessing(
   /**
    * This gives us code like:
    *
-   *  "\<paramName\>" = \<paramName\>
+   *  "<paramName>" = <paramName>
    *
    */
 
