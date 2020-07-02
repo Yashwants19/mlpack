@@ -10,7 +10,7 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #include "print_R.hpp"
-#include "strip_type.hpp"
+#include <mlpack/core/util/strip_type.hpp>
 #include <mlpack/prereqs.hpp>
 #include <mlpack/core/util/hyphenate_string.hpp>
 
@@ -62,27 +62,29 @@ void PrintR(const util::ProgramDoc& programInfo,
       inputOptions.push_back(it->first);
   }
 
-  MLPACK_COUT_STREAM << "#' @export" << endl;
-  MLPACK_COUT_STREAM << functionName << " <- function(";
+  cout << "#' @export" << endl;
+  cout << functionName << " <- function(";
   size_t indent = functionName.size() + 13 /* <- function(*/;
   for (size_t i = 0; i < inputOptions.size(); ++i)
   {
     const util::ParamData& d = parameters.at(inputOptions[i]);
 
     if (i != 0)
-      MLPACK_COUT_STREAM << "," << endl << std::string(indent, ' ');
+      cout << "," << endl << std::string(indent, ' ');
 
     CLI::GetSingleton().functionMap[d.tname]["PrintInputParam"](d, NULL, NULL);
   }
-  MLPACK_COUT_STREAM << ") {" << endl;
-  MLPACK_COUT_STREAM << endl;
+  cout << ") {" << endl;
 
   // Restore CLI settings.
-  MLPACK_COUT_STREAM << "  CLI_RestoreSettings(\"" << CLI::ProgramName()
+  cout << "  # Restore CLI settings." << endl;
+  cout << "  CLI_RestoreSettings(\"" << CLI::ProgramName()
       << "\")" << endl;
-  MLPACK_COUT_STREAM << endl;
+  cout << endl;
 
   // Handle each input argument's processing before calling mlpackMain().
+  cout << "  # Process each input argument before calling mlpackMain()."
+      << endl;
   for (const string& opt : inputOptions)
   {
     if (opt != "verbose")
@@ -94,52 +96,59 @@ void PrintR(const util::ProgramDoc& programInfo,
   }
 
   // Special handling for verbose output.
-  MLPACK_COUT_STREAM << "  if (verbose) {" << endl;
-  MLPACK_COUT_STREAM << "    CLI_EnableVerbose()" << endl;
-  MLPACK_COUT_STREAM << "  } else {" << endl;
-  MLPACK_COUT_STREAM << "    CLI_DisableVerbose()" << endl;
-  MLPACK_COUT_STREAM << "  }" << endl;
-  MLPACK_COUT_STREAM << endl;
+  cout << "  if (verbose) {" << endl;
+  cout << "    CLI_EnableVerbose()" << endl;
+  cout << "  } else {" << endl;
+  cout << "    CLI_DisableVerbose()" << endl;
+  cout << "  }" << endl;
+  cout << endl;
 
   // Mark output parameters as passed.
+  cout << "  # Mark all output options as passed." << endl;
   for (const string& opt : outputOptions)
   {
     const util::ParamData& d = parameters.at(opt);
-    MLPACK_COUT_STREAM << "  CLI_SetPassed(\"" << d.name << "\")" << endl;
+    cout << "  CLI_SetPassed(\"" << d.name << "\")" << endl;
   }
-  MLPACK_COUT_STREAM << endl;
+  cout << endl;
 
   // Call the program.
-  MLPACK_COUT_STREAM << "  " << functionName << "_mlpackMain()" << endl;
+  cout << "  # Call the program." << endl;
+  cout << "  " << functionName << "_mlpackMain()" << endl << endl;
 
+  // Add ModelType as attr to the model pointer.
+  cout << "  # Add ModelType as attribute to the model pointer, if needed."
+      << endl;
   for (size_t i = 0; i < outputOptions.size(); ++i)
   {
     const util::ParamData& d = parameters.at(outputOptions[i]);
     CLI::GetSingleton().functionMap[d.tname]["PrintSerializeUtil"](d,
         NULL, NULL);
   }
-  MLPACK_COUT_STREAM << endl;
+  cout << endl;
 
   // Extract the results in order.
-  MLPACK_COUT_STREAM << "  out <- list(" << endl;
+  cout << "  # Extract the results in order." << endl;
+  cout << "  out <- list(" << endl;
   string indentStr(4, ' ');
   for (size_t i = 0; i < outputOptions.size(); ++i)
   {
     if (i == 0)
-       MLPACK_COUT_STREAM << indentStr;
+       cout << indentStr;
     const util::ParamData& d = parameters.at(outputOptions[i]);
     CLI::GetSingleton().functionMap[d.tname]["PrintOutputProcessing"](d,
         NULL, NULL);
     // Print newlines if we are returning multiple output options.
     if (i + 1 < outputOptions.size())
-      MLPACK_COUT_STREAM << "," << endl << indentStr;
+      cout << "," << endl << indentStr;
   }
-  MLPACK_COUT_STREAM << endl << "  )" << endl << endl;
+  cout << endl << "  )" << endl << endl;
 
-  // Restore CLI settings.
-  MLPACK_COUT_STREAM << "  CLI_ClearSettings()" << endl;
-  MLPACK_COUT_STREAM << endl;
-  MLPACK_COUT_STREAM << "  return(out)" << endl << "}" << endl;
+  // Clear the parameters.
+  cout << "  # Clear the parameters." << endl;
+  cout << "  CLI_ClearSettings()" << endl;
+  cout << endl;
+  cout << "  return(out)" << endl << "}" << endl;
 }
 
 } // namespace r

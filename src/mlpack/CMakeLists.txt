@@ -251,7 +251,8 @@ if (BUILD_R_BINDINGS)
   foreach (models IN LISTS MODELS)
     append_serialization(
         "${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/R/serialization.R"
-         ${models})
+         ${models}
+         TRUE)
   endforeach()
 
   file(APPEND
@@ -270,9 +271,10 @@ if (BUILD_R_BINDINGS)
        "  model_unserialization_function <-\n"
        "    switch(attributes(model)$type,\n")
   foreach (models IN LISTS MODELS)
-    append_unserialization(
+    append_serialization(
         "${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/R/serialization.R"
-         ${models})
+         ${models}
+         FALSE)
   endforeach()
 
   file(APPEND
