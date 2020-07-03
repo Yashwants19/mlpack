@@ -293,6 +293,7 @@ if (BUILD_R_BINDINGS)
           -DPROGRAM_NAME=${name}
           -DPROGRAM_MAIN_FILE=${CMAKE_CURRENT_SOURCE_DIR}/${name}_main.cpp
           -DINCLUDE_MODEL=${INCLUDE_MODEL}
+          -DSOURCE_DIR=${CMAKE_SOURCE_DIR}
           -DR_CPP_IN=${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/r_method.cpp.in
           -DR_CPP_OUT=${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/${name}.cpp
           -P ${CMAKE_SOURCE_DIR}/CMake/R/ConfigureRCPP.cmake

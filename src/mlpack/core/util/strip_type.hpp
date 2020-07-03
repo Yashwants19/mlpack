@@ -19,7 +19,7 @@ namespace util {
 /**
  * Given a C++ type name, turn it into something that has no special characters
  * that can simply be printed.  This is similar to but not identical to
- * mlpack::util::StripType().
+ * mlpack::bindings::python::StripType().
  *
  * @param cppType C++ type as a string.
  * @return Stripped type with no special characters.
