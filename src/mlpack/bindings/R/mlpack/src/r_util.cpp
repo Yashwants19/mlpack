@@ -30,12 +30,14 @@ bool inline inplace_transpose(arma::Mat<eT>& X)
   }
 }
 
+// Call CLI::RestoreSettings() for a given program name.
 // [[Rcpp::export]]
 void CLI_RestoreSettings(const std::string& programName)
 {
  CLI::RestoreSettings(programName);
 }
 
+// Call CLI::SetParam<int>().
 // [[Rcpp::export]]
 void CLI_SetParamInt(const std::string& paramName, int paramValue)
 {
@@ -43,6 +45,7 @@ void CLI_SetParamInt(const std::string& paramName, int paramValue)
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<double>().
 // [[Rcpp::export]]
 void CLI_SetParamDouble(const std::string& paramName, double paramValue)
 {
@@ -50,6 +53,7 @@ void CLI_SetParamDouble(const std::string& paramName, double paramValue)
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<std::string>().
 // [[Rcpp::export]]
 void CLI_SetParamString(const std::string& paramName, std::string& paramValue)
 {
@@ -57,6 +61,7 @@ void CLI_SetParamString(const std::string& paramName, std::string& paramValue)
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<bool>().
 // [[Rcpp::export]]
 void CLI_SetParamBool(const std::string& paramName, bool paramValue)
 {
@@ -64,6 +69,7 @@ void CLI_SetParamBool(const std::string& paramName, bool paramValue)
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<std::vector<std::string>>().
 // [[Rcpp::export]]
 void CLI_SetParamVecString(const std::string& paramName,
                            const std::vector<std::string>& str)
@@ -72,6 +78,7 @@ void CLI_SetParamVecString(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<std::vector<int>>().
 // [[Rcpp::export]]
 void CLI_SetParamVecInt(const std::string& paramName,
                         const std::vector<int>& ints)
@@ -80,6 +87,7 @@ void CLI_SetParamVecInt(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<arma::mat>().
 // [[Rcpp::export]]
 void CLI_SetParamMat(const std::string& paramName,
                      const arma::mat& paramValue)
@@ -88,6 +96,7 @@ void CLI_SetParamMat(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<arma::Mat<size_t>>().
 // [[Rcpp::export]]
 void CLI_SetParamUMat(const std::string& paramName,
                       const arma::Mat<size_t>& paramValue)
@@ -96,6 +105,7 @@ void CLI_SetParamUMat(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<arma::rowvec>().
 // [[Rcpp::export]]
 void CLI_SetParamRow(const std::string& paramName,
                      const arma::rowvec& paramValue)
@@ -104,6 +114,7 @@ void CLI_SetParamRow(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<arma::Row<size_t>>().
 // [[Rcpp::export]]
 void CLI_SetParamURow(const std::string& paramName,
                       const arma::Row<size_t>& paramValue)
@@ -112,6 +123,7 @@ void CLI_SetParamURow(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<arma::vec>().
 // [[Rcpp::export]]
 void CLI_SetParamCol(const std::string& paramName,
                      const arma::vec& paramValue)
@@ -120,6 +132,7 @@ void CLI_SetParamCol(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<arma::Col<size_t>>().
 // [[Rcpp::export]]
 void CLI_SetParamUCol(const std::string& paramName,
                       const arma::Col<size_t>& paramValue)
@@ -128,6 +141,7 @@ void CLI_SetParamUCol(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::SetParam<std::tuple<data::DatasetInfo, arma::mat>>().
 // [[Rcpp::export]]
 void CLI_SetParamMatWithInfo(const std::string& paramName,
                              const LogicalVector& dimensions,
@@ -146,30 +160,35 @@ void CLI_SetParamMatWithInfo(const std::string& paramName,
   CLI::SetPassed(paramName);
 }
 
+// Call CLI::GetParam<int>().
 // [[Rcpp::export]]
 int CLI_GetParamInt(const std::string& paramName)
 {
   return CLI::GetParam<int>(paramName);
 }
 
+// Call CLI::GetParam<double>().
 // [[Rcpp::export]]
 double CLI_GetParamDouble(const std::string& paramName)
 {
   return CLI::GetParam<double>(paramName);
 }
 
+// Call CLI::GetParam<std::string>().
 // [[Rcpp::export]]
 std::string& CLI_GetParamString(const std::string& paramName)
 {
   return CLI::GetParam<std::string>(paramName);
 }
 
+// Call CLI::GetParam<bool>().
 // [[Rcpp::export]]
 bool CLI_GetParamBool(const std::string& paramName)
 {
   return CLI::GetParam<bool>(paramName);
 }
 
+// Call CLI::GetParam<std::vector<std::string>>().
 // [[Rcpp::export]]
 const std::vector<std::string>& CLI_GetParamVecString(const
                                     std::string& paramName)
@@ -177,12 +196,14 @@ const std::vector<std::string>& CLI_GetParamVecString(const
   return std::move(CLI::GetParam<std::vector<std::string>>(paramName));
 }
 
+// Call CLI::GetParam<std::vector<int>>().
 // [[Rcpp::export]]
 const std::vector<int>& CLI_GetParamVecInt(const std::string& paramName)
 {
   return std::move(CLI::GetParam<std::vector<int>>(paramName));
 }
 
+// Call CLI::GetParam<arma::mat>().
 // [[Rcpp::export]]
 const arma::mat& CLI_GetParamMat(const std::string& paramName)
 {
@@ -190,6 +211,7 @@ const arma::mat& CLI_GetParamMat(const std::string& paramName)
   return std::move(CLI::GetParam<arma::mat>(paramName));
 }
 
+// Call CLI::GetParam<arma::Mat<size_t>>().
 // [[Rcpp::export]]
 const arma::Mat<size_t>& CLI_GetParamUMat(const std::string& paramName)
 {
@@ -197,30 +219,35 @@ const arma::Mat<size_t>& CLI_GetParamUMat(const std::string& paramName)
   return std::move(CLI::GetParam<arma::Mat<size_t>>(paramName));
 }
 
+// Call CLI::GetParam<arma::rowvec>().
 // [[Rcpp::export]]
 const arma::vec CLI_GetParamRow(const std::string& paramName)
 {
   return std::move(CLI::GetParam<arma::rowvec>(paramName).t());
 }
 
+// Call CLI::GetParam<arma::Row<size_t>>().
 // [[Rcpp::export]]
 const arma::Col<size_t> CLI_GetParamURow(const std::string& paramName)
 {
   return std::move(CLI::GetParam<arma::Row<size_t>>(paramName).t());
 }
 
+// Call CLI::GetParam<arma::vec>().
 // [[Rcpp::export]]
 const arma::rowvec CLI_GetParamCol(const std::string& paramName)
 {
   return std::move(CLI::GetParam<arma::vec>(paramName).t());
 }
 
+// Call CLI::GetParam<arma::Col<size_t>>().
 // [[Rcpp::export]]
 const arma::Row<size_t> CLI_GetParamUCol(const std::string& paramName)
 {
   return std::move(CLI::GetParam<arma::Col<size_t>>(paramName).t());
 }
 
+// Call CLI::GetParam<std::tuple<data::DatasetInfo, arma::mat>>().
 // [[Rcpp::export]]
 List CLI_GetParamMatWithInfo(const std::string& paramName)
 {
@@ -237,30 +264,35 @@ List CLI_GetParamMatWithInfo(const std::string& paramName)
                        Rcpp::Named("Data") = std::move(m));
 }
 
+// Enable verbose output.
 // [[Rcpp::export]]
 void CLI_EnableVerbose()
 {
   Log::Info.ignoreInput = false;
 }
 
+// Disable verbose output.
 // [[Rcpp::export]]
 void CLI_DisableVerbose()
 {
   Log::Info.ignoreInput = true;
 }
 
+// Reset the state of all timers.
 // [[Rcpp::export]]
 void CLI_ResetTimers()
 {
   CLI::GetSingleton().timer.Reset();
 }
 
+// Set an argument as passed to the CLI object.
 // [[Rcpp::export]]
 void CLI_SetPassed(const std::string& paramName)
 {
   CLI::SetPassed(paramName);
 }
 
+// Clear settings.
 // [[Rcpp::export]]
 void CLI_ClearSettings()
 {
