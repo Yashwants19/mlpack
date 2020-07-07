@@ -12,17 +12,17 @@ if (NOT AUTOTOOLS_ROOT_DIR)
 endif ()
 
 # Find the Autotools.
-find_program (AUTORECONF_EXECUTABLE autoreconf
+find_program (AUTOCONF_EXECUTABLE autoconf
   HINTS ${AUTOTOOLS_ROOT_DIR} ${CMAKE_INSTALL_PREFIX}
   PATH_SUFFIXES bin
 )
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args (Autotools DEFAULT_MSG AUTORECONF_EXECUTABLE)
+find_package_handle_standard_args (Autotools DEFAULT_MSG AUTOCONF_EXECUTABLE)
 
 # Mark advanced variables
 mark_as_advanced (
   AUTOTOOLS_ROOT_DIR
-  AUTORECONF_EXECUTABLE
+  AUTOCONF_EXECUTABLE
   AUTOSCAN_EXECUTABLE
 )
