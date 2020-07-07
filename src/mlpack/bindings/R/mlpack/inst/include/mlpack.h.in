@@ -12,34 +12,16 @@
 #ifndef MLPACK_BINDINGS_R_RCPP_MLPACK_H
 #define MLPACK_BINDINGS_R_RCPP_MLPACK_H
 
-#if defined(_MSC_VER)
-    #ifdef _WIN64
-        #define ARMA_64BIT_WORD
-        #ifdef ARMA_32BIT_WORD
-            #undef ARMA_32BIT_WORD
-        #endif
-    #else
-        #define ARMA_32BIT_WORD
-        #ifdef ARMA_64BIT_WORD
-            #undef ARMA_64BIT_WORD
-        #endif
-    #endif
-#endif
-
 #include <Rcpp.h>
 
-// More recently this changes from ARMA_DEFAULT_OSTREAM to ARMA_COUT_STREAM
-// and ARMA_CERR_STREAM
+// Rcpp has its own stream object which cooperates more nicely with R's i/o
+// And as of armadillo and mlpack, we can use this stream object as well.
 #if !defined(ARMA_COUT_STREAM)
   #define ARMA_COUT_STREAM Rcpp::Rcout
 #endif
 #if !defined(ARMA_CERR_STREAM)
   #define ARMA_CERR_STREAM Rcpp::Rcerr
 #endif
-#if !defined(ARMA_RNG_ALT)
-  #define ARMA_RNG_ALT         RcppArmadillo/Alt_R_RNG.h
-#endif
-
 #if !defined(MLPACK_COUT_STREAM)
   #define MLPACK_COUT_STREAM Rcpp::Rcout
 #endif
@@ -47,10 +29,18 @@
   #define MLPACK_CERR_STREAM Rcpp::Rcerr
 #endif
 
+// This define makes the R RNG have precedent over the C++11-based
+// RNG provided by Armadillo.
+#if !defined(ARMA_RNG_ALT)
+  #define ARMA_RNG_ALT         RcppArmadillo/Alt_R_RNG.h
+#endif
+
 @R_SRC@
 
 #include <mlpack/core.hpp>
 
+// These are all the boost files, we need to compile R bindings for mlpack that
+// are not a part of mlpack itself.
 #include <boost/serialization/archive_exception.cpp>
 #include <boost/serialization/basic_archive.cpp>
 #include <boost/serialization/basic_oarchive.cpp>
