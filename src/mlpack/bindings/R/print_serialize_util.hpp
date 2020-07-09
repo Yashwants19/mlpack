@@ -13,7 +13,7 @@
 #ifndef MLPACK_BINDINGS_R_PRINT_SERIALIZE_UTIL_HPP
 #define MLPACK_BINDINGS_R_PRINT_SERIALIZE_UTIL_HPP
 
-#include <mlpack/core/util/strip_type.hpp>
+#include <mlpack/bindings/utils/strip_type.hpp>
 
 namespace mlpack {
 namespace bindings {

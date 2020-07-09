@@ -1,7 +1,8 @@
 ### mlpack ?.?.?
 ###### ????-??-??
   * Rename InformationGain to HoeffdingInformationGain in
-  methods/hoeffding_trees/information_gain.hpp (#____).
+    methods/hoeffding_trees/information_gain.hpp (#____).
+
   * Added N-step DQN to q_networks (#2461).
 
   * Add Silhoutte Score metric and Pairwise Distances (#2406).

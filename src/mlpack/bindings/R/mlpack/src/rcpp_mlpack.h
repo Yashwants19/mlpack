@@ -39,4 +39,7 @@
   #define ARMA_RNG_ALT         RcppArmadillo/Alt_R_RNG.h
 #endif
 
+// To suppress warnings related to core/util/arma_util.hpp.
+#define MLPACK_CORE_UTIL_ARMA_CONFIG_HPP
+
 #endif
