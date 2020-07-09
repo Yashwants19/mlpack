@@ -10,7 +10,7 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #include "print_R.hpp"
-#include <mlpack/core/util/strip_type.hpp>
+#include <mlpack/bindings/utils/strip_type.hpp>
 #include <mlpack/prereqs.hpp>
 #include <mlpack/core/util/hyphenate_string.hpp>
 
