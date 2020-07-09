@@ -14,7 +14,7 @@
 #define MLPACK_BINDINGS_JULIA_GET_PRINTABLE_TYPE_IMPL_HPP
 
 #include "get_printable_type.hpp"
-#include <mlpack/core/util/strip_type.hpp>
+#include <mlpack/bindings/utils/strip_type.hpp>
 
 namespace mlpack {
 namespace bindings {

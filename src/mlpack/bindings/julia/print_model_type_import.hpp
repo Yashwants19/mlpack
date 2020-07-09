@@ -13,7 +13,7 @@
 #ifndef MLPACK_BINDINGS_JULIA_PRINT_MODEL_TYPE_IMPORT_HPP
 #define MLPACK_BINDINGS_JULIA_PRINT_MODEL_TYPE_IMPORT_HPP
 
-#include <mlpack/core/util/strip_type.hpp>
+#include <mlpack/bindings/utils/strip_type.hpp>
 
 namespace mlpack {
 namespace bindings {

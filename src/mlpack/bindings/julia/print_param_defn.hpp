@@ -13,7 +13,7 @@
 #ifndef MLPACK_BINDINGS_JULIA_PRINT_PARAM_DEFN_HPP
 #define MLPACK_BINDINGS_JULIA_PRINT_PARAM_DEFN_HPP
 
-#include <mlpack/core/util/strip_type.hpp>
+#include <mlpack/bindings/utils/strip_type.hpp>
 
 namespace mlpack {
 namespace bindings {

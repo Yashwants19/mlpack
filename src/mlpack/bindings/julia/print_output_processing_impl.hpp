@@ -14,7 +14,7 @@
 
 #include "print_output_processing.hpp"
 
-#include <mlpack/core/util/strip_type.hpp>
+#include <mlpack/bindings/utils/strip_type.hpp>
 #include "get_julia_type.hpp"
 
 namespace mlpack {

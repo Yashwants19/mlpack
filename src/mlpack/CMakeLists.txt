@@ -209,7 +209,8 @@ if (BUILD_R_BINDINGS)
 
   foreach(r_src_file ${R_SRC_FILES})
     if ("${r_src_file}" MATCHES "methods/" OR
-        "${r_src_file}" MATCHES "core/")
+        "${r_src_file}" MATCHES "core/" OR
+        "${r_src_file}" MATCHES "bindings/utils" )
       execute_process(
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
           ${CMAKE_CURRENT_SOURCE_DIR}/${r_src_file}
