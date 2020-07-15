@@ -212,10 +212,6 @@ if (BUILD_R_BINDINGS)
        "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/cleanup"
        DESTINATION
        "${CMAKE_CURRENT_BINARY_DIR}/mlpack/")
-  file(COPY
-       "${CMAKE_CURRENT_SOURCE_DIR}/mlpack/cleanup"
-       DESTINATION
-       "${CMAKE_CURRENT_BINARY_DIR}/mlpack/")
 
   # This file will take care of multiple definition of functions in .cpp files.
   file(TOUCH
