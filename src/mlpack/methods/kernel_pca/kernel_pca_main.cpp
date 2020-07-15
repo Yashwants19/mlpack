@@ -55,13 +55,6 @@ PROGRAM_INFO("Kernel Principal Components Analysis",
     "For the case where a linear kernel is used, this reduces to regular "
     "PCA."
     "\n\n"
-    "For example, the following command will perform KPCA on the dataset " +
-    PRINT_DATASET("input") + " using the Gaussian kernel, and saving the "
-    "transformed data to " + PRINT_DATASET("transformed") + ": "
-    "\n\n" +
-    PRINT_CALL("kernel_pca", "input", "input", "kernel", "gaussian", "output",
-        "transformed") +
-    "\n\n"
     "The kernels that are supported are listed below:"
     "\n\n"
     " * 'linear': the standard linear dot product (same as normal PCA):\n"
@@ -98,7 +91,15 @@ PROGRAM_INFO("Kernel Principal Components Analysis",
     "the kernel matrix; to specify the sampling scheme, the " +
     PRINT_PARAM_STRING("sampling") + " parameter is used.  The "
     "sampling scheme for the Nystroem method can be chosen from the "
-    "following list: 'kmeans', 'random', 'ordered'.", "",
+    "following list: 'kmeans', 'random', 'ordered'."
+    "\n\n",
+    "For example, the following command will perform KPCA on the dataset " +
+    PRINT_DATASET("input") + " using the Gaussian kernel, and saving the "
+    "transformed data to " + PRINT_DATASET("transformed") + ": "
+    "\n\n" +
+    PRINT_CALL("kernel_pca", "input", "input", "kernel", "gaussian", "output",
+        "transformed"),
+    // See also...
     SEE_ALSO("Kernel principal component analysis on Wikipedia",
         "https://en.wikipedia.org/wiki/Kernel_principal_component_analysis"),
     SEE_ALSO("Kernel Principal Component Analysis (pdf)",
