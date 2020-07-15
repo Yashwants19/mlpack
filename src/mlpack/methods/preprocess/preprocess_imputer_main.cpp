@@ -33,14 +33,15 @@ PROGRAM_INFO("Impute Data",
     "\n\n"
     "The program does not modify the original file, but instead makes a "
     "separate file to save the output data; You can save the output by "
-    "specifying the file name with --output_file (-o)."
+    "specifying the file name with" + PRINT_PARAM_STRING("output_file") +
     "\n\n",
     "For example, if we consider 'NULL' in dimension 0 to be a missing "
     "variable and want to delete whole row containing the NULL in the "
-    "column-wise dataset, and save the result to result.csv, we could run"
+    "column-wise" + PRINT_DATASET("dataset") + ", and save the result to " +
+    PRINT_DATASET("result") + ", we could run :"
     "\n\n" +
-    PRINT_CALL("mlpack_preprocess_imputer", "input_file", "dataset.csv",
-        "output_file", "result.csv", "missing_value", "NULL", "dimension", "0",
+    PRINT_CALL("mlpack_preprocess_imputer", "input_file", "dataset",
+        "output_file", "result", "missing_value", "NULL", "dimension", "0",
         "strategy", "listwise_deletion"),
     SEE_ALSO("@preprocess_binarize", "#preprocess_binarize"),
     SEE_ALSO("@preprocess_describe", "#preprocess_describe"),

@@ -1,5 +1,5 @@
 /**
- * @param mlpack_io_main.hpp
+ * @param mlpack_main.hpp
  * @author Ryan Curtin
  *
  * This file, based on the value of the macro BINDING_TYPE, will define the
@@ -36,7 +36,7 @@
 // Matrices are transposed on load/save.
 #define BINDING_MATRIX_TRANSPOSED true
 
-#include <mlpack/bindings/cli/io_option.hpp>
+#include <mlpack/bindings/cli/cli_option.hpp>
 #include <mlpack/bindings/cli/print_doc_functions.hpp>
 
 /**
