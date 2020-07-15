@@ -98,7 +98,7 @@ PROGRAM_INFO("Kernel Principal Components Analysis",
     "the kernel matrix; to specify the sampling scheme, the " +
     PRINT_PARAM_STRING("sampling") + " parameter is used.  The "
     "sampling scheme for the Nystroem method can be chosen from the "
-    "following list: 'kmeans', 'random', 'ordered'.",
+    "following list: 'kmeans', 'random', 'ordered'.", "",
     SEE_ALSO("Kernel principal component analysis on Wikipedia",
         "https://en.wikipedia.org/wiki/Kernel_principal_component_analysis"),
     SEE_ALSO("Kernel Principal Component Analysis (pdf)",

@@ -26,20 +26,20 @@ namespace r {
  * Print the code for a .R binding for an mlpack program to stdout.
  */
 void PrintR(const util::ProgramDoc& programInfo,
-             const string& functionName)
+            const string& functionName)
 {
   // Restore parameters.
-  CLI::RestoreSettings(programInfo.programName);
+  IO::RestoreSettings(programInfo.programName);
 
-  const map<string, util::ParamData>& parameters = CLI::Parameters();
-  typedef map<string, util::ParamData>::const_iterator ParamIter;
+  map<string, util::ParamData>& parameters = IO::Parameters();
+  typedef map<string, util::ParamData>::iterator ParamIter;
 
   // First, let's get a list of input and output options.  We'll take two passes
   // so that the required input options are the first in the list.
   vector<string> inputOptions, outputOptions;
   for (ParamIter it = parameters.begin(); it != parameters.end(); ++it)
   {
-    const util::ParamData& d = it->second;
+    util::ParamData& d = it->second;
     if (d.input && d.required)
     {
       // Ignore some parameters.
@@ -55,7 +55,7 @@ void PrintR(const util::ProgramDoc& programInfo,
 
   for (ParamIter it = parameters.begin(); it != parameters.end(); ++it)
   {
-    const util::ParamData& d = it->second;
+    util::ParamData& d = it->second;
     if (d.input && !d.required &&
         d.name != "help" && d.name != "info" &&
         d.name != "version")
@@ -70,7 +70,7 @@ void PrintR(const util::ProgramDoc& programInfo,
   // Next print the description.
   cout << "#' @description" << endl;
   cout << "#' ";
-  cout << util::HyphenateString(programInfo.documentation(), "#' ") << endl;
+  cout << util::HyphenateString(programInfo.shortDocumentation, "#' ") << endl;
 
   // Next, print information on the input options.
   cout << "#'" << endl;
@@ -78,11 +78,11 @@ void PrintR(const util::ProgramDoc& programInfo,
   for (size_t i = 0; i < inputOptions.size(); ++i)
   {
     const string& opt = inputOptions[i];
-    const util::ParamData& d = parameters.at(opt);
+    util::ParamData& d = parameters.at(opt);
 
     cout << "#' @param ";
     bool out = false;
-    CLI::GetSingleton().functionMap[d.tname]["PrintDoc"](d, NULL, (void*) &out);
+    IO::GetSingleton().functionMap[d.tname]["PrintDoc"](d, NULL, (void*) &out);
 
     cout << endl;
   }
@@ -93,56 +93,86 @@ void PrintR(const util::ProgramDoc& programInfo,
   for (size_t i = 0; i < outputOptions.size(); ++i)
   {
     const string& opt = outputOptions[i];
-    const util::ParamData& d = parameters.at(opt);
+    util::ParamData& d = parameters.at(opt);
 
     cout << "#' \\item{";
 
     bool out = true;
-    CLI::GetSingleton().functionMap[d.tname]["PrintDoc"](d, NULL, (void*) &out);
+    IO::GetSingleton().functionMap[d.tname]["PrintDoc"](d, NULL, (void*) &out);
 
     cout << endl;
   }
 
   cout << "#'" << endl;
 
+  cout << "#' @details" << endl;
+  cout << "#' ";
+  cout << util::HyphenateString(programInfo.documentation(), "#' ") << endl;
+  cout << "#' @author" << endl;
+  cout << "#' MLPACK Developers" << endl;
+  cout << "#'" << endl;
   cout << "#' @export" << endl;
+  if (programInfo.example().size() != 0)
+    cout << "#' @examples" << endl;
+
+  const std::string str = programInfo.example();
+  size_t pos = 0;
+  while (pos < str.length())
+  {
+    size_t splitpos = 0;
+    splitpos = str.find("\n\\donttest{", pos) - 1;
+    if (splitpos == std::string::npos || splitpos > str.length())
+    {
+      splitpos = str.length();
+      cout << util::HyphenateString(str.substr(pos, (splitpos - pos)), "#' # ");
+      break;
+    }
+    if (splitpos != 0 && pos == 0)
+      cout << "#' # ";
+    cout << util::HyphenateString(str.substr(pos, (splitpos - pos)),
+            "#' # ", true);
+    pos = str.find("\n}", pos) + 3;
+    cout << util::HyphenateString(str.substr(splitpos, (pos - splitpos)),
+            "#' ", true);
+  }
+  cout << endl;
   cout << functionName << " <- function(";
   size_t indent = functionName.size() + 13 /* <- function(*/;
   for (size_t i = 0; i < inputOptions.size(); ++i)
   {
-    const util::ParamData& d = parameters.at(inputOptions[i]);
+    util::ParamData& d = parameters.at(inputOptions[i]);
 
     if (i != 0)
       cout << "," << endl << std::string(indent, ' ');
 
-    CLI::GetSingleton().functionMap[d.tname]["PrintInputParam"](d, NULL, NULL);
+    IO::GetSingleton().functionMap[d.tname]["PrintInputParam"](d, NULL, NULL);
   }
   cout << ") {" << endl;
 
-  // Restore CLI settings.
-  cout << "  # Restore CLI settings." << endl;
-  cout << "  CLI_RestoreSettings(\"" << CLI::ProgramName()
-      << "\")" << endl;
+  // Restore IO settings.
+  cout << "  # Restore IO settings." << endl;
+  cout << "  IO_RestoreSettings(\"" << IO::ProgramName()
+       << "\")" << endl;
   cout << endl;
 
   // Handle each input argument's processing before calling mlpackMain().
   cout << "  # Process each input argument before calling mlpackMain()."
-      << endl;
+       << endl;
   for (const string& opt : inputOptions)
   {
     if (opt != "verbose")
     {
-      const util::ParamData& d = parameters.at(opt);
-      CLI::GetSingleton().functionMap[d.tname]["PrintInputProcessing"](d,
+      util::ParamData& d = parameters.at(opt);
+      IO::GetSingleton().functionMap[d.tname]["PrintInputProcessing"](d,
           NULL, NULL);
     }
   }
 
   // Special handling for verbose output.
   cout << "  if (verbose) {" << endl;
-  cout << "    CLI_EnableVerbose()" << endl;
+  cout << "    IO_EnableVerbose()" << endl;
   cout << "  } else {" << endl;
-  cout << "    CLI_DisableVerbose()" << endl;
+  cout << "    IO_DisableVerbose()" << endl;
   cout << "  }" << endl;
   cout << endl;
 
@@ -150,8 +180,8 @@ void PrintR(const util::ProgramDoc& programInfo,
   cout << "  # Mark all output options as passed." << endl;
   for (const string& opt : outputOptions)
   {
-    const util::ParamData& d = parameters.at(opt);
-    cout << "  CLI_SetPassed(\"" << d.name << "\")" << endl;
+    util::ParamData& d = parameters.at(opt);
+    cout << "  IO_SetPassed(\"" << d.name << "\")" << endl;
   }
   cout << endl;
 
@@ -164,8 +194,8 @@ void PrintR(const util::ProgramDoc& programInfo,
       << endl;
   for (size_t i = 0; i < outputOptions.size(); ++i)
   {
-    const util::ParamData& d = parameters.at(outputOptions[i]);
-    CLI::GetSingleton().functionMap[d.tname]["PrintSerializeUtil"](d,
+    util::ParamData& d = parameters.at(outputOptions[i]);
+    IO::GetSingleton().functionMap[d.tname]["PrintSerializeUtil"](d,
         NULL, NULL);
   }
   cout << endl;
@@ -178,8 +208,8 @@ void PrintR(const util::ProgramDoc& programInfo,
   {
     if (i == 0)
        cout << indentStr;
-    const util::ParamData& d = parameters.at(outputOptions[i]);
-    CLI::GetSingleton().functionMap[d.tname]["PrintOutputProcessing"](d,
+    util::ParamData& d = parameters.at(outputOptions[i]);
+    IO::GetSingleton().functionMap[d.tname]["PrintOutputProcessing"](d,
         NULL, NULL);
     // Print newlines if we are returning multiple output options.
     if (i + 1 < outputOptions.size())
@@ -189,7 +219,7 @@ void PrintR(const util::ProgramDoc& programInfo,
 
   // Clear the parameters.
   cout << "  # Clear the parameters." << endl;
-  cout << "  CLI_ClearSettings()" << endl;
+  cout << "  IO_ClearSettings()" << endl;
   cout << endl;
   cout << "  return(out)" << endl << "}" << endl;
 }

@@ -64,7 +64,7 @@ PROGRAM_INFO("Softmax Regression",
     PRINT_PARAM_STRING("test_labels") + " parameter, then the program will "
     "print the accuracy of the predictions on the given test set and its "
     "corresponding labels."
-    "\n\n"
+    "\n\n",
     "For example, to train a softmax regression model on the data " +
     PRINT_DATASET("dataset") + " with labels " + PRINT_DATASET("labels") +
     " with a maximum of 1000 iterations for training, saving the trained model "

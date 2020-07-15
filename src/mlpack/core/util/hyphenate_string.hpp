@@ -21,9 +21,12 @@ namespace util {
  *
  * @param str String to hyphenate (splits are on ' ').
  * @param prefix Prefix to hyphenate a string with.
+ * @param force Hyphenate the string even if the length is less then 80. 
  * @throw std::invalid_argument if prefix.size() >= 80.
  */
-inline std::string HyphenateString(const std::string& str, const std::string& prefix)
+inline std::string HyphenateString(const std::string& str,
+                                   const std::string& prefix,
+                                   const bool force = false)
 {
   if (prefix.size() >= 80)
   {
@@ -31,7 +34,7 @@ inline std::string HyphenateString(const std::string& str, const std::string& pr
   }
 
   size_t margin = 80 - prefix.size();
-  if (str.length() < margin)
+  if (str.length() < margin && !force)
     return str;
   std::string out("");
   unsigned int pos = 0;

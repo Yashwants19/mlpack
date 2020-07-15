@@ -32,7 +32,7 @@ namespace r {
  * @param output Unused parameter.
  */
 template<typename T>
-void PrintDoc(const util::ParamData& d,
+void PrintDoc(util::ParamData& d,
               const void* /* input */,
               void* output)
 {

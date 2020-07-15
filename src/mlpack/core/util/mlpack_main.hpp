@@ -1,5 +1,5 @@
 /**
- * @param mlpack_cli_main.hpp
+ * @param mlpack_io_main.hpp
  * @author Ryan Curtin
  *
  * This file, based on the value of the macro BINDING_TYPE, will define the
@@ -36,7 +36,7 @@
 // Matrices are transposed on load/save.
 #define BINDING_MATRIX_TRANSPOSED true
 
-#include <mlpack/bindings/cli/cli_option.hpp>
+#include <mlpack/bindings/cli/io_option.hpp>
 #include <mlpack/bindings/cli/print_doc_functions.hpp>
 
 /**
@@ -154,10 +154,10 @@ using Option = mlpack::bindings::tests::TestOption<T>;
 #include <mlpack/core/util/param.hpp>
 
 #undef PROGRAM_INFO
-#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, ...) \
-    static mlpack::util::ProgramDoc \
-    cli_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC; }, { __VA_ARGS__ })
+#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
+    mlpack::util::ProgramDoc \
+    io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
+    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ })
 
 #elif(BINDING_TYPE == BINDING_TYPE_PYX) // This is a Python binding.
 
@@ -219,10 +219,10 @@ static const std::string testName = "";
 #include <mlpack/core/util/param.hpp>
 
 #undef PROGRAM_INFO
-#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, ...) \
-    static mlpack::util::ProgramDoc \
-    cli_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC; }, { __VA_ARGS__ }); \
+#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
+    mlpack::util::ProgramDoc \
+    io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
+    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ }); \
     namespace mlpack { \
     namespace bindings { \
     namespace python { \
@@ -268,10 +268,10 @@ static const std::string testName = "";
 #include <mlpack/core/util/param.hpp>
 
 #undef PROGRAM_INFO
-#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, ...) static \
+#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
     mlpack::util::ProgramDoc \
-    cli_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC; }, { __VA_ARGS__ }); \
+    io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
+    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ }); \
     namespace mlpack { \
     namespace bindings { \
     namespace julia { \
@@ -313,10 +313,10 @@ static const std::string testName = "";
 #include <mlpack/core/util/param.hpp>
 
 #undef PROGRAM_INFO
-#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, ...) \
-    static mlpack::util::ProgramDoc \
-    cli_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC; }, { __VA_ARGS__ }); \
+#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
+    mlpack::util::ProgramDoc \
+    io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
+    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ }); \
     namespace mlpack { \
     namespace bindings { \
     namespace go { \
@@ -358,10 +358,10 @@ static const std::string testName = "";
 #include <mlpack/core/util/param.hpp>
 
 #undef PROGRAM_INFO
-#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, ...) static \
+#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
     mlpack::util::ProgramDoc \
-    cli_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC; }, { __VA_ARGS__ })
+    io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
+    []() { return DESC; }, []() { return EXAMPLE; }, { __VA_ARGS__ })
 
 PARAM_FLAG("verbose", "Display informational messages and the full list of "
     "parameters and timers at the end of execution.", "v");
@@ -436,11 +436,12 @@ using Option = mlpack::bindings::markdown::MDOption<T>;
 #include <mlpack/bindings/markdown/program_doc_wrapper.hpp>
 
 #undef PROGRAM_INFO
-#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, ...) static \
+#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
     mlpack::bindings::markdown::ProgramDocWrapper \
-    cli_programdoc_dummy_object = \
+    io_programdoc_dummy_object = \
     mlpack::bindings::markdown::ProgramDocWrapper(BINDING_NAME, NAME, \
-    SHORT_DESC, []() { return DESC; }, { __VA_ARGS__ }); \
+    SHORT_DESC, []() { return DESC + EXAMPLE; },  [](), { return ""; }, \
+    { __VA_ARGS__ }); \
 
 PARAM_FLAG("verbose", "Display informational messages and the full list of "
     "parameters and timers at the end of execution.", "v");

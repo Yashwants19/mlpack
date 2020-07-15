@@ -53,7 +53,7 @@ PROGRAM_INFO("Hidden Markov Model (HMM) Training",
     "\n\n"
     "Optionally, a pre-created HMM model can be used as a guess for the "
     "transition matrix and emission probabilities; this is specifiable with "
-    "--model_file.",
+    "--model_file.", "",
     SEE_ALSO("@hmm_generate", "#hmm_generate"),
     SEE_ALSO("@hmm_loglik", "#hmm_loglik"),
     SEE_ALSO("@hmm_viterbi", "#hmm_viterbi"),

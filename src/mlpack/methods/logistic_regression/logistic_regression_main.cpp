@@ -93,7 +93,7 @@ PROGRAM_INFO("L2-regularized Logistic Regression and Prediction",
     "This implementation of logistic regression does not support the general "
     "multi-class case but instead only the two-class case.  Any labels must "
     "be either 0 or 1.  For more classes, see the softmax_regression program."
-    "\n\n"
+    "\n\n",
     "As an example, to train a logistic regression model on the data '" +
     PRINT_DATASET("data") + "' with labels '" + PRINT_DATASET("labels") + "' "
     "with L2 regularization of 0.1, saving the model to '" +

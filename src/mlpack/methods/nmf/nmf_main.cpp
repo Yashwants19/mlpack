@@ -58,7 +58,7 @@ PROGRAM_INFO("Non-negative Matrix Factorization",
     PRINT_PARAM_STRING("max_iterations") + ", and the minimum residue "
     "required for algorithm termination is specified with the " +
     PRINT_PARAM_STRING("min_residue") + " parameter."
-    "\n\n"
+    "\n\n",
     "For example, to run NMF on the input matrix " + PRINT_DATASET("V") + " "
     "using the 'multdist' update rules with a rank-10 decomposition and "
     "storing the decomposed matrices into " + PRINT_DATASET("W") + " and " +

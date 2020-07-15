@@ -33,7 +33,7 @@ class ROption
  public:
   /**
    * Construct a ROption object.  When constructed, it will register itself
-   * with CLI. The testName parameter is not used and added for compatibility
+   * with IO. The testName parameter is not used and added for compatibility
    * reasons.
    *
    * @param defaultValue Default value this parameter will be initialized to
@@ -59,7 +59,7 @@ class ROption
           const bool noTranspose = false,
           const std::string& /* testName */ = "")
   {
-    // Create the ParamData object to give to CLI.
+    // Create the ParamData object to give to IO.
     util::ParamData data;
     data.desc = description;
     data.name = identifier;
@@ -83,34 +83,34 @@ class ROption
 
     // Restore the parameters for this program.
     if (identifier != "verbose")
-      CLI::RestoreSettings(CLI::ProgramName(), false);
+      IO::RestoreSettings(IO::ProgramName(), false);
 
     // Set the function pointers that we'll need.  All of these function
     // pointers will be used by both the program that generates the R, and
     // also the binding itself.  (The binding itself will only use GetParam,
     // GetPrintableParam, and GetRawParam.)
-    CLI::GetSingleton().functionMap[data.tname]["GetParam"] = &GetParam<T>;
-    CLI::GetSingleton().functionMap[data.tname]["GetPrintableParam"] =
+    IO::GetSingleton().functionMap[data.tname]["GetParam"] = &GetParam<T>;
+    IO::GetSingleton().functionMap[data.tname]["GetPrintableParam"] =
         &GetPrintableParam<T>;
 
     // These are used by the R generator.
-    CLI::GetSingleton().functionMap[data.tname]["PrintDoc"] = &PrintDoc<T>;
-    CLI::GetSingleton().functionMap[data.tname]["PrintInputParam"] =
+    IO::GetSingleton().functionMap[data.tname]["PrintDoc"] = &PrintDoc<T>;
+    IO::GetSingleton().functionMap[data.tname]["PrintInputParam"] =
         &PrintInputParam<T>;
-    CLI::GetSingleton().functionMap[data.tname]["PrintOutputProcessing"] =
+    IO::GetSingleton().functionMap[data.tname]["PrintOutputProcessing"] =
         &PrintOutputProcessing<T>;
-    CLI::GetSingleton().functionMap[data.tname]["PrintInputProcessing"] =
+    IO::GetSingleton().functionMap[data.tname]["PrintInputProcessing"] =
         &PrintInputProcessing<T>;
-    CLI::GetSingleton().functionMap[data.tname]["PrintSerializeUtil"] =
+    IO::GetSingleton().functionMap[data.tname]["PrintSerializeUtil"] =
         &PrintSerializeUtil<T>;
 
     // Add the ParamData object, then store.  This is necessary because we may
-    // import more than one .so or .o that uses CLI, so we have to keep the options
+    // import more than one .so or .o that uses IO, so we have to keep the options
     // separate.  programName is a global variable from mlpack_main.hpp.
-    CLI::Add(std::move(data));
+    IO::Add(std::move(data));
     if (identifier != "verbose")
-      CLI::StoreSettings(CLI::ProgramName());
-    CLI::ClearSettings();
+      IO::StoreSettings(IO::ProgramName());
+    IO::ClearSettings();
   }
 };
 

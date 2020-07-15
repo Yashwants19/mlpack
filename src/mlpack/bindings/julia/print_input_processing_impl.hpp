@@ -136,7 +136,7 @@ void PrintInputProcessing(
 
   std::string indent(extraIndent + 2, ' ');
   std::string type = utils::StripType(d.cppType);
-  std::cout << indent << functionName << "_internal.IOSetParam" << type
+  std::cout << indent << functionName << "_internal.CLISetParam" << type
       << "(\"" << d.name << "\", convert("
       << GetJuliaType<typename std::remove_pointer<T>::type>(d) << ", "
       << juliaName << "))" << std::endl;

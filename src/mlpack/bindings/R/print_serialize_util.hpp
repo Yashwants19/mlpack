@@ -24,7 +24,7 @@ namespace r {
  */
 template<typename T>
 void PrintSerializeUtil(
-    const util::ParamData& /* d */,
+    util::ParamData& /* d */,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<!data::HasSerialize<T>::value>::type* = 0)
 {
@@ -36,7 +36,7 @@ void PrintSerializeUtil(
  */
 template<typename T>
 void PrintSerializeUtil(
-    const util::ParamData& /* d */,
+    util::ParamData& /* d */,
     const typename std::enable_if<arma::is_arma_type<T>::value>::type* = 0)
 {
   // Do Nothing.
@@ -47,18 +47,18 @@ void PrintSerializeUtil(
  */
 template<typename T>
 void PrintSerializeUtil(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<data::HasSerialize<T>::value>::type* = 0)
 {
   /**
    * This gives us code like:
    *
-   *  <paramName> <- CLI_GetParam<ModelType>Ptr("<paramName>")
+   *  <paramName> <- IO_GetParam<ModelType>Ptr("<paramName>")
    *  attr(<paramName>, "type") <- "<ModelType>"
    *
    */
-  MLPACK_COUT_STREAM << "  " << d.name << " <- CLI_GetParam"
+  MLPACK_COUT_STREAM << "  " << d.name << " <- IO_GetParam"
       << utils::StripType(d.cppType) << "Ptr(\"" << d.name << "\")";
   MLPACK_COUT_STREAM << std::endl;
   MLPACK_COUT_STREAM << "  attr(" << d.name << ", \"type\") <- \""
@@ -72,7 +72,7 @@ void PrintSerializeUtil(
  * @param * (output) Unused parameter.
  */
 template<typename T>
-void PrintSerializeUtil(const util::ParamData& d,
+void PrintSerializeUtil(util::ParamData& d,
                         const void* /*input*/,
                         void* /* output */)
 {

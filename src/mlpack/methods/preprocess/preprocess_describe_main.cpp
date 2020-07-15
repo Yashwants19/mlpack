@@ -41,7 +41,7 @@ PROGRAM_INFO("Descriptive Statistics",
     PRINT_PARAM_STRING("population") + " parameter can be specified when the "
     "dataset should be considered as a population.  Otherwise, the dataset "
     "will be considered as a sample."
-    "\n\n"
+    "\n\n",
     "So, a simple example where we want to print out statistical facts about "
     "the dataset " + PRINT_DATASET("X") + " using the default settings, we "
     "could run "

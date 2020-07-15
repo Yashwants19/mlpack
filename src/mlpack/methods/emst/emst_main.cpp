@@ -48,7 +48,7 @@ PROGRAM_INFO("Fast Euclidean Minimum Spanning Tree",
     "brute-force search is used (this is typically much slower in low "
     "dimensions).  The leaf size does not affect the results, but it may have "
     "some effect on the runtime of the algorithm."
-    "\n\n"
+    "\n\n",
     "For example, the minimum spanning tree of the input dataset " +
     PRINT_DATASET("data") + " can be calculated with a leaf size of 20 and "
     "stored as " + PRINT_DATASET("spanning_tree") + " using the following "

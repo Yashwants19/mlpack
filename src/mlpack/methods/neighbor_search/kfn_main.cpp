@@ -44,7 +44,7 @@ PROGRAM_INFO("k-Furthest-Neighbors Search",
     "points. You may specify a separate set of reference points and query "
     "points, or just a reference set which will be used as both the reference "
     "and query set."
-    "\n\n"
+    "\n\n",
     "For example, the following will calculate the 5 furthest neighbors of each"
     "point in " + PRINT_DATASET("input") + " and store the distances in " +
     PRINT_DATASET("distances") + " and the neighbors in " +

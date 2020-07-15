@@ -112,7 +112,7 @@ PROGRAM_INFO("Collaborative Filtering",
     "\n"
     "A trained model may be saved to with the " +
     PRINT_PARAM_STRING("output_model") + " output parameter."
-    "\n\n"
+    "\n\n",
     "To train a CF model on a dataset " + PRINT_DATASET("training_set") + " "
     "using NMF for decomposition and saving the trained model to " +
     PRINT_MODEL("model") + ", one could call: "

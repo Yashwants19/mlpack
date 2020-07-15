@@ -30,17 +30,17 @@ if (NOT (MODEL_FILE_TYPE MATCHES "\"${MODEL_SAFE_TYPES}\""))
       set(MODEL_PTR_IMPLS "${MODEL_PTR_IMPLS}
 // Get the pointer to a ${MODEL_TYPE} parameter.
 // [[Rcpp::export]]
-SEXP CLI_GetParam${MODEL_SAFE_TYPE}Ptr(const std::string& paramName)
+SEXP IO_GetParam${MODEL_SAFE_TYPE}Ptr(const std::string& paramName)
 {
-  return std::move((${MODEL_PTR_TYPEDEF}) CLI::GetParam<${MODEL_TYPE}*>(paramName));
+  return std::move((${MODEL_PTR_TYPEDEF}) IO::GetParam<${MODEL_TYPE}*>(paramName));
 }
 
 // Set the pointer to a ${MODEL_TYPE} parameter.
 // [[Rcpp::export]]
-void CLI_SetParam${MODEL_SAFE_TYPE}Ptr(const std::string& paramName, SEXP ptr)
+void IO_SetParam${MODEL_SAFE_TYPE}Ptr(const std::string& paramName, SEXP ptr)
 {
-  CLI::GetParam<${MODEL_TYPE}*>(paramName) =  Rcpp::as<${MODEL_PTR_TYPEDEF}>(ptr);
-  CLI::SetPassed(paramName);
+  IO::GetParam<${MODEL_TYPE}*>(paramName) =  Rcpp::as<${MODEL_PTR_TYPEDEF}>(ptr);
+  IO::SetPassed(paramName);
 }
 
 // Serialize a ${MODEL_TYPE} pointer.

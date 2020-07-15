@@ -69,7 +69,7 @@ PROGRAM_INFO("Kernel Density Estimation",
     "whenever a fraction of the amount of the node's descendant points have "
     "already been computed. This fraction is set using " +
     PRINT_PARAM_STRING("mc_break_coef") + "."
-    "\n\n"
+    "\n\n",
     "For example, the following will run KDE using the data in " +
     PRINT_DATASET("ref_data") + " for training and the data in " +
     PRINT_DATASET("qu_data") + " as query data. It will apply an Epanechnikov "

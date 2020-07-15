@@ -12,7 +12,7 @@
  */
 #include "print_go.hpp"
 #include <mlpack/bindings/utils/camel_case.hpp>
-#include <mlpack/core/util/io.hpp>
+#include <mlpack/core/util/cli.hpp>
 #include <mlpack/core/util/hyphenate_string.hpp>
 #include <set>
 
@@ -269,7 +269,7 @@ void PrintGo(const util::ProgramDoc& programInfo,
     if (i != 0)
       cout << ", ";
 
-    util::ParamData& d = parameters.at(outputOptions[i]);
+    const util::ParamData& d = parameters.at(outputOptions[i]);
     cout << utils::CamelCase(d.name, true);
   }
   cout << endl;

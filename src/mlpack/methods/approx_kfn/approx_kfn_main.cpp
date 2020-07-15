@@ -70,7 +70,7 @@ PROGRAM_INFO("Approximate furthest neighbor search",
     PRINT_PARAM_STRING("distances") + " output parameters.  Each row of these "
     "output matrices holds the k distances or neighbor indices for each query "
     "point."
-    "\n\n"
+    "\n\n",
     "For example, to find the 5 approximate furthest neighbors with " +
     PRINT_DATASET("reference_set") + " as the reference set and " +
     PRINT_DATASET("query_set") + " as the query set using DrusillaSelect, "

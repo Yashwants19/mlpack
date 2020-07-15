@@ -65,7 +65,7 @@ PROGRAM_INFO("Random forests",
     "test point may be saved via the " + PRINT_PARAM_STRING("predictions") +
     "output parameter.  Class probabilities for each prediction may be saved "
     "with the " + PRINT_PARAM_STRING("probabilities") + " output parameter."
-    "\n\n"
+    "\n\n",
     "For example, to train a random forest with a minimum leaf size of 20 "
     "using 10 trees on the dataset contained in " + PRINT_DATASET("data") +
     "with labels " + PRINT_DATASET("labels") + ", saving the output random "

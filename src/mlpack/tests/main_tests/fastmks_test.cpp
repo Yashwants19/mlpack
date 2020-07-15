@@ -490,10 +490,10 @@ BOOST_AUTO_TEST_CASE(FastMKSOffsetTest)
 
   bindings::tests::CleanMemory();
 
-  IO::GetSingleton().Parameters()["reference"].wasPassed = false;
-  IO::GetSingleton().Parameters()["offset"].wasPassed = false;
-  IO::GetParam<FastMKSModel*>("input_model") = NULL;
-  IO::GetParam<FastMKSModel*>("output_model") = NULL;
+  CLI::GetSingleton().Parameters()["reference"].wasPassed = false;
+  CLI::GetSingleton().Parameters()["offset"].wasPassed = false;
+  CLI::GetParam<FastMKSModel*>("input_model") = NULL;
+  CLI::GetParam<FastMKSModel*>("output_model") = NULL;
 
   SetInputParam("reference", referenceData);
   SetInputParam("offset", 4.0);
@@ -509,11 +509,11 @@ BOOST_AUTO_TEST_CASE(FastMKSOffsetTest)
   if (!data::Load("data_3d_mixed.txt", inputData))
     BOOST_FAIL("Cannot load test dataset data_3d_ind.txt!");
 
-  IO::GetSingleton().Parameters()["reference"].wasPassed = false;
-  IO::GetSingleton().Parameters()["kernel"].wasPassed = false;
-  IO::GetSingleton().Parameters()["offset"].wasPassed = false;
-  IO::GetParam<FastMKSModel*>("input_model") = NULL;
-  IO::GetParam<FastMKSModel*>("output_model") = NULL;
+  CLI::GetSingleton().Parameters()["reference"].wasPassed = false;
+  CLI::GetSingleton().Parameters()["kernel"].wasPassed = false;
+  CLI::GetSingleton().Parameters()["offset"].wasPassed = false;
+  CLI::GetParam<FastMKSModel*>("input_model") = NULL;
+  CLI::GetParam<FastMKSModel*>("output_model") = NULL;
 
   SetInputParam("reference", inputData);
   SetInputParam("kernel", (std::string)"hyptan");
@@ -526,10 +526,10 @@ BOOST_AUTO_TEST_CASE(FastMKSOffsetTest)
 
   bindings::tests::CleanMemory();
 
-  IO::GetSingleton().Parameters()["reference"].wasPassed = false;
-  IO::GetSingleton().Parameters()["offset"].wasPassed = false;
-  IO::GetParam<FastMKSModel*>("input_model") = NULL;
-  IO::GetParam<FastMKSModel*>("output_model") = NULL;
+  CLI::GetSingleton().Parameters()["reference"].wasPassed = false;
+  CLI::GetSingleton().Parameters()["offset"].wasPassed = false;
+  CLI::GetParam<FastMKSModel*>("input_model") = NULL;
+  CLI::GetParam<FastMKSModel*>("output_model") = NULL;
 
   SetInputParam("reference", inputData);
   SetInputParam("offset", 4.0);

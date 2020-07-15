@@ -53,7 +53,7 @@ std::string PrintInputOptions() { return ""; }
 
 /**
  * Print an input option.  This will throw an exception if the parameter does
- * not exist in CLI.
+ * not exist in IO.
  */
 template<typename T, typename... Args>
 std::string PrintInputOptions(const std::string& paramName,
@@ -62,9 +62,9 @@ std::string PrintInputOptions(const std::string& paramName,
 {
   // See if this is part of the program.
   std::string result = "";
-  if (CLI::Parameters().count(paramName) > 0)
+  if (IO::Parameters().count(paramName) > 0)
   {
-    const util::ParamData& d = CLI::Parameters()[paramName];
+    util::ParamData& d = IO::Parameters()[paramName];
     if (d.input)
     {
       // Print the input option.
@@ -102,14 +102,14 @@ std::string PrintOutputOptions(const std::string& paramName,
 {
   // See if this is part of the program.
   std::string result = "";
-  if (CLI::Parameters().count(paramName) > 0)
+  if (IO::Parameters().count(paramName) > 0)
   {
-    const util::ParamData& d = CLI::Parameters()[paramName];
+    util::ParamData& d = IO::Parameters()[paramName];
     if (!d.input)
     {
       // Print a new line for the output option.
       std::ostringstream oss;
-      oss << "R> " << value << " <- output$" << paramName;
+      oss << value << " <- output$" << paramName;
       result = oss.str();
     }
   }
@@ -124,7 +124,7 @@ std::string PrintOutputOptions(const std::string& paramName,
   // Continue recursion.
   std::string rest = PrintOutputOptions(args...);
   if (rest != "" && result != "")
-    result += "\n\n";
+    result += "\n";
   result += rest;
 
   return result;
@@ -139,18 +139,15 @@ template<typename... Args>
 std::string ProgramCall(const std::string& programName, Args... args)
 {
   std::ostringstream oss;
-  oss << "R> ";
 
   // Find out if we have any output options first.
   std::ostringstream ossOutput;
-  ossOutput << PrintOutputOptions(args...);
-  if (ossOutput.str() != "")
-    oss << "output <- ";
+  oss << "output <- ";
   oss << programName << "(";
 
   // Now process each input option.
   oss << PrintInputOptions(args...);
-  oss << ")\n";
+  oss << ")";
 
   std::string call = oss.str();
   oss.str(""); // Reset it.
@@ -158,9 +155,10 @@ std::string ProgramCall(const std::string& programName, Args... args)
   // Now process each output option.
   oss << PrintOutputOptions(args...);
   if (oss.str() == "")
-    return util::HyphenateString(call, 5) + "\n";
+    return "\\donttest{\n" + util::HyphenateString(call, 2) + "\n}";
   else
-    return util::HyphenateString(call, 5) + "\n" + oss.str();
+    return "\\donttest{\n" + util::HyphenateString(call, 2) + "\n" + oss.str() +
+           "\n}";
 }
 
 /**
@@ -213,14 +211,14 @@ inline std::string ParamString(const std::string& paramName, const T& value)
 
 inline bool IgnoreCheck(const std::string& paramName)
 {
-  return !CLI::Parameters()[paramName].input;
+  return !IO::Parameters()[paramName].input;
 }
 
 inline bool IgnoreCheck(const std::vector<std::string>& constraints)
 {
   for (size_t i = 0; i < constraints.size(); ++i)
   {
-    if (!CLI::Parameters()[constraints[i]].input)
+    if (!IO::Parameters()[constraints[i]].input)
       return true;
   }
 
@@ -233,11 +231,11 @@ inline bool IgnoreCheck(
 {
   for (size_t i = 0; i < constraints.size(); ++i)
   {
-    if (!CLI::Parameters()[constraints[i].first].input)
+    if (!IO::Parameters()[constraints[i].first].input)
       return true;
   }
 
-  return !CLI::Parameters()[paramName].input;
+  return !IO::Parameters()[paramName].input;
 }
 
 } // namespace r

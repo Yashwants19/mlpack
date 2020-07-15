@@ -25,7 +25,7 @@ namespace r {
  */
 template<typename T>
 void PrintInputProcessing(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename boost::disable_if<arma::is_arma_type<T>>::type* = 0,
     const typename boost::disable_if<data::HasSerialize<T>>::type* = 0,
     const typename boost::disable_if<std::is_same<T,
@@ -37,7 +37,7 @@ void PrintInputProcessing(
      * This gives us code like:
      *
      *  if (!identical(<param_name>, NA)) {
-     *     CLI_SetParam<type>("<param_name>", <param_name>)
+     *     IO_SetParam<type>("<param_name>", <param_name>)
      *  }
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name ;
@@ -49,7 +49,7 @@ void PrintInputProcessing(
     {
       MLPACK_COUT_STREAM << ", NA)) {" << std::endl;
     }
-    MLPACK_COUT_STREAM << "    CLI_SetParam" << GetType<T>(d) << "(\""
+    MLPACK_COUT_STREAM << "    IO_SetParam" << GetType<T>(d) << "(\""
         << d.name << "\", " << d.name << ")" << std::endl;
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
   }
@@ -58,9 +58,9 @@ void PrintInputProcessing(
     /**
      * This gives us code like:
      *
-     *     CLI_SetParam<type>("<param_name>", <param_name>)
+     *     IO_SetParam<type>("<param_name>", <param_name>)
      */
-    MLPACK_COUT_STREAM << "  CLI_SetParam" << GetType<T>(d) << "(\""
+    MLPACK_COUT_STREAM << "  IO_SetParam" << GetType<T>(d) << "(\""
               << d.name << "\", " << d.name << ")" << std::endl;
   }
   MLPACK_COUT_STREAM << std::endl; // Extra line is to clear up the code a bit.
@@ -71,7 +71,7 @@ void PrintInputProcessing(
  */
 template<typename T>
 void PrintInputProcessing(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename boost::enable_if<arma::is_arma_type<T>>::type* = 0)
 {
   if (!d.required)
@@ -80,12 +80,12 @@ void PrintInputProcessing(
      * This gives us code like:
      *
      *  if (!identical(<param_name>, NA)) {
-     *     CLI_SetParam<type>("<param_name>", to_matrix(<param_name>))
+     *     IO_SetParam<type>("<param_name>", to_matrix(<param_name>))
      *  }
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name << ", NA)) {"
         << std::endl;
-    MLPACK_COUT_STREAM << "    CLI_SetParam" << GetType<T>(d) << "(\""
+    MLPACK_COUT_STREAM << "    IO_SetParam" << GetType<T>(d) << "(\""
         << d.name << "\", to_matrix(" << d.name << "))" << std::endl;
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
   }
@@ -94,9 +94,9 @@ void PrintInputProcessing(
     /**
      * This gives us code like:
      *
-     *     CLI_SetParam<type>("<param_name>", to_matrix(<param_name>))
+     *     IO_SetParam<type>("<param_name>", to_matrix(<param_name>))
      */
-    MLPACK_COUT_STREAM << "  CLI_SetParam" << GetType<T>(d) << "(\""
+    MLPACK_COUT_STREAM << "  IO_SetParam" << GetType<T>(d) << "(\""
               << d.name << "\", to_matrix(" << d.name << "))" << std::endl;
   }
   MLPACK_COUT_STREAM << std::endl; // Extra line is to clear up the code a bit.
@@ -107,7 +107,7 @@ void PrintInputProcessing(
  */
 template<typename T>
 void PrintInputProcessing(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename boost::enable_if<std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>>::type* = 0)
 {
@@ -118,7 +118,7 @@ void PrintInputProcessing(
      *
      *  if (!identical(<param_name>, NA)) {
      *     <param_name> = to_matrix_with_info(<param_name>)
-     *     CLI_SetParam<type>("<param_name>", <param_name>$info,
+     *     IO_SetParam<type>("<param_name>", <param_name>$info,
      *                         <param_name>$data)
      *  }
      */
@@ -126,7 +126,7 @@ void PrintInputProcessing(
         << std::endl;
     MLPACK_COUT_STREAM << "    " << d.name << " <- to_matrix_with_info("
         << d.name << ")" << std::endl;
-    MLPACK_COUT_STREAM << "    CLI_SetParam" << GetType<T>(d) << "(\""
+    MLPACK_COUT_STREAM << "    IO_SetParam" << GetType<T>(d) << "(\""
         << d.name << "\", " << d.name << "$info, " << d.name
         << "$data)" << std::endl;
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
@@ -137,12 +137,12 @@ void PrintInputProcessing(
      * This gives us code like:
      *
      *     <param_name> = to_matrix_with_info(<param_name>)
-     *     CLI_SetParam<type>("<param_name>", <param_name>$info,
+     *     IO_SetParam<type>("<param_name>", <param_name>$info,
      *                         <param_name>$data)
      */
     MLPACK_COUT_STREAM << "  " << d.name << " <- to_matrix_with_info("
         << d.name << ")" << std::endl;
-    MLPACK_COUT_STREAM << "  CLI_SetParam" << GetType<T>(d) << "(\""
+    MLPACK_COUT_STREAM << "  IO_SetParam" << GetType<T>(d) << "(\""
         << d.name << "\", " << d.name << "$info, " << d.name
         << "$data)" << std::endl;
   }
@@ -154,7 +154,7 @@ void PrintInputProcessing(
  */
 template<typename T>
 void PrintInputProcessing(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename boost::disable_if<arma::is_arma_type<T>>::type* = 0,
     const typename boost::enable_if<data::HasSerialize<T>>::type* = 0)
 {
@@ -164,12 +164,12 @@ void PrintInputProcessing(
      * This gives us code like:
      *
      *  if (!identical(<param_name>, NA)) {
-     *     CLI_SetParam<ModelType>Ptr("<param_name>", <param_name>)
+     *     IO_SetParam<ModelType>Ptr("<param_name>", <param_name>)
      *  }
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name << ", NA)) {"
         << std::endl;
-    MLPACK_COUT_STREAM << "    CLI_SetParam" << utils::StripType(d.cppType) << "Ptr(\""
+    MLPACK_COUT_STREAM << "    IO_SetParam" << utils::StripType(d.cppType) << "Ptr(\""
         << d.name << "\", " << d.name << ")" << std::endl;
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
   }
@@ -178,9 +178,9 @@ void PrintInputProcessing(
     /**
      * This gives us code like:
      *
-     *     CLI_SetParam<ModelType>Ptr("<param_name>", <param_name>)
+     *     IO_SetParam<ModelType>Ptr("<param_name>", <param_name>)
      */
-    MLPACK_COUT_STREAM << "  CLI_SetParam" << utils::StripType(d.cppType) << "Ptr(\""
+    MLPACK_COUT_STREAM << "  IO_SetParam" << utils::StripType(d.cppType) << "Ptr(\""
               << d.name << "\", " << d.name << ")" << std::endl;
   }
   MLPACK_COUT_STREAM << std::endl; // Extra line is to clear up the code a bit.
@@ -192,7 +192,7 @@ void PrintInputProcessing(
  * @param * (output) Unused parameter.
  */
 template<typename T>
-void PrintInputProcessing(const util::ParamData& d,
+void PrintInputProcessing(util::ParamData& d,
                           const void* /* input */,
                           void* /* output */)
 {

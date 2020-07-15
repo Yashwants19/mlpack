@@ -88,7 +88,7 @@ PROGRAM_INFO("Neighborhood Components Analysis (NCA)",
     "mlpack L-BFGS documentation (in lbfgs.hpp) or the vast set of published "
     "literature on L-BFGS."
     "\n\n"
-    "By default, the SGD optimizer is used.",
+    "By default, the SGD optimizer is used.", "",
     SEE_ALSO("@lmnn", "#lmnn"),
     SEE_ALSO("Neighbourhood components analysis on Wikipedia",
         "https://en.wikipedia.org/wiki/Neighbourhood_components_analysis"),

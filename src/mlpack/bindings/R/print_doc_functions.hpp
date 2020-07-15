@@ -34,7 +34,7 @@ inline std::string PrintInputOptions();
 
 /**
  * Print an input option.  This will throw an exception if the parameter does
- * not exist in CLI.
+ * not exist in IO.
  */
 template<typename T, typename... Args>
 std::string PrintInputOptions(const std::string& paramName,

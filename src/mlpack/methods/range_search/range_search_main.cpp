@@ -45,13 +45,14 @@ PROGRAM_INFO("Range Search",
     "reference and query set.  The given range is taken to be inclusive (that "
     "is, points with a distance exactly equal to the minimum and maximum of the"
     " range are included in the results)."
-    "\n\n"
+    "\n\n",
     "For example, the following will calculate the points within the range [2, "
-    "5] of each point in 'input.csv' and store the distances in 'distances.csv'"
-    " and the neighbors in 'neighbors.csv':"
-    "\n\n"
-    "$ range_search --min=2 --max=5 --reference_file=input.csv\n"
-    "  --distances_file=distances.csv --neighbors_file=neighbors.csv"
+    "5] of each point in "+ PRINT_DATASET("input") + " and store the"
+    " distances in" + PRINT_DATASET("distances") + " and the neighbors in "
+    + PRINT_DATASET("neighbors") +
+    "\n\n" +
+    PRINT_CALL("range_search", "min", 2, "max", 5, "distances_file", "input",
+    "distances_file", "distances", "neighbors_file", "neighbors") +
     "\n\n"
     "The output files are organized such that line i corresponds to the points "
     "found for query point i.  Because sometimes 0 points may be found in the "
