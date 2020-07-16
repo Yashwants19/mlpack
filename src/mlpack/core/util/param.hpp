@@ -71,7 +71,8 @@ using DatasetInfo = DatasetMapper<IncrementPolicy, std::string>;
 #define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) \
     static mlpack::util::ProgramDoc \
     io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ })
+    []() { return std::string(DESC) + std::string(EXAMPLE); }, []() \
+    { return ""; }, { __VA_ARGS__ })
 
 /**
  * Define a flag parameter.
