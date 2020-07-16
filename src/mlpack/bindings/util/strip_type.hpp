@@ -1,5 +1,5 @@
 /**
- * @file bindings/utils/strip_type.hpp
+ * @file bindings/util/strip_type.hpp
  * @author Ryan Curtin
  *
  * Given a C++ type name, turn it into something that has no special characters
@@ -10,12 +10,11 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MLPACK_BINDINGS_UTILS_STRIP_TYPE_HPP
-#define MLPACK_BINDINGS_UTILS_STRIP_TYPE_HPP
+#ifndef MLPACK_BINDINGS_UTIL_STRIP_TYPE_HPP
+#define MLPACK_BINDINGS_UTIL_STRIP_TYPE_HPP
 
 namespace mlpack {
-namespace bindings {
-namespace utils {
+namespace util {
 
 /**
  * Given a C++ type name, turn it into something that has no special characters
@@ -43,7 +42,6 @@ inline std::string StripType(std::string cppType)
 }
 
 } // namespace util
-} // namespace bindings
 } // namespace mlpack
 
 #endif

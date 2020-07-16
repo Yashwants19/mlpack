@@ -12,7 +12,7 @@
 #ifndef MLPACK_BINDINGS_R_PRINT_INPUT_PROCESSING_IMPL_HPP
 #define MLPACK_BINDINGS_R_PRINT_INPUT_PROCESSING_IMPL_HPP
 
-#include <mlpack/bindings/utils/strip_type.hpp>
+#include <mlpack/bindings/util/strip_type.hpp>
 #include "get_type.hpp"
 #include <mlpack/prereqs.hpp>
 
@@ -97,7 +97,7 @@ void PrintInputProcessing(
      *     IO_SetParam<type>("<param_name>", to_matrix(<param_name>))
      */
     MLPACK_COUT_STREAM << "  IO_SetParam" << GetType<T>(d) << "(\""
-              << d.name << "\", to_matrix(" << d.name << "))" << std::endl;
+        << d.name << "\", to_matrix(" << d.name << "))" << std::endl;
   }
   MLPACK_COUT_STREAM << std::endl; // Extra line is to clear up the code a bit.
 }
@@ -169,7 +169,7 @@ void PrintInputProcessing(
      */
     MLPACK_COUT_STREAM << "  if (!identical(" << d.name << ", NA)) {"
         << std::endl;
-    MLPACK_COUT_STREAM << "    IO_SetParam" << utils::StripType(d.cppType) << "Ptr(\""
+    MLPACK_COUT_STREAM << "    IO_SetParam" << util::StripType(d.cppType) << "Ptr(\""
         << d.name << "\", " << d.name << ")" << std::endl;
     MLPACK_COUT_STREAM << "  }" << std::endl; // Closing brace.
   }
@@ -180,7 +180,7 @@ void PrintInputProcessing(
      *
      *     IO_SetParam<ModelType>Ptr("<param_name>", <param_name>)
      */
-    MLPACK_COUT_STREAM << "  IO_SetParam" << utils::StripType(d.cppType) << "Ptr(\""
+    MLPACK_COUT_STREAM << "  IO_SetParam" << util::StripType(d.cppType) << "Ptr(\""
               << d.name << "\", " << d.name << ")" << std::endl;
   }
   MLPACK_COUT_STREAM << std::endl; // Extra line is to clear up the code a bit.

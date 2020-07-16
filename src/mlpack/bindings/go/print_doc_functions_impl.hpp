@@ -16,7 +16,7 @@
 
 #include <mlpack/core/util/hyphenate_string.hpp>
 #include "strip_type.hpp"
-#include <mlpack/bindings/utils/camel_case.hpp>
+#include <mlpack/bindings/util/camel_case.hpp>
 
 namespace mlpack {
 namespace bindings {
@@ -28,7 +28,7 @@ namespace go {
 inline std::string GetBindingName(const std::string& bindingName)
 {
   // No modification is needed to the name---we just use it as-is.
-  return utils::CamelCase(bindingName, false) + "()";
+  return util::CamelCase(bindingName, false) + "()";
 }
 
 /**
@@ -113,7 +113,7 @@ std::string PrintOptionalInputs() { return ""; }
 
 /**
  * Print an input option.  This will throw an exception if the parameter does
- * not exist in CLI.
+ * not exist in IO.
  */
 template<typename T, typename... Args>
 std::string PrintOptionalInputs(const std::string& paramName,
@@ -127,7 +127,7 @@ std::string PrintOptionalInputs(const std::string& paramName,
     util::ParamData& d = IO::Parameters()[paramName];
     if (d.input && !d.required)
     {
-      std::string goParamName = utils::CamelCase(paramName, false);
+      std::string goParamName = util::CamelCase(paramName, false);
 
       // Print the input option.
       std::ostringstream oss;
@@ -173,7 +173,7 @@ std::string PrintInputOptions() { return ""; }
 
 /**
  * Print an input option.  This will throw an exception if the parameter does
- * not exist in CLI.
+ * not exist in IO.
  */
 template<typename T, typename... Args>
 std::string PrintInputOptions(const std::string& paramName,
@@ -336,7 +336,7 @@ template<typename... Args>
 std::string ProgramCall(const std::string& programName, Args... args)
 {
   std::string result = "";
-  std::string goProgramName = utils::CamelCase(programName, false);
+  std::string goProgramName = util::CamelCase(programName, false);
 
   // Initialize the method parameter structure
   std::ostringstream oss;
@@ -399,7 +399,7 @@ inline std::string PrintDataset(const std::string& datasetName)
 inline std::string ProgramCall(const std::string& programName)
 {
   std::ostringstream oss;
-  std::string goProgramName = utils::CamelCase(programName, false);
+  std::string goProgramName = util::CamelCase(programName, false);
 
   std::ostringstream ossInital;
   // Determine if we have any output options.
@@ -427,7 +427,7 @@ inline std::string ProgramCall(const std::string& programName)
     if (it->second.input && !it->second.required && !it->second.persistent)
     {
       // Print the input option.
-      ossInputs << "param." << utils::CamelCase(it->second.name, false) << " = ";
+      ossInputs << "param." << util::CamelCase(it->second.name, false) << " = ";
       std::string value;
       IO::GetSingleton().functionMap[it->second.tname]["DefaultParam"](
           it->second, NULL, (void*) &value);
@@ -468,9 +468,9 @@ inline std::string ProgramCall(const std::string& programName)
   for (auto i = parameters.begin(); i != parameters.end(); ++i)
   {
     if (i->second.input && i->second.required && i != parameters.end())
-      ossOutputs << utils::CamelCase(i->second.name, true) << ", ";
+      ossOutputs << util::CamelCase(i->second.name, true) << ", ";
     else if (i == parameters.end())
-      ossOutputs << utils::CamelCase(i->second.name, true);
+      ossOutputs << util::CamelCase(i->second.name, true);
   }
   if (param != "")
     ossOutputs << "param";
@@ -499,7 +499,7 @@ inline std::string ProgramCallClose()
 inline std::string ParamString(const std::string& paramName)
 {
   // For a Go binding we don't need to know the type.
-  return "\"" + utils::CamelCase(paramName, false) + "\"";
+  return "\"" + util::CamelCase(paramName, false) + "\"";
 }
 
 /**

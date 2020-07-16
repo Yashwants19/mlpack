@@ -13,7 +13,7 @@
 #ifndef MLPACK_BINDINGS_R_PRINT_SERIALIZE_UTIL_HPP
 #define MLPACK_BINDINGS_R_PRINT_SERIALIZE_UTIL_HPP
 
-#include <mlpack/bindings/utils/strip_type.hpp>
+#include <mlpack/bindings/util/strip_type.hpp>
 
 namespace mlpack {
 namespace bindings {
@@ -59,10 +59,10 @@ void PrintSerializeUtil(
    *
    */
   MLPACK_COUT_STREAM << "  " << d.name << " <- IO_GetParam"
-      << utils::StripType(d.cppType) << "Ptr(\"" << d.name << "\")";
+      << util::StripType(d.cppType) << "Ptr(\"" << d.name << "\")";
   MLPACK_COUT_STREAM << std::endl;
   MLPACK_COUT_STREAM << "  attr(" << d.name << ", \"type\") <- \""
-      << utils::StripType(d.cppType) << "\"";
+      << util::StripType(d.cppType) << "\"";
   MLPACK_COUT_STREAM << std::endl;
 }
 

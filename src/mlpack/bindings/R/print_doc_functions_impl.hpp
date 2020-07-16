@@ -193,7 +193,6 @@ inline std::string ProgramCallClose()
 inline std::string ParamString(const std::string& paramName)
 {
   // For a R binding we don't need to know the type.
-
   return "\"" + paramName + "\"";
 }
 

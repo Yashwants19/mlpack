@@ -1,5 +1,5 @@
 /**
- * @file bindings/utils/camel_case.hpp
+ * @file bindings/util/camel_case.hpp
  * @author Yashwant Singh Parihar
  *
  * Convert snake_case name to CamelCase.
@@ -9,12 +9,11 @@
  * 3-clause BSD license along with mlpack.  If not, see
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MLPACK_BINDINGS_UTILS_CAMEL_CASE_HPP
-#define MLPACK_BINDINGS_UTILS_CAMEL_CASE_HPP
+#ifndef MLPACK_BINDINGS_UTIL_CAMEL_CASE_HPP
+#define MLPACK_BINDINGS_UTIL_CAMEL_CASE_HPP
 
 namespace mlpack {
-namespace bindings {
-namespace utils {
+namespace util {
 
 /**
  * Given an snake_case like, e.g., "logistic_regression", return
@@ -49,8 +48,7 @@ inline std::string CamelCase(std::string s, bool lower)
   return s.substr(0, resInd);
 }
 
-} // namespace utils
-} // namespace bindings
+} // namespace util
 } // namespace mlpack
 
 #endif

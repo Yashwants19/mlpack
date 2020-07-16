@@ -11,8 +11,8 @@
  * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #include "print_go.hpp"
-#include <mlpack/bindings/utils/camel_case.hpp>
-#include <mlpack/core/util/cli.hpp>
+#include <mlpack/bindings/util/camel_case.hpp>
+#include <mlpack/core/util/io.hpp>
 #include <mlpack/core/util/hyphenate_string.hpp>
 #include <set>
 
@@ -91,7 +91,7 @@ void PrintGo(const util::ProgramDoc& programInfo,
     }
   }
   cout << endl;
-  std::string goFunctionName = utils::CamelCase(functionName, false);
+  std::string goFunctionName = util::CamelCase(functionName, false);
 
   // Print Go method configuration struct.
   cout << "type " << goFunctionName << "OptionalParam struct {"
@@ -270,7 +270,7 @@ void PrintGo(const util::ProgramDoc& programInfo,
       cout << ", ";
 
     const util::ParamData& d = parameters.at(outputOptions[i]);
-    cout << utils::CamelCase(d.name, true);
+    cout << util::CamelCase(d.name, true);
   }
   cout << endl;
 
