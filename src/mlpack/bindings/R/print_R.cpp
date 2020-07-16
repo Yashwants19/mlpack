@@ -116,7 +116,7 @@ void PrintR(const util::ProgramDoc& programInfo,
 
   // Next print the example as @examples.  
   cout << "#' @export" << endl;
-  if (programInfo.example().size() != 1)
+  if (programInfo.example().size() != 0)
     cout << "#' @examples" << endl;
 
   const std::string str = programInfo.example();
