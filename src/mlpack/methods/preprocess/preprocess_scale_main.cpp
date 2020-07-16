@@ -49,6 +49,7 @@ PROGRAM_INFO("Scale Data",
     PRINT_PARAM_STRING("output_model") + " and later can be loaded back using"
     + PRINT_PARAM_STRING("input_model") + "."
     "\n\n",
+    // Example.
     "So, a simple example where we want to scale the dataset " +
     PRINT_DATASET("X") + " into " + PRINT_DATASET("X_scaled")+ " with "
     " standard_scaler as scaler_method, we could run "

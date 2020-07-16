@@ -38,6 +38,7 @@ PROGRAM_INFO("FastMKS (Fast Max-Kernel Search)",
     "function used is specified with the " + PRINT_PARAM_STRING("kernel") +
     " parameter."
     "\n\n",
+    // Example.
     "For example, the following command will calculate, for each point in the "
     "query set " + PRINT_DATASET("query") + ", the five points in the "
     "reference set " + PRINT_DATASET("reference") + " with maximum kernel "

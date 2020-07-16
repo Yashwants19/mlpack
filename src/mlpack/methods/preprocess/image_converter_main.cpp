@@ -41,6 +41,7 @@ PROGRAM_INFO("Image Converter",
     PRINT_PARAM_STRING("dataset") + " and " + PRINT_PARAM_STRING("save") +
     " as an parameter."
     "\n\n",
+    // Example.
     "An example to load an image : "
     "\n\n" +
     PRINT_CALL("image_converter", "input", "X", "height", 256, "width", 256,

@@ -113,6 +113,7 @@ PROGRAM_INFO("Large Margin Nearest Neighbors (LMNN)",
     "\n\n"
     "By default, the AMSGrad optimizer is used."
     "\n\n",
+    // Example.
     "Example - Let's say we want to learn distance on iris dataset with "
     "number of targets as 3 using BigBatch_SGD optimizer. A simple call for "
     "the same will look like: "

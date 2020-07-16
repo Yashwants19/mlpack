@@ -37,6 +37,7 @@ PROGRAM_INFO("Split Data",
     PRINT_PARAM_STRING("training_labels") + " and " +
     PRINT_PARAM_STRING("test_labels") + " output parameters, respectively."
     "\n\n",
+    // Example.
     "So, a simple example where we want to split the dataset " +
     PRINT_DATASET("X") + " into " + PRINT_DATASET("X_train") + " and " +
     PRINT_DATASET("X_test") + " with 60% of the data in the training set and "

@@ -79,6 +79,7 @@ PROGRAM_INFO("Gaussian Mixture Model (GMM) Training",
     "the flag can cause faster runtime, but may also cause non-positive "
     "definite covariance matrices, which will cause the program to crash."
     "\n\n",
+    // Example.
     "As an example, to train a 6-Gaussian GMM on the data in " +
     PRINT_DATASET("data") + " with a maximum of 100 iterations of EM and 3 "
     "trials, saving the trained GMM to " + PRINT_MODEL("gmm") + ", the "

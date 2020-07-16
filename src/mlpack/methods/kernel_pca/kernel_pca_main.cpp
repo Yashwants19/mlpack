@@ -93,6 +93,7 @@ PROGRAM_INFO("Kernel Principal Components Analysis",
     "sampling scheme for the Nystroem method can be chosen from the "
     "following list: 'kmeans', 'random', 'ordered'."
     "\n\n",
+    // Example.
     "For example, the following command will perform KPCA on the dataset " +
     PRINT_DATASET("input") + " using the Gaussian kernel, and saving the "
     "transformed data to " + PRINT_DATASET("transformed") + ": "

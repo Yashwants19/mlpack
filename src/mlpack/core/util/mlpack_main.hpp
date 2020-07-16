@@ -157,7 +157,8 @@ using Option = mlpack::bindings::tests::TestOption<T>;
 #define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
     mlpack::util::ProgramDoc \
     io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ })
+    []() { return std::string(DESC) + std::string(EXAMPLE); }, []() \
+    { return ""; }, { __VA_ARGS__ })
 
 #elif(BINDING_TYPE == BINDING_TYPE_PYX) // This is a Python binding.
 
@@ -222,7 +223,8 @@ static const std::string testName = "";
 #define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
     mlpack::util::ProgramDoc \
     io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ }); \
+    []() { return std::string(DESC) + std::string(EXAMPLE); }, []() \
+    { return ""; }, { __VA_ARGS__ }); \
     namespace mlpack { \
     namespace bindings { \
     namespace python { \
@@ -271,7 +273,8 @@ static const std::string testName = "";
 #define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
     mlpack::util::ProgramDoc \
     io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ }); \
+    []() { return std::string(DESC) + std::string(EXAMPLE); }, []() \
+    { return ""; }, { __VA_ARGS__ }); \
     namespace mlpack { \
     namespace bindings { \
     namespace julia { \
@@ -316,7 +319,8 @@ static const std::string testName = "";
 #define PROGRAM_INFO(NAME, SHORT_DESC, DESC, EXAMPLE, ...) static \
     mlpack::util::ProgramDoc \
     io_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC + EXAMPLE; }, []() { return ""; }, { __VA_ARGS__ }); \
+    []() { return std::string(DESC) + std::string(EXAMPLE); }, []() \
+    { return ""; }, { __VA_ARGS__ }); \
     namespace mlpack { \
     namespace bindings { \
     namespace go { \
@@ -440,8 +444,8 @@ using Option = mlpack::bindings::markdown::MDOption<T>;
     mlpack::bindings::markdown::ProgramDocWrapper \
     io_programdoc_dummy_object = \
     mlpack::bindings::markdown::ProgramDocWrapper(BINDING_NAME, NAME, \
-    SHORT_DESC, []() { return DESC + EXAMPLE; },  [](), { return ""; }, \
-    { __VA_ARGS__ }); \
+    SHORT_DESC, []() { return std::string(DESC) + std::string(EXAMPLE); }, \
+    []() { return ""; }, { __VA_ARGS__ }); \
 
 PARAM_FLAG("verbose", "Display informational messages and the full list of "
     "parameters and timers at the end of execution.", "v");

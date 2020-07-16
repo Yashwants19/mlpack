@@ -63,11 +63,12 @@ void PrintR(const util::ProgramDoc& programInfo,
   }
 
   // Print the documentation.
+  // Print programName as @title.
   cout << "#' @title ";
   cout << util::HyphenateString(programInfo.programName, "#'   ") << endl;
   cout << "#'" << endl;
 
-  // Next print the description.
+  // Next print the short description as @description.
   cout << "#' @description" << endl;
   cout << "#' ";
   cout << util::HyphenateString(programInfo.shortDocumentation, "#' ") << endl;
@@ -86,8 +87,9 @@ void PrintR(const util::ProgramDoc& programInfo,
 
     cout << endl;
   }
-
   cout << "#'" << endl;
+
+  // Next, print information on the output options.
   cout << "#' @return A list with several components:" << endl;
 
   for (size_t i = 0; i < outputOptions.size(); ++i)
@@ -102,17 +104,19 @@ void PrintR(const util::ProgramDoc& programInfo,
 
     cout << endl;
   }
-
   cout << "#'" << endl;
 
+  // Next print the long description as @details.
   cout << "#' @details" << endl;
   cout << "#' ";
   cout << util::HyphenateString(programInfo.documentation(), "#' ") << endl;
   cout << "#' @author" << endl;
   cout << "#' MLPACK Developers" << endl;
   cout << "#'" << endl;
+
+  // Next print the example as @examples.  
   cout << "#' @export" << endl;
-  if (programInfo.example().size() != 0)
+  if (programInfo.example().size() != 1)
     cout << "#' @examples" << endl;
 
   const std::string str = programInfo.example();
@@ -120,7 +124,9 @@ void PrintR(const util::ProgramDoc& programInfo,
   while (pos < str.length())
   {
     size_t splitpos = 0;
+    // Find where example starts.
     splitpos = str.find("\n\\donttest{", pos) - 1;
+    // If no example left, then print all the comments that are left.
     if (splitpos == std::string::npos || splitpos > str.length())
     {
       splitpos = str.length();
@@ -129,13 +135,19 @@ void PrintR(const util::ProgramDoc& programInfo,
     }
     if (splitpos != 0 && pos == 0)
       cout << "#' # ";
+    // Print comments in the "example", if there is available.
     cout << util::HyphenateString(str.substr(pos, (splitpos - pos)),
             "#' # ", true);
+    // Find where example ends.
     pos = str.find("\n}", pos) + 3;
+    // Here length of example might be less 80, we must handle this carefully.
+    // Print example in the "example".
     cout << util::HyphenateString(str.substr(splitpos, (pos - splitpos)),
             "#' ", true);
   }
   cout << endl;
+
+  // Print the definition.
   cout << functionName << " <- function(";
   size_t indent = functionName.size() + 13 /* <- function(*/;
   for (size_t i = 0; i < inputOptions.size(); ++i)
@@ -147,6 +159,8 @@ void PrintR(const util::ProgramDoc& programInfo,
 
     IO::GetSingleton().functionMap[d.tname]["PrintInputParam"](d, NULL, NULL);
   }
+
+  // Print closing brace for function definition.
   cout << ") {" << endl;
 
   // Restore IO settings.

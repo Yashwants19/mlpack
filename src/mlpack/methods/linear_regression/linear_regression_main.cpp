@@ -55,6 +55,7 @@ PROGRAM_INFO("Simple Linear Regression and Prediction",
     "of regression is related to least-angle regression, which mlpack "
     "implements as the 'lars' program."
     "\n\n",
+    // Example.
     "For example, to run a linear regression on the dataset " +
     PRINT_DATASET("X") + " with responses " + PRINT_DATASET("y") + ", saving "
     "the trained model to " + PRINT_MODEL("lr_model") + ", the following "

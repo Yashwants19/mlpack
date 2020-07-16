@@ -53,6 +53,7 @@ PROGRAM_INFO("Local Coordinate Coding",
     "regularization parameter is specified with the " +
     PRINT_PARAM_STRING("lambda") + " parameter."
     "\n\n",
+    // Example.
     "For example, to run LCC on "
     "the dataset " + PRINT_DATASET("data") + " using 200 atoms and an "
     "l1-regularization parameter of 0.1, saving the dictionary " +

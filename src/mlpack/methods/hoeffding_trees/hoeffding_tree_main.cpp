@@ -63,6 +63,7 @@ PROGRAM_INFO("Hoeffding trees",
     "probabilities for each prediction may be saved with the " +
     PRINT_PARAM_STRING("probabilities") + " output parameter."
     "\n\n",
+    // Example.
     "For example, to train a Hoeffding tree with confidence 0.99 with data " +
     PRINT_DATASET("dataset") + ", saving the trained tree to " +
     PRINT_MODEL("tree") + ", the following command may be used:"

@@ -48,6 +48,7 @@ PROGRAM_INFO("k-Nearest-Neighbors Search",
     "reference points and query points, or just a reference set which will be "
     "used as both the reference and query set."
     "\n\n",
+    // Example.
     "For example, the following command will calculate the 5 nearest neighbors "
     "of each point in " + PRINT_DATASET("input") + " and store the distances "
     "in " + PRINT_DATASET("distances") + " and the neighbors in " +

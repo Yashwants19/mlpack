@@ -35,6 +35,7 @@ PROGRAM_INFO("Impute Data",
     "separate file to save the output data; You can save the output by "
     "specifying the file name with" + PRINT_PARAM_STRING("output_file") +
     "\n\n",
+    // Example.
     "For example, if we consider 'NULL' in dimension 0 to be a missing "
     "variable and want to delete whole row containing the NULL in the "
     "column-wise" + PRINT_DATASET("dataset") + ", and save the result to " +

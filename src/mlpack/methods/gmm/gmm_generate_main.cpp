@@ -31,6 +31,7 @@ PROGRAM_INFO("GMM Sample Generator",
     PRINT_PARAM_STRING("samples") + " parameter.  Output samples may be "
     "saved with the " + PRINT_PARAM_STRING("output") + " output parameter."
     "\n\n",
+    // Example.
     "The following command can be used to generate 100 samples from the pre-"
     "trained GMM " + PRINT_MODEL("gmm") + " and store those generated "
     "samples in " + PRINT_DATASET("samples") + ":"

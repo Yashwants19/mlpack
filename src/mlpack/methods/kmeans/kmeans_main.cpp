@@ -76,6 +76,7 @@ PROGRAM_INFO("K-Means Clustering",
     "number of iterations may be specified with the " +
     PRINT_PARAM_STRING("max_iterations") + " parameter."
     "\n\n",
+    // Example.
     "As an example, to use Hamerly's algorithm to perform k-means clustering "
     "with k=10 on the dataset " + PRINT_DATASET("data") + ", saving the "
     "centroids to " + PRINT_DATASET("centroids") + " and the assignments for "

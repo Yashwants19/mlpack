@@ -88,6 +88,7 @@ PROGRAM_INFO("AdaBoost",
     "Use " + PRINT_PARAM_STRING("predictions") + " instead of " +
     PRINT_PARAM_STRING("output") + '.' +
     "\n\n",
+    // Example.
     "For example, to run AdaBoost on an input dataset " +
     PRINT_DATASET("data") + " with labels " + PRINT_DATASET("labels") +
     "and perceptrons as the weak learner type, storing the trained model in " +

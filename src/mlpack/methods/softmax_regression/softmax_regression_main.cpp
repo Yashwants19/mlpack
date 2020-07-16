@@ -65,6 +65,7 @@ PROGRAM_INFO("Softmax Regression",
     "print the accuracy of the predictions on the given test set and its "
     "corresponding labels."
     "\n\n",
+    // Example.
     "For example, to train a softmax regression model on the data " +
     PRINT_DATASET("dataset") + " with labels " + PRINT_DATASET("labels") +
     " with a maximum of 1000 iterations for training, saving the trained model "

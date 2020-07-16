@@ -46,6 +46,7 @@ PROGRAM_INFO("Range Search",
     "is, points with a distance exactly equal to the minimum and maximum of the"
     " range are included in the results)."
     "\n\n",
+    // Example.
     "For example, the following will calculate the points within the range [2, "
     "5] of each point in "+ PRINT_DATASET("input") + " and store the"
     " distances in" + PRINT_DATASET("distances") + " and the neighbors in "

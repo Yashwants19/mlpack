@@ -72,6 +72,7 @@ PROGRAM_INFO("LARS",
     "to the test points can be saved with the " +
     PRINT_PARAM_STRING("output_predictions") + " output parameter."
     "\n\n",
+    // Example.
     "For example, the following command trains a model on the data " +
     PRINT_DATASET("data") + " and responses " + PRINT_DATASET("responses") +
     " with lambda1 set to 0.4 and lambda2 set to 0 (so, LASSO is being "

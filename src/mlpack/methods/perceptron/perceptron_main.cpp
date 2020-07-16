@@ -59,6 +59,7 @@ PROGRAM_INFO("Perceptron",
     "Use " + PRINT_PARAM_STRING("predictions") + " instead of " +
     PRINT_PARAM_STRING("output") + '.' +
     "\n\n",
+    // Example.
     "The training data given with the " + PRINT_PARAM_STRING("training") +
     " option may have class labels as its last dimension (so, if the training "
     "data is in CSV format, labels should be the last column).  Alternately, "

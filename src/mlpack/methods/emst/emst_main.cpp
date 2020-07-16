@@ -49,6 +49,7 @@ PROGRAM_INFO("Fast Euclidean Minimum Spanning Tree",
     "dimensions).  The leaf size does not affect the results, but it may have "
     "some effect on the runtime of the algorithm."
     "\n\n",
+    // Example.
     "For example, the minimum spanning tree of the input dataset " +
     PRINT_DATASET("data") + " can be calculated with a leaf size of 20 and "
     "stored as " + PRINT_DATASET("spanning_tree") + " using the following "
