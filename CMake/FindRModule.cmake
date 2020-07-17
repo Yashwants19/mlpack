@@ -13,6 +13,10 @@ function(find_r_module module)
       OUTPUT_VARIABLE _${module}_location
       ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
 
+   # Some cleanup in location of R Module.
+   string(REGEX MATCHALL "\".*\""  _${module}_location "${_${module}_location}" )
+   string(REGEX REPLACE "\"" "" _${module}_location "${_${module}_location}" )
+
     if (NOT _${module}_status)
       # Now we have to check the version.
       if (VERSION_REQ)
@@ -25,8 +29,10 @@ function(find_r_module module)
         string(REGEX REPLACE "‘" "" _version_compare "${_version_compare}")
         string(REGEX REPLACE "’" "" _version_compare "${_version_compare}")
         if ("${_version_compare}" GREATER_EQUAL "${VERSION_REQ}")
-          set(R_${module_upper} ${_${module}_location} CACHE STRING
-            "Location of R module ${module}")
+          set(R_${module_upper}
+            "${_${module}_location} (found suitable version \"${_version_compare}\", minimum required is \"${VERSION_REQ}\")"
+            CACHE STRING "Location of R module ${module}"
+          )
         else ()
           message(WARNING "Unsuitable version of R module ${module} (${VERSION_REQ} or greater required).")
         endif ()

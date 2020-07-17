@@ -18,16 +18,21 @@ if (BUILD_R_BINDINGS)
   # Import find_r_module.
   include(${CMAKE_SOURCE_DIR}/CMake/FindRModule.cmake)
 
+  # If mlpack upgrade the version of dependencies, then we also have to update the version here.
+  set(RcppArmadillo_Version "0.8.400.0.0")
+  set(RcppEnsmallen_Version "0.2.10.0")
+  set(BH_Version "1.58.0")
+
   ## We need to check here if R is even available.  Although actually
   ## technically, I'm not sure if we even need to know!  For the tests though we
   ## do.  So it's probably a good idea to check.
   if (FORCE_BUILD_R_BINDINGS)
     find_package(R 3.5)
     find_r_module(roxygen2)
-    find_r_module(Rcpp)
-    find_r_module(RcppArmadillo 0.8.400.0.0)
-    find_r_module(RcppEnsmallen)
-    find_r_module(BH)
+    find_r_module(Rcpp 0.12.12)
+    find_r_module(RcppArmadillo "${RcppArmadillo_Version}")
+    find_r_module(RcppEnsmallen "${RcppEnsmallen_Version}")
+    find_r_module(BH "${BH_Version}")
     if (NOT R_FOUND OR NOT R_RCPP OR NOT R_RCPPARMADILLO OR NOT R_RCPPENSMALLEN OR NOT R_BH OR NOT R_ROXYGEN2)
       unset(BUILD_R_BINDINGS CACHE)
       message(FATAL_ERROR "Could not Build R Bindings")
@@ -35,10 +40,10 @@ if (BUILD_R_BINDINGS)
   else ()
     find_package(R 3.5)
     find_r_module(roxygen2)
-    find_r_module(Rcpp)
-    find_r_module(RcppArmadillo 0.8.400.0.0)
-    find_r_module(RcppEnsmallen)
-    find_r_module(BH)
+    find_r_module(Rcpp 0.12.12)
+    find_r_module(RcppArmadillo "${RcppArmadillo_Version}")
+    find_r_module(RcppEnsmallen "${RcppEnsmallen_Version}")
+    find_r_module(BH "${BH_Version}")
     if (NOT R_FOUND OR NOT R_RCPP OR NOT R_RCPPARMADILLO OR NOT R_RCPPENSMALLEN OR NOT R_BH OR NOT R_ROXYGEN2)
       unset(BUILD_R_BINDINGS CACHE)
     endif()
@@ -80,7 +85,8 @@ if (BUILD_R_BINDINGS)
   string(TIMESTAMP PACKAGE_DATE "%Y-%m-%d")
 
   configure_file(${CMAKE_SOURCE_DIR}/src/mlpack/bindings/R/mlpack/DESCRIPTION.in
-                 ${CMAKE_CURRENT_BINARY_DIR}/mlpack/DESCRIPTION)
+                 ${CMAKE_CURRENT_BINARY_DIR}/mlpack/DESCRIPTION
+                 @ONLY)
 
   # Create the empty NAMESPACE file that will include all export functions.
   file(WRITE
