@@ -91,8 +91,7 @@ PROGRAM_INFO("Kernel Principal Components Analysis",
     "the kernel matrix; to specify the sampling scheme, the " +
     PRINT_PARAM_STRING("sampling") + " parameter is used.  The "
     "sampling scheme for the Nystroem method can be chosen from the "
-    "following list: 'kmeans', 'random', 'ordered'."
-    "\n\n",
+    "following list: 'kmeans', 'random', 'ordered'.",
     // Example.
     "For example, the following command will perform KPCA on the dataset " +
     PRINT_DATASET("input") + " using the Gaussian kernel, and saving the "

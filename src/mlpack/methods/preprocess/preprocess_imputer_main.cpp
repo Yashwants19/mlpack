@@ -33,8 +33,7 @@ PROGRAM_INFO("Impute Data",
     "\n\n"
     "The program does not modify the original file, but instead makes a "
     "separate file to save the output data; You can save the output by "
-    "specifying the file name with" + PRINT_PARAM_STRING("output_file") +
-    "\n\n",
+    "specifying the file name with" + PRINT_PARAM_STRING("output_file") + ".",
     // Example.
     "For example, if we consider 'NULL' in dimension 0 to be a missing "
     "variable and want to delete whole row containing the NULL in the "

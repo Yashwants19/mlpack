@@ -110,7 +110,7 @@ void PrintR(const util::ProgramDoc& programInfo,
   cout << "#' @details" << endl;
   cout << "#' ";
   cout << util::HyphenateString(programInfo.documentation(), "#' ") << endl;
-  cout << "#' @author" << endl;
+  cout << "#'\n#' @author" << endl;
   cout << "#' mlpack developers" << endl;
   cout << "#'" << endl;
 

@@ -12,6 +12,7 @@
 #ifndef MLPACK_BINDINGS_R_PRINT_DOC_HPP
 #define MLPACK_BINDINGS_R_PRINT_DOC_HPP
 
+#include "get_r_type.hpp"
 #include <mlpack/prereqs.hpp>
 #include <mlpack/core/util/hyphenate_string.hpp>
 
@@ -44,7 +45,7 @@ void PrintDoc(util::ParamData& d,
     oss << "}{";
   else
     oss << " ";
-  oss << d.desc;
+  oss << d.desc.substr(0, d.desc.size() - 1);
   // Print a default, if possible.
   if (!d.required)
   {
@@ -53,7 +54,7 @@ void PrintDoc(util::ParamData& d,
         d.cppType == "int" ||
         d.cppType == "bool")
     {
-      oss << "  Default value \"";
+      oss << ".  Default value \"";
       if (d.cppType == "std::string")
       {
         oss << boost::any_cast<std::string>(d.value);
@@ -70,9 +71,11 @@ void PrintDoc(util::ParamData& d,
       {
         oss << (boost::any_cast<bool>(d.value) ? "TRUE" : "FALSE");
       }
-      oss << "\".";
+      oss << "\"";
     }
   }
+
+  oss << " (" << GetRType<typename std::remove_pointer<T>::type>(d) << ").";
 
   if (out)
     oss << "}";

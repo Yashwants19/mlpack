@@ -141,6 +141,7 @@ if (BUILD_R_BINDINGS)
     "${CMAKE_CURRENT_SOURCE_DIR}/print_input_param.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/get_param.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/get_printable_param.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/get_r_type.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/print_input_processing.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/print_output_processing.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/print_serialize_util.hpp"

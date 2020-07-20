@@ -41,8 +41,7 @@ PROGRAM_INFO("K-Rank-Approximate-Nearest-Neighbors (kRANN)",
     "set of points. You may specify a separate set of reference points and "
     "query points, or just a reference set which will be used as both the "
     "reference and query set. You must specify the rank approximation (in %) "
-    "(and optionally the success probability)."
-    "\n\n",
+    "(and optionally the success probability).",
     // Example.
     "For example, the following will return 5 neighbors from the top 0.1% of "
     "the data (with probability 0.95) for each point in " +

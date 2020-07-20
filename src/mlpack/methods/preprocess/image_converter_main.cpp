@@ -39,8 +39,7 @@ PROGRAM_INFO("Image Converter",
     + ".\n\n" +
     "You can also provide a dataset and save them as images using " +
     PRINT_PARAM_STRING("dataset") + " and " + PRINT_PARAM_STRING("save") +
-    " as an parameter."
-    "\n\n",
+    " as an parameter.",
     // Example.
     "An example to load an image : "
     "\n\n" +
