@@ -25,6 +25,7 @@ steps:
     sudo apt-get install -y --allow-unauthenticated python3-pip python3-numpy
 
     sudo apt-get install ccache -y
+    echo "##vso[task.prependpath]/usr/lib/ccache"
 
     export CXX="/usr/lib/ccache /usr/bin/g++"
     export CC="/usr/lib/ccache /usr/bin/gcc"
