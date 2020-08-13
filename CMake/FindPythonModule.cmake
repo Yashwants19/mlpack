@@ -25,6 +25,8 @@ function(find_python_module module)
       RESULT_VARIABLE _${module}_status
       OUTPUT_VARIABLE _${module}_location
       ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+    message(${_${module}_status})
+    message(${_${module}_location})
     if (NOT _${module}_status)
       # Now we have to check the version.
       if (VERSION_REQ)
