@@ -27,8 +27,8 @@ steps:
     sudo apt-get install ccache -y
     echo "##vso[task.prependpath]/usr/lib/ccache"
 
-    export CXX="/usr/lib/ccache /usr/bin/g++"
-    export CC="/usr/lib/ccache /usr/bin/gcc"
+    export CXX="/usr/bin/ccache /usr/bin/g++"
+    export CC="/usr/bin/ccache /usr/bin/gcc"
     export CCACHE_SLOPPINESS=pch_defines,time_macros
 
     sudo /opt/hostedtoolcache/Python/3.7.7/x64/bin/python3 -m pip install "Cython>0.24"
