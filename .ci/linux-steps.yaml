@@ -28,9 +28,8 @@ steps:
     pip3 -V
     pip -V
     if [ "$(python.version)" == "3.7" ]; then
-      sudo apt-get install -y python3-distutils
       pip install --upgrade pip
-      pip install --upgrade --ignore-installed setuptools cython pandas
+      pip install --upgrade --ignore-installed setuptools cython pandas Distutils2-py3
     fi
     python3.7 -c "import re, distutils; print(re.compile('/__int__.py.*').sub('', distutils.__file__))"
 
