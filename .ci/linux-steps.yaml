@@ -23,8 +23,11 @@ steps:
 
     sudo apt-get install -y --allow-unauthenticated libopenblas-dev liblapack-dev g++ libboost1.70-dev libarmadillo-dev xz-utils
     sudo apt-get install -y --allow-unauthenticated python3-pip python3-numpy
-
-
+    sudo apt-get install ccache -y
+    export CXX="/usr/bin/ccache /usr/bin/g++"
+    export CC="/usr/bin/ccache /usr/bin/gcc"
+    export CCACHE_SLOPPINESS=pch_defines,time_macros
+    
     sudo /opt/hostedtoolcache/Python/3.7.7/x64/bin/python3 -m pip install "Cython>0.24"
     sudo /opt/hostedtoolcache/Python/3.7.7/x64/bin/python3 -m pip install --upgrade --ignore-installed setuptools
     sudo /opt/hostedtoolcache/Python/3.7.7/x64/bin/python3 -m pip install pandas
