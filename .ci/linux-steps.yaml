@@ -23,6 +23,7 @@ steps:
 
     sudo apt-get install -y --allow-unauthenticated libopenblas-dev liblapack-dev g++ libboost1.70-dev libarmadillo-dev xz-utils ccache
 
+    python3.7 -c "import re, distutils; print(re.compile('/__int__.py.*').sub('', distutils.__file__))"
     python3 --version
     pip3 -V
     pip -V
