@@ -23,7 +23,9 @@ steps:
 
     sudo apt-get install -y --allow-unauthenticated libopenblas-dev liblapack-dev g++ libboost1.70-dev libarmadillo-dev xz-utils ccache
 
+    python3 --version
     if [ "$(python.version)" == "3.7" ]; then
+      sudo apt-get install -y python3-distutils
       pip3 install --upgrade pip
       pip3 install --upgrade --ignore-installed setuptools cython pandas
     fi
