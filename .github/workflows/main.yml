@@ -1,17 +1,9 @@
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-  release:
-    types: [published, created, edited]
+on: [push, pull_request]
 
 jobs:
   jobR:
     name: mlpack-R
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     outputs:
       r_bindings: ${{ steps.mlpack_version.outputs.mlpack_r_package }}
     steps:
@@ -32,7 +24,6 @@ jobs:
             sudo apt-get install -y --allow-unauthenticated libopenblas-dev liblapack-dev g++ libboost-all-dev
             curl https://data.kurg.org/armadillo-8.400.0.tar.xz | tar -xvJ && cd armadillo*
             cmake . && make && sudo make install && cd ..
-            echo ${{ steps.mlpack_version.outputs.mlpack_r_package }}
             sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu xenial-cran40/'
             sudo apt-get -y update
             sudo apt-get install -y r-base-core
@@ -41,7 +32,7 @@ jobs:
         - name: CMake
           run: |
             mkdir build
-            cd build && cmake -DDEBUG=OFF -DPROFILE=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_JULIA_BINDINGS=OFF -DBUILD_GO_BINDINGS=OFF -DBUILD_R_BINDINGS=ON ..
+            cd build && cmake -DDEBUG=OFF -DPROFILE=OFF -DBUILD_R_BINDINGS=ON ..
 
         - name: Build
           run: |
@@ -65,7 +56,7 @@ jobs:
         config:
         #- { os: windows-latest, r: '4.0'}
         - {os: macOS-latest, r: 'release'}
-        - {os: ubuntu-16.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+        - {os: ubuntu-latest, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
 
     env:
