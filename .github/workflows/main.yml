@@ -1,4 +1,5 @@
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -63,8 +64,8 @@ jobs:
       matrix:
         config:
         #- { os: windows-latest, r: '4.0'}
-        - {os: macOS-latest, r: 'devel'}
-        - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+        - {os: macOS-latest, r: 'release'}
+        - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
 
     env:
