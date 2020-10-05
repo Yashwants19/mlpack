@@ -74,6 +74,9 @@ else()
   set(FORCE_BUILD_R_BINDINGS OFF)
 endif()
 option(BUILD_R_BINDINGS "Build R bindings." ON)
+
+option(BUILD_JAVA_BINDINGS "Build Java bindings" OFF)
+
 # Build Markdown bindings for documentation.  This is used as part of website
 # generation.
 option(BUILD_MARKDOWN_BINDINGS "Build Markdown bindings for website documentation." OFF)
@@ -416,8 +419,8 @@ endif ()
 # Unfortunately this configuration variable is necessary and will need to be
 # updated as time goes on and new versions are released.
 set(Boost_ADDITIONAL_VERSIONS
-  "1.74.0" "1.74"  
-  "17.3.0" "17.3"		
+  "1.74.0" "1.74"
+  "17.3.0" "17.3"
   "1.72.0" "1.72"
   "1.71.0" "1.71"
   "1.70.0" "1.70"

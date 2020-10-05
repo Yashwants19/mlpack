@@ -18,6 +18,7 @@ set(MLPACK_SRCS ${MLPACK_SRCS} ${DIR_SRCS} PARENT_SCOPE)
 
 add_cli_executable(kernel_pca)
 add_python_binding(kernel_pca)
+add_java_binding(kernel_pca)
 add_julia_binding(kernel_pca)
 add_go_binding(kernel_pca)
 add_r_binding(kernel_pca)
