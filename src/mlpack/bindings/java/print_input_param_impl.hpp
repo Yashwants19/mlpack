@@ -15,12 +15,12 @@ namespace bindings {
 namespace java {
 
 /**
- * Print the input processing (basically calling CLI::GetParam<>()) for a
+ * Print the input processing (basically calling IO::GetParam<>()) for a
  * non-serializable type.
  */
 template<typename T>
 void PrintInputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<!data::HasSerialize<T>::value>::type*,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
@@ -31,9 +31,9 @@ void PrintInputParam(
               << "      String name = \"verbose\";" << std::endl
               << "      Boolean value = params.get(name, Boolean.class);" << std::endl
               << "      if (value != null && value == true) {" << std::endl
-              << "        CLI.enableVerbose();" << std::endl
+              << "        IO.enableVerbose();" << std::endl
               << "      } else {" << std::endl
-              << "        CLI.disableVerbose();" << std::endl
+              << "        IO.disableVerbose();" << std::endl
               << "      }" << std::endl
               << "    }" << std::endl
               << std::endl;
@@ -62,8 +62,8 @@ void PrintInputParam(
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      checkHasRequiredParameter(params, name);" << std::endl
               << "      " << javaClass << " value = params.get(name, " << javaClass << ".class);" << std::endl
-              << "      CLI.set" << typeName << "Param(name, value);" << std::endl
-              << "      CLI.setPassed(name);" << std::endl
+              << "      IO.set" << typeName << "Param(name, value);" << std::endl
+              << "      IO.setPassed(name);" << std::endl
               << "    }" << std::endl
               << std::endl;
   }
@@ -73,8 +73,8 @@ void PrintInputParam(
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      " << javaClass << " value = params.get(name, " << javaClass << ".class);" << std::endl
               << "      if (value != null) {" << std::endl
-              << "        CLI.set" << typeName << "Param(name, value);" << std::endl
-              << "        CLI.setPassed(name);" << std::endl
+              << "        IO.set" << typeName << "Param(name, value);" << std::endl
+              << "        IO.setPassed(name);" << std::endl
               << "      }" << std::endl
               << "    }" << std::endl
               << std::endl;
@@ -86,7 +86,7 @@ void PrintInputParam(
  */
 template<typename T>
 void PrintInputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<arma::is_arma_type<T>::value>::type*,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
@@ -114,8 +114,8 @@ void PrintInputParam(
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      checkHasRequiredParameter(params, name);" << std::endl
               << "      INDArray value = params.get(name, INDArray.class);" << std::endl
-              << "      CLI.set" << uChar << matTypeSuffix << "Param(name, value);" << std::endl
-              << "      CLI.setPassed(name);" << std::endl
+              << "      IO.set" << uChar << matTypeSuffix << "Param(name, value);" << std::endl
+              << "      IO.setPassed(name);" << std::endl
               << "    }" << std::endl
               << std::endl;
   }
@@ -125,8 +125,8 @@ void PrintInputParam(
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      INDArray value = params.get(name, INDArray.class);" << std::endl
               << "      if (value != null) {" << std::endl
-              << "        CLI.set" << uChar << matTypeSuffix << "Param(name, value);" << std::endl
-              << "        CLI.setPassed(name);" << std::endl
+              << "        IO.set" << uChar << matTypeSuffix << "Param(name, value);" << std::endl
+              << "        IO.setPassed(name);" << std::endl
               << "      }" << std::endl
               << "    }" << std::endl
               << std::endl;
@@ -138,7 +138,7 @@ void PrintInputParam(
  */
 template<typename T>
 void PrintInputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type*,
     const typename std::enable_if<data::HasSerialize<T>::value>::type*,
     const typename std::enable_if<!std::is_same<T,
@@ -153,7 +153,7 @@ void PrintInputParam(
               << "      checkHasRequiredParameter(params, name);" << std::endl
               << "      " << type << "Type value = params.get(name, " << type << "Type.class);" << std::endl
               << "      set" << type << "Ptr(name, value.getPointer());" << std::endl
-              << "      CLI.setPassed(name);" << std::endl
+              << "      IO.setPassed(name);" << std::endl
               << "    }" << std::endl
               << std::endl;
   }
@@ -164,7 +164,7 @@ void PrintInputParam(
               << "      " << type << "Type value = params.get(name, " << type << "Type.class);" << std::endl
               << "      if (value != null) {" << std::endl
               << "        set" << type << "Ptr(name, value.getPointer());" << std::endl
-              << "        CLI.setPassed(name);" << std::endl
+              << "        IO.setPassed(name);" << std::endl
               << "      }" << std::endl
               << "    }" << std::endl
               << std::endl;
@@ -172,12 +172,12 @@ void PrintInputParam(
 }
 
 /**
- * Print the input processing (basically calling CLI::GetParam<>()) for a
+ * Print the input processing (basically calling IO::GetParam<>()) for a
  * matrix with DatasetInfo type.
  */
 template<typename T>
 void PrintInputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
 {
@@ -187,8 +187,8 @@ void PrintInputParam(
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      checkHasRequiredParameter(params, name);" << std::endl
               << "      MatrixWithInfo value = params.get(name, MatrixWithInfo.class);" << std::endl
-              << "      CLI.setMatWithInfoParam(name, value);" << std::endl
-              << "      CLI.setPassed(name);" << std::endl
+              << "      IO.setMatWithInfoParam(name, value);" << std::endl
+              << "      IO.setPassed(name);" << std::endl
               << "    }" << std::endl
               << std::endl;
   }
@@ -198,8 +198,8 @@ void PrintInputParam(
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      MatrixWithInfo value = params.get(name, MatrixWithInfo.class);" << std::endl
               << "      if (value != null) {" << std::endl
-              << "        CLI.setMatWithInfoParam(name, value);" << std::endl
-              << "        CLI.setPassed(name);" << std::endl
+              << "        IO.setMatWithInfoParam(name, value);" << std::endl
+              << "        IO.setPassed(name);" << std::endl
               << "      }" << std::endl
               << "    }" << std::endl
               << std::endl;

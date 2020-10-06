@@ -1,13 +1,13 @@
 /**
- * @file cli_util.hpp
+ * @file io_util.hpp
  * @author Vasyl Teliman
  *
  * Utility functions for Java bindings
  */
-#ifndef MLPACK_BINDINGS_JAVA_CLI_UTIL_HPP
-#define MLPACK_BINDINGS_JAVA_CLI_UTIL_HPP
+#ifndef MLPACK_BINDINGS_JAVA_IO_UTIL_HPP
+#define MLPACK_BINDINGS_JAVA_IO_UTIL_HPP
 
-#include <mlpack/core/util/cli.hpp>
+#include <mlpack/core/util/io.hpp>
 
 namespace mlpack {
 namespace util {
@@ -19,7 +19,7 @@ template <typename T>
 void SetMatParam(const char* name, T* data, size_t rows, size_t columns)
 {
   arma::Mat<T> m(data, rows, columns, false, true);
-  CLI::GetParam<arma::Mat<T>>(name) = std::move(m);
+  IO::GetParam<arma::Mat<T>>(name) = std::move(m);
 }
 
 /**
@@ -29,7 +29,7 @@ template <typename T>
 void SetRowParam(const char* name, T* data, size_t length)
 {
   arma::Row<T> m(data, length, false, true);
-  CLI::GetParam<arma::Row<T>>(name) = std::move(m);
+  IO::GetParam<arma::Row<T>>(name) = std::move(m);
 }
 
 /**
@@ -39,7 +39,7 @@ template <typename T>
 void SetColParam(const char* name, T* data, size_t length)
 {
   arma::Col<T> m(data, length, false, true);
-  CLI::GetParam<arma::Col<T>>(name) = std::move(m);
+  IO::GetParam<arma::Col<T>>(name) = std::move(m);
 }
 
 /**
@@ -48,7 +48,7 @@ void SetColParam(const char* name, T* data, size_t length)
 template <typename T>
 void SetParam(const char* name, T value)
 {
-  CLI::GetParam<T>(name) = std::move(value);
+  IO::GetParam<T>(name) = std::move(value);
 }
 
 /**
@@ -65,9 +65,9 @@ void SetMatWithInfoParam(
   }
 
   arma::mat m(data, rows, columns, false, true);
-  std::get<0>(CLI::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(
+  std::get<0>(IO::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(
       name)) = std::move(d);
-  std::get<1>(CLI::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(
+  std::get<1>(IO::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(
       name)) = std::move(m);
 }
 
@@ -77,7 +77,7 @@ void SetMatWithInfoParam(
 template <typename T>
 T GetParam(const char* name)
 {
-  return std::move(CLI::GetParam<T>(name));
+  return std::move(IO::GetParam<T>(name));
 }
 
 /**
@@ -86,7 +86,7 @@ T GetParam(const char* name)
 template <typename T>
 typename T::elem_type* GetArmaParamData(const char* name)
 {
-  T& param = CLI::GetParam<T>(name);
+  T& param = IO::GetParam<T>(name);
 
   // copy inlined data
   if (param.mem && param.n_elem <= arma::arma_config::mat_prealloc)
@@ -107,7 +107,7 @@ typename T::elem_type* GetArmaParamData(const char* name)
 template <typename T>
 size_t GetArmaParamRows(const char* name)
 {
-  return CLI::GetParam<T>(name).n_rows;
+  return IO::GetParam<T>(name).n_rows;
 }
 
 /**
@@ -116,7 +116,7 @@ size_t GetArmaParamRows(const char* name)
 template <typename T>
 size_t GetArmaParamColumns(const char* name)
 {
-  return CLI::GetParam<T>(name).n_cols;
+  return IO::GetParam<T>(name).n_cols;
 }
 
 /**
@@ -125,7 +125,7 @@ size_t GetArmaParamColumns(const char* name)
 template <typename T>
 size_t GetArmaParamLength(const char* name)
 {
-  return CLI::GetParam<T>(name).n_elem;
+  return IO::GetParam<T>(name).n_elem;
 }
 
 /**
@@ -134,7 +134,7 @@ size_t GetArmaParamLength(const char* name)
 template <typename T>
 void SetVecElement(const char* name, int i, T element)
 {
-  CLI::GetParam<std::vector<T>>(name)[i] = std::move(element);
+  IO::GetParam<std::vector<T>>(name)[i] = std::move(element);
 }
 
 /**
@@ -143,7 +143,7 @@ void SetVecElement(const char* name, int i, T element)
 template <typename T>
 void SetVecSize(const char* name, int size)
 {
-  CLI::GetParam<std::vector<T>>(name).resize(size);
+  IO::GetParam<std::vector<T>>(name).resize(size);
 }
 
 /**
@@ -152,7 +152,7 @@ void SetVecSize(const char* name, int size)
 template <typename T>
 int GetVecSize(const char* name)
 {
-  return static_cast<int>(CLI::GetParam<std::vector<T>>(name).size());
+  return static_cast<int>(IO::GetParam<std::vector<T>>(name).size());
 }
 
 /**
@@ -161,15 +161,15 @@ int GetVecSize(const char* name)
 template <typename T>
 T GetVecElement(const char* name, int i)
 {
-  return std::move(CLI::GetParam<std::vector<T>>(name)[i]);
+  return std::move(IO::GetParam<std::vector<T>>(name)[i]);
 }
 
 /**
- * Set an argument as passed to the CLI object.
+ * Set an argument as passed to the IO object.
  */
 void SetPassed(const char* name)
 {
-  CLI::SetPassed(name);
+  IO::SetPassed(name);
 }
 
 /**
@@ -177,7 +177,7 @@ void SetPassed(const char* name)
  */
 void RestoreSettings(const char* name)
 {
-  CLI::RestoreSettings(name);
+  IO::RestoreSettings(name);
 }
 
 /**
@@ -187,7 +187,7 @@ void RestoreSettings(const char* name)
 double* GetMatWithInfoParamData(const char* name)
 {
   arma::mat& param = std::get<1>(
-      CLI::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name));
+      IO::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name));
 
   if (param.mem && param.n_elem <= arma::arma_config::mat_prealloc)
   {
@@ -206,7 +206,7 @@ double* GetMatWithInfoParamData(const char* name)
 size_t GetMatWithInfoParamCols(const char* name)
 {
   return std::get<1>(
-      CLI::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name)).n_cols;
+      IO::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name)).n_cols;
 }
 
 /**
@@ -215,7 +215,7 @@ size_t GetMatWithInfoParamCols(const char* name)
 size_t GetMatWithInfoParamRows(const char* name)
 {
   return std::get<1>(
-      CLI::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name)).n_rows;
+      IO::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name)).n_rows;
 }
 
 /**
@@ -224,7 +224,7 @@ size_t GetMatWithInfoParamRows(const char* name)
 size_t GetMatWithInfoParamLength(const char* name)
 {
   return std::get<1>(
-      CLI::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name)).n_elem;
+      IO::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name)).n_elem;
 }
 
 /**
@@ -234,7 +234,7 @@ size_t GetMatWithInfoParamLength(const char* name)
 bool* GetMatWithInfoParamInfo(const char* name)
 {
   const data::DatasetInfo& info = std::get<0>(
-      CLI::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name));
+      IO::GetParam<std::tuple<data::DatasetInfo, arma::mat>>(name));
 
   size_t n = info.Dimensionality();
   bool* result = new bool[n];

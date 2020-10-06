@@ -16,12 +16,12 @@ namespace bindings {
 namespace java {
 
 /**
- * Print the output processing (basically calling CLI::GetParam<>()) for a
+ * Print the output processing (basically calling IO::GetParam<>()) for a
  * non-serializable type.
  */
 template<typename T>
 void PrintOutputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<!data::HasSerialize<T>::value>::type*,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
@@ -34,7 +34,7 @@ void PrintOutputParam(
   else
     type = GetJavaType<T>(d);
 
-  std::cout << "    params.put(\"" << d.name << "\", CLI.get"
+  std::cout << "    params.put(\"" << d.name << "\", IO.get"
             << type << "Param(\"" << d.name << "\"));" << std::endl;
 }
 
@@ -43,7 +43,7 @@ void PrintOutputParam(
  */
 template<typename T>
 void PrintOutputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<arma::is_arma_type<T>::value>::type*,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
@@ -65,7 +65,7 @@ void PrintOutputParam(
     matTypeSuffix = "Mat";
   }
 
-  std::cout << "    params.put(\"" << d.name << "\", CLI.get" << uChar
+  std::cout << "    params.put(\"" << d.name << "\", IO.get" << uChar
             << matTypeSuffix << "Param(\"" << d.name << "\"));" << std::endl;
 }
 
@@ -74,7 +74,7 @@ void PrintOutputParam(
  */
 template<typename T>
 void PrintOutputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type*,
     const typename std::enable_if<data::HasSerialize<T>::value>::type*,
     const typename std::enable_if<!std::is_same<T,
@@ -91,11 +91,11 @@ void PrintOutputParam(
  */
 template<typename T>
 void PrintOutputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
 {
-  std::cout << "    params.put(\"" << d.name << "\", CLI.getMatWithInfoParam(\"" << d.name << "\"));" << std::endl;
+  std::cout << "    params.put(\"" << d.name << "\", IO.getMatWithInfoParam(\"" << d.name << "\"));" << std::endl;
 }
 
 } // namespace java

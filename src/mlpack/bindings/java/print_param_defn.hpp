@@ -4,7 +4,7 @@
  * @author Vasyl Teliman
  *
  * If the type is serializable, we need to define a special utility function to
- * set a CLI parameter of that type.
+ * set a IO parameter of that type.
  */
 #ifndef MLPACK_BINDINGS_JAVA_PRINT_PARAM_DEFN_HPP
 #define MLPACK_BINDINGS_JAVA_PRINT_PARAM_DEFN_HPP
@@ -21,7 +21,7 @@ namespace java {
  */
 template<typename T>
 void PrintParamDefn(
-    const util::ParamData& /* d */,
+    util::ParamData& /* d */,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<!data::HasSerialize<T>::value>::type* = 0)
 {
@@ -33,7 +33,7 @@ void PrintParamDefn(
  */
 template<typename T>
 void PrintParamDefn(
-    const util::ParamData& /* d */,
+    util::ParamData& /* d */,
     const typename std::enable_if<arma::is_arma_type<T>::value>::type* = 0)
 {
   // Do nothing.
@@ -53,7 +53,7 @@ bool FileExists(const std::string& name)
  */
 template<typename T>
 void PrintParamDefn(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<data::HasSerialize<T>::value>::type* = 0)
 {
@@ -122,10 +122,10 @@ void PrintParamDefn(
 
 /**
  * If the type is serializable, print the definition of a special utility
- * function to set a CLI parameter of that type to stdout.
+ * function to set a IO parameter of that type to stdout.
  */
 template<typename T>
-void PrintParamDefn(const util::ParamData& d,
+void PrintParamDefn(util::ParamData& d,
                     const void* /* input */,
                     void* /* output */)
 {

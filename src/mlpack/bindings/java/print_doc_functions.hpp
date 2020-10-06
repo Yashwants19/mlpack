@@ -1,7 +1,7 @@
 #ifndef MLPACK_BINDINGS_JAVA_PRINT_DOC_FUNCTIONS
 #define MLPACK_BINDINGS_JAVA_PRINT_DOC_FUNCTIONS
 
-#include <mlpack/core/util/cli.hpp>
+#include <mlpack/core/util/io.hpp>
 
 namespace mlpack {
 namespace bindings {

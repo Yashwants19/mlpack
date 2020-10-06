@@ -41,7 +41,8 @@ class RedirectStream
 /**
  * Generate bindings for model parameters
  */
-void PrintModelPointers(const std::vector<util::ParamData>& in, const std::vector<util::ParamData>& out);
+void PrintModelPointers(std::vector<util::ParamData>& in,
+                        std::vector<util::ParamData>& out);
 
 /**
  * Convert snake_case name to CamelCase

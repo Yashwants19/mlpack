@@ -26,7 +26,7 @@ template <typename T, typename... Args>
 void PrintInputCallParam(std::ostream& os, const std::string& name,
     const T& value, const Args&... args)
 {
-  const util::ParamData& param = CLI::Parameters().at(name);
+  util::ParamData& param = IO::Parameters().at(name);
   if (param.input)
   {
     os << std::endl;
@@ -71,12 +71,12 @@ template <typename T, typename... Args>
 void PrintOutputCallParam(std::ostream& os, const std::string& name,
     const T& /* value */, const Args&... args)
 {
-  const util::ParamData& param = CLI::Parameters().at(name);
+  util::ParamData& param = IO::Parameters().at(name);
   if (!param.input)
   {
     os << std::endl;
     std::string type;
-    CLI::GetSingleton().functionMap[param.tname]["GetJavaType"]
+    IO::GetSingleton().functionMap[param.tname]["GetJavaType"]
         (param, nullptr, (void*) &type);
 
     os << type << " " << name << " = params.get(\"" << name << "\", "
@@ -106,7 +106,27 @@ inline std::string PrintValue(const T& value, bool quotes)
   oss << "{@code " << quote << value << quote << "}";
   return oss.str();
 }
-
+/**
+ * Given a vector parameter type, print the corresponding value.
+ */
+template<typename T>
+inline std::string PrintValue(const std::vector<T>& value, bool quotes)
+{
+  std::ostringstream oss;
+  if (quotes)
+    oss << "`";
+  oss << "[";
+  if (value.size() > 0)
+  {
+    oss << value[0];
+    for (size_t i = 1; i < value.size(); ++i)
+      oss << ", " << value[i];
+  }
+  oss << "]";
+  if (quotes)
+    oss << "'";
+  return oss.str();
+}
 /**
  * Generate documentation for dataset parameter
  */
@@ -174,7 +194,7 @@ inline std::string ProgramCall(const std::string& /* programName */)
  */
 inline bool IgnoreCheck(const std::string& paramName)
 {
-  return !CLI::Parameters()[paramName].input;
+  return !IO::Parameters()[paramName].input;
 }
 
 /**
@@ -184,7 +204,7 @@ inline bool IgnoreCheck(const std::vector<std::string>& constraints)
 {
   for (size_t i = 0; i < constraints.size(); ++i)
   {
-    if (!CLI::Parameters()[constraints[i]].input)
+    if (!IO::Parameters()[constraints[i]].input)
       return true;
   }
 
@@ -200,11 +220,11 @@ inline bool IgnoreCheck(
 {
   for (size_t i = 0; i < constraints.size(); ++i)
   {
-    if (!CLI::Parameters()[constraints[i].first].input)
+    if (!IO::Parameters()[constraints[i].first].input)
       return true;
   }
 
-  return !CLI::Parameters()[paramName].input;
+  return !IO::Parameters()[paramName].input;
 }
 
 } // namespace java

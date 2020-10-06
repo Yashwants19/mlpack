@@ -6,7 +6,7 @@
  */
 
 #include <unordered_set>
-#include <mlpack/core/util/cli.hpp>
+#include <mlpack/core/util/io.hpp>
 #include <cctype>
 #include "util.hpp"
 
@@ -17,23 +17,24 @@ namespace java {
 /**
  * Generate bindings for model parameters
  */
-void PrintModelPointers(const std::vector<util::ParamData>& in, const std::vector<util::ParamData>& out)
+void PrintModelPointers(std::vector<util::ParamData>& in,
+                        std::vector<util::ParamData>& out)
 {
   std::unordered_set<std::string> types;
 
-  for (const util::ParamData& param : in)
+  for (util::ParamData& param : in)
   {
     if (types.count(param.cppType) == 0) {
       types.insert(param.cppType);
-      CLI::GetSingleton().functionMap[param.tname]["PrintParamDefn"](param, nullptr, nullptr);
+      IO::GetSingleton().functionMap[param.tname]["PrintParamDefn"](param, nullptr, nullptr);
     }
   }
 
-  for (const util::ParamData& param : out)
+  for (util::ParamData& param : out)
   {
     if (types.count(param.cppType) == 0) {
       types.insert(param.cppType);
-      CLI::GetSingleton().functionMap[param.tname]["PrintParamDefn"](param, nullptr, nullptr);
+      IO::GetSingleton().functionMap[param.tname]["PrintParamDefn"](param, nullptr, nullptr);
     }
   }
 }

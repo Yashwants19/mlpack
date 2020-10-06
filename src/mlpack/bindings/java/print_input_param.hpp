@@ -13,12 +13,12 @@ namespace bindings {
 namespace java {
 
 /**
- * Print the input processing (basically calling CLI::GetParam<>()) for a
+ * Print the input processing (basically calling IO::GetParam<>()) for a
  * non-serializable type.
  */
 template<typename T>
 void PrintInputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<!data::HasSerialize<T>::value>::type* = 0,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type* = 0);
@@ -28,7 +28,7 @@ void PrintInputParam(
  */
 template<typename T>
 void PrintInputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type* = 0);
@@ -38,29 +38,29 @@ void PrintInputParam(
  */
 template<typename T>
 void PrintInputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<data::HasSerialize<T>::value>::type* = 0,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type* = 0);
 
 /**
- * Print the input processing (basically calling CLI::GetParam<>()) for a
+ * Print the input processing (basically calling IO::GetParam<>()) for a
  * matrix with DatasetInfo type.
  */
 template<typename T>
 void PrintInputParam(
-    const util::ParamData& d,
+    util::ParamData& d,
     const typename std::enable_if<std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type* = 0);
 
 /**
- * Print the input processing (basically calling CLI::GetParam<>()) for a type.
+ * Print the input processing (basically calling IO::GetParam<>()) for a type.
  */
 template<typename T>
-void PrintInputParam(const util::ParamData& d,
-                          const void* /* input */,
-                          void* /* output */)
+void PrintInputParam(util::ParamData& d,
+                     const void* /* input */,
+                     void* /* output */)
 {
   // Call out to the right overload.
   PrintInputParam<typename std::remove_pointer<T>::type>(d);

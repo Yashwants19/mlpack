@@ -13,7 +13,7 @@
 #define MLPACK_BINDINGS_JAVA_JAVA_OPTION_HPP
 
 #include <mlpack/core/util/param_data.hpp>
-#include <mlpack/core/util/cli.hpp>
+#include <mlpack/core/util/io.hpp>
 #include "print_input_param.hpp"
 #include "print_output_param.hpp"
 #include "print_param_defn.hpp"
@@ -34,7 +34,7 @@ class JavaOption
  public:
   /**
    * Construct a JavaOption object.  When constructed, it will register itself
-   * with CLI. The testName parameter is not used and added for compatibility
+   * with IO. The testName parameter is not used and added for compatibility
    * reasons.
    */
   JavaOption(const T defaultValue,
@@ -47,7 +47,7 @@ class JavaOption
              const bool noTranspose = false,
              const std::string& /*testName*/ = "")
   {
-    // Create the ParamData object to give to CLI.
+    // Create the ParamData object to give to IO.
     util::ParamData data;
 
     data.desc = description;
@@ -72,29 +72,29 @@ class JavaOption
 
     // Restore the parameters for this program.
     if (identifier != "verbose" /*&& identifier != "copy_all_inputs"*/)
-      CLI::RestoreSettings(programName, false);
+      IO::RestoreSettings(programName, false);
 
     // Set the function pointers that we'll need.  All of these function
     // pointers will be used by both the program that generates the pyx, and
     // also the binding itself.  (The binding itself will only use GetParam,
     // GetPrintableParam, and GetRawParam.)
 
-    CLI::GetSingleton().functionMap[data.tname]["PrintParamDefn"] =
+    IO::GetSingleton().functionMap[data.tname]["PrintParamDefn"] =
         &PrintParamDefn<T>;
-    CLI::GetSingleton().functionMap[data.tname]["PrintInputParam"] =
+    IO::GetSingleton().functionMap[data.tname]["PrintInputParam"] =
         &PrintInputParam<T>;
-    CLI::GetSingleton().functionMap[data.tname]["PrintOutputParam"] =
+    IO::GetSingleton().functionMap[data.tname]["PrintOutputParam"] =
         &PrintOutputParam<T>;
-    CLI::GetSingleton().functionMap[data.tname]["GetJavaType"] =
+    IO::GetSingleton().functionMap[data.tname]["GetJavaType"] =
         &GetJavaType<T>;
 
     // Add the ParamData object, then store.  This is necessary because we may
-    // import more than one .so that uses CLI, so we have to keep the options
+    // import more than one .so that uses IO, so we have to keep the options
     // separate.  programName is a global variable from mlpack_main.hpp.
-    CLI::Add(std::move(data));
+    IO::Add(std::move(data));
     if (identifier != "verbose" /*&& identifier != "copy_all_inputs"*/)
-      CLI::StoreSettings(programName);
-    CLI::ClearSettings();
+      IO::StoreSettings(programName);
+    IO::ClearSettings();
   }
 };
 

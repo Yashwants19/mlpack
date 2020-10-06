@@ -8,5 +8,5 @@ add_custom_command(TARGET generate_java_bindings_test POST_BUILD
     WORKING_DIRECTORY ${MAVEN_BUILD_DIR})
 
 add_test(NAME test_java_bindings
-    COMMAND ${MAVEN} test
+    COMMAND ${MAVEN} surefire:test
     WORKING_DIRECTORY ${MAVEN_BUILD_DIR})

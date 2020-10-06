@@ -11,9 +11,9 @@ import java.util.List;
 import org.bytedeco.javacpp.*;
 import org.bytedeco.javacpp.annotation.*;
 
-@Platform(include = {"cli_util.hpp", "deleter.hpp"}, link = "mlpack")
+@Platform(include = {"io_util.hpp", "deleter.hpp"}, link = "mlpack")
 @Namespace("mlpack::util")
-class CLI {
+class IO {
   private static final char ARMA_ORDER = 'f';
   static final DataType FP_TYPE = DataType.DOUBLE;
   static final DataType UNSIGNED_TYPE = DataType.UINT64;
@@ -49,7 +49,7 @@ class CLI {
     Loader.load();
   }
 
-  private CLI() {
+  private IO() {
   }
 
   private static void argumentCheck(boolean value, String format, Object... args) {

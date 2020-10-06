@@ -14,8 +14,9 @@ namespace java {
 /**
  * Generate java binding for a library method
  */
-void PrintJava(const util::ProgramDoc& programInfo,
-    const std::string& methodName, const std::string& methodPath);
+void PrintJava(const util::BindingDetails& doc,
+               const std::string& methodName,
+               const std::string& methodPath);
 
 }
 }

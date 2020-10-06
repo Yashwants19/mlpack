@@ -23,21 +23,22 @@ using namespace mlpack;
 /**
  * Print the code for a .java binding for an mlpack program to a specific file.
  */
-void PrintJava(const util::ProgramDoc& programInfo,
-    const std::string& methodName, const std::string& methodPath)
+void PrintJava(const util::BindingDetails& doc,
+               const std::string& methodName,
+               const std::string& methodPath)
 {
   string methodFile = methodName + "_main.cpp";
   string className = ToCamelCase(methodName);
   ofstream fout(className + ".java");
   RedirectStream raii(cout, fout);
 
-  CLI::RestoreSettings(programInfo.programName);
+  IO::RestoreSettings(doc.programName);
 
   vector<util::ParamData> input, output;
 
-  for (const auto& param : CLI::Parameters())
+  for (auto& param : IO::Parameters())
   {
-    const util::ParamData& paramData = param.second;
+    util::ParamData& paramData = param.second;
 
     if (paramData.input) input.push_back(paramData);
     else output.push_back(paramData);
@@ -51,32 +52,38 @@ void PrintJava(const util::ProgramDoc& programInfo,
        << "import java.util.*;" << endl
        << endl
        << "/**" << endl
-       << " * " << util::HyphenateString(programInfo.shortDocumentation, " * ") << endl
+       << " * " << util::HyphenateString(doc.shortDescription, " * ") << endl
        << " * " << endl
-       << " * " << util::HyphenateString(programInfo.documentation(), " * ") << endl
-       << " * " << endl
-       << " * Program expects the following arguments:" << endl
+       << " * " << util::HyphenateString(doc.longDescription(), " * ") << endl
+       << " * " << endl;
+  // Next print the examples.
+  for (size_t j = 0; j < doc.example.size(); ++j)
+  {
+    cout << " * " << util::HyphenateString(doc.example[j](), " * ") << endl
+         << endl;
+  }
+  cout << " * Program expects the following arguments:" << endl
        << " * <p>" << endl
        << " * <ol>" << endl;
 
-  for (const util::ParamData& param : input)
+  for (util::ParamData& param : input)
   {
     if (param.required)
     {
       string desc = util::HyphenateString(param.desc, " *         ");
       string type;
-      CLI::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
+      IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
       cout << " *   <li>" << type << ' ' << param.name << ": " << desc << "</li>" << endl;
     }
   }
 
-  for (const util::ParamData& param : input)
+  for (util::ParamData& param : input)
   {
     if (!param.required)
     {
       string desc = util::HyphenateString(param.desc, " *         ");
       string type;
-      CLI::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
+      IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
       cout << " *   <li>" << type << ' ' << param.name << " [optional]: " << desc << "</li>" << endl;
     }
   }
@@ -86,11 +93,11 @@ void PrintJava(const util::ProgramDoc& programInfo,
        << " * Output parameters:" << endl
        << " * <ol>" << endl;
 
-  for (const util::ParamData& param : output)
+  for (util::ParamData& param : output)
   {
     string desc = util::HyphenateString(param.desc, " *         ");
     string type;
-    CLI::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
+    IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
     cout << " *   <li>" << type << ' ' << param.name << ": " << desc << "</li>" << endl;
   }
 
@@ -99,25 +106,25 @@ void PrintJava(const util::ProgramDoc& programInfo,
        << "@Platform(" << endl
        << "    include = {" << endl
        << "        \"" << methodName << "_main.cpp\"," << endl
-       << "        \"cli_util.hpp\"," << endl
+       << "        \"io_util.hpp\"," << endl
        << "        \"deleter.hpp\"" << endl
        << "    }," << endl
        << "    link = \"mlpack\"," << endl
        << "    includepath = \"" << methodPath << "\")" << endl
        << "public class " << className << " {" << endl
-       << "  private static final String THIS_NAME = \"" << programInfo.programName << "\";" << endl
+       << "  private static final String THIS_NAME = \"" << doc.programName << "\";" << endl
        << endl
        << "  public static final class Params {" << endl
        << "    private final Map<String, Object> params = new HashMap<>();" << endl
        << endl
        << "    public Params() {" << endl;
 
-  for (const util::ParamData& param : input)
+  for (util::ParamData& param : input)
   {
     cout << "      params.put(\"" << param.name << "\", null);" << endl;
   }
 
-  for (const util::ParamData& param : output)
+  for (util::ParamData& param : output)
   {
     cout << "      params.put(\"" << param.name << "\", null);" << endl;
   }
@@ -168,26 +175,26 @@ void PrintJava(const util::ProgramDoc& programInfo,
        << "  }" << endl
        << endl
        << "  public static void run(Params params) {" << endl
-       << "    CLI.restoreSettings(THIS_NAME);" << endl
+       << "    IO.restoreSettings(THIS_NAME);" << endl
        << endl;
 
-  for (const util::ParamData& param : input)
+  for (util::ParamData& param : input)
   {
-    CLI::GetSingleton().functionMap[param.tname]["PrintInputParam"](param, nullptr, nullptr);
+    IO::GetSingleton().functionMap[param.tname]["PrintInputParam"](param, nullptr, nullptr);
   }
 
-  for (const util::ParamData& param : output)
+  for (util::ParamData& param : output)
   {
-    cout << "    CLI.setPassed(\"" << param.name << "\");" << endl;
+    cout << "    IO.setPassed(\"" << param.name << "\");" << endl;
   }
 
   cout << endl
        << "    mlpackMain();" << endl
        << endl;
 
-  for (const util::ParamData& param : output)
+  for (util::ParamData& param : output)
   {
-    CLI::GetSingleton().functionMap[param.tname]["PrintOutputParam"](param, nullptr, nullptr);
+    IO::GetSingleton().functionMap[param.tname]["PrintOutputParam"](param, nullptr, nullptr);
   }
 
   cout << "  }" << endl

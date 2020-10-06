@@ -20,7 +20,7 @@ namespace java {
  * Fallback implementation
  */
 template<typename T>
-inline std::string GetJavaType(const util::ParamData&,
+inline std::string GetJavaType(util::ParamData&,
     const typename std::enable_if<!util::IsStdVector<T>::value>::type* = 0,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<!std::is_same<T,
@@ -34,7 +34,7 @@ inline std::string GetJavaType(const util::ParamData&,
  * Map bool -> Boolean
  */
 template<>
-inline std::string GetJavaType<bool>(const util::ParamData&,
+inline std::string GetJavaType<bool>(util::ParamData&,
     const typename std::enable_if<!util::IsStdVector<bool>::value>::type*,
     const typename std::enable_if<!arma::is_arma_type<bool>::value>::type*,
     const typename std::enable_if<!std::is_same<bool,
@@ -48,7 +48,7 @@ inline std::string GetJavaType<bool>(const util::ParamData&,
  * Map int -> Integer
  */
 template<>
-inline std::string GetJavaType<int>(const util::ParamData&,
+inline std::string GetJavaType<int>(util::ParamData&,
     const typename std::enable_if<!util::IsStdVector<int>::value>::type*,
     const typename std::enable_if<!arma::is_arma_type<int>::value>::type*,
     const typename std::enable_if<!std::is_same<int,
@@ -62,7 +62,7 @@ inline std::string GetJavaType<int>(const util::ParamData&,
  * Map size_t -> Long
  */
 template<>
-inline std::string GetJavaType<size_t>(const util::ParamData&,
+inline std::string GetJavaType<size_t>(util::ParamData&,
     const typename std::enable_if<!util::IsStdVector<size_t>::value>::type*,
     const typename std::enable_if<!arma::is_arma_type<size_t>::value>::type*,
     const typename std::enable_if<!std::is_same<size_t,
@@ -76,7 +76,7 @@ inline std::string GetJavaType<size_t>(const util::ParamData&,
  * Map double -> Double
  */
 template<>
-inline std::string GetJavaType<double>(const util::ParamData&,
+inline std::string GetJavaType<double>(util::ParamData&,
     const typename std::enable_if<!util::IsStdVector<double>::value>::type*,
     const typename std::enable_if<!arma::is_arma_type<double>::value>::type*,
     const typename std::enable_if<!std::is_same<double,
@@ -90,7 +90,7 @@ inline std::string GetJavaType<double>(const util::ParamData&,
  * Map std::string -> String
  */
 template<>
-inline std::string GetJavaType<std::string>(const util::ParamData&,
+inline std::string GetJavaType<std::string>(util::ParamData&,
     const typename std::enable_if<
         !util::IsStdVector<std::string>::value>::type*,
     const typename std::enable_if<
@@ -108,7 +108,7 @@ inline std::string GetJavaType<std::string>(const util::ParamData&,
  *     std::vector<int>         -> List<Integer>
  */
 template<typename T>
-inline std::string GetJavaType(const util::ParamData& data,
+inline std::string GetJavaType(util::ParamData& data,
     const typename std::enable_if<util::IsStdVector<T>::value>::type* = 0,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type* = 0,
@@ -121,7 +121,7 @@ inline std::string GetJavaType(const util::ParamData& data,
  * Map arma::mat<*> -> INDArray
  */
 template<typename T>
-inline std::string GetJavaType(const util::ParamData&,
+inline std::string GetJavaType(util::ParamData&,
     const typename std::enable_if<!util::IsStdVector<T>::value>::type* = 0,
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type* = 0,
@@ -134,7 +134,7 @@ inline std::string GetJavaType(const util::ParamData&,
  * Map for categorical matrices
  */
 template<typename T>
-inline std::string GetJavaType(const util::ParamData&,
+inline std::string GetJavaType(util::ParamData&,
     const typename std::enable_if<std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type* = 0)
 {
@@ -145,7 +145,7 @@ inline std::string GetJavaType(const util::ParamData&,
  * Map for serializable types
  */
 template<typename T>
-inline std::string GetJavaType(const util::ParamData& d,
+inline std::string GetJavaType(util::ParamData& d,
     const typename std::enable_if<!util::IsStdVector<T>::value>::type* = 0,
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<!std::is_same<T,
@@ -159,7 +159,7 @@ inline std::string GetJavaType(const util::ParamData& d,
  * Entry point to the implementation
  */
 template <typename T>
-void GetJavaType(const util::ParamData& d, const void*, void* out)
+void GetJavaType(util::ParamData& d, const void*, void* out)
 {
   *(std::string*)out = GetJavaType<typename std::remove_pointer<T>::type>(d);
 }

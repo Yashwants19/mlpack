@@ -22,8 +22,8 @@ public class MatrixWithInfo {
     Objects.requireNonNull(info);
 
     precondition(matrix.rank() == 2, "Given n-dimensional array is not a matrix");
-    precondition(matrix.dataType() == CLI.FP_TYPE,
-        "Matrix has %s data type but %s is expected", matrix.dataType(), CLI.FP_TYPE);
+    precondition(matrix.dataType() == IO.FP_TYPE,
+        "Matrix has %s data type but %s is expected", matrix.dataType(), IO.FP_TYPE);
     precondition(info.length == matrix.size(0),
       "Length of 'info' must be equal to the number of rows in the 'matrix'");
 

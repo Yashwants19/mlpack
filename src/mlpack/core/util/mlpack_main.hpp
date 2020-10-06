@@ -151,15 +151,6 @@ using Option = mlpack::bindings::tests::TestOption<T>;
 }
 }
 
-// testName symbol should be defined in each binding test file
-#include <mlpack/core/util/param.hpp>
-
-#undef PROGRAM_INFO
-#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, ...) \
-    static mlpack::util::ProgramDoc \
-    cli_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC; }, { __VA_ARGS__ })
-
 #elif(BINDING_TYPE == BINDING_TYPE_JAVA) // This is a Java binding.
 
 // TODO: not sure where we use this
@@ -187,11 +178,10 @@ using Option = mlpack::bindings::java::JavaOption<T>;
 static const std::string testName = "";
 #include <mlpack/core/util/param.hpp>
 
-#undef PROGRAM_INFO
-#define PROGRAM_INFO(NAME, SHORT_DESC, DESC, ...) \
-    static mlpack::util::ProgramDoc \
-    cli_programdoc_dummy_object = mlpack::util::ProgramDoc(NAME, SHORT_DESC, \
-    []() { return DESC; }, { __VA_ARGS__ }); \
+#undef BINDING_NAME
+#define BINDING_NAME(NAME) static \
+    mlpack::util::ProgramName \
+    io_programname_dummy_object = mlpack::util::ProgramName(NAME); \
     namespace mlpack { \
     namespace bindings { \
     namespace java { \

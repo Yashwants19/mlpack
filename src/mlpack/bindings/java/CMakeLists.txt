@@ -97,11 +97,11 @@ set(PACKAGE_VERSION
 
 configure_file(maven/pom.xml.in ${MAVEN_BUILD_DIR}/pom.xml @ONLY)
 
-# Compile cli_util library for java
-add_custom_target(java_cli_util ALL
+# Compile io_util library for java
+add_custom_target(java_io_util ALL
     COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_SOURCE_DIR}/maven/CLI.java
-        ${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/CLI.java
+        ${CMAKE_CURRENT_SOURCE_DIR}/maven/IO.java
+        ${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/IO.java
     COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_SOURCE_DIR}/maven/MatrixWithInfo.java
         ${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/MatrixWithInfo.java
@@ -126,7 +126,7 @@ add_library(java_generate_parts STATIC
 add_custom_target(java_package ALL
     COMMAND ${MAVEN} package
     WORKING_DIRECTORY ${MAVEN_BUILD_DIR}
-    DEPENDS java_cli_util)
+    DEPENDS java_io_util)
 
 add_dependencies(java java_package)
 
