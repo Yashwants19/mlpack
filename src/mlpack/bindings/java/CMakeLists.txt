@@ -110,7 +110,6 @@ add_custom_target(java_io_util ALL
 # Group some commonly used files into a single library
 # so that we don't need to recompile the every time
 add_library(java_generate_parts STATIC
-    ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/strip_type.hpp
     ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/print_param_defn.hpp
     ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/print_output_param.hpp
     ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/print_java.cpp
@@ -119,8 +118,8 @@ add_library(java_generate_parts STATIC
     ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/print_doc_functions.hpp
     ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/java_option.hpp
     ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/get_java_type.hpp
-    ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/util.hpp
-    ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/util.cpp)
+    ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/java_util.hpp
+    ${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/java_util.cpp)
 
 # Create *.jar file when bindings are generated
 add_custom_target(java_package ALL

@@ -1,13 +1,18 @@
 /**
- * @file print_input_param_impl.hpp
+ * @file bindings/java/print_input_param_impl.hpp
  * @author Vasyl Teliman
  *
  * Print Java code to handle input arguments.
+ *
+ * mlpack is free software; you may redistribute it and/or modify it under the
+ * terms of the 3-clause BSD license.  You should have received a copy of the
+ * 3-clause BSD license along with mlpack.  If not, see
+ * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #ifndef MLPACK_BINDINGS_JAVA_PRINT_INPUT_PARAM_IMPL_HPP
 #define MLPACK_BINDINGS_JAVA_PRINT_INPUT_PARAM_IMPL_HPP
 
-#include "strip_type.hpp"
+#include <mlpack/bindings/util/strip_type.hpp>
 #include "get_java_type.hpp"
 
 namespace mlpack {
@@ -29,7 +34,8 @@ void PrintInputParam(
   {
     std::cout << "    {" << std::endl
               << "      String name = \"verbose\";" << std::endl
-              << "      Boolean value = params.get(name, Boolean.class);" << std::endl
+              << "      Boolean value = params.get(name, Boolean.class);"
+              << std::endl
               << "      if (value != null && value == true) {" << std::endl
               << "        IO.enableVerbose();" << std::endl
               << "      } else {" << std::endl
@@ -61,8 +67,10 @@ void PrintInputParam(
     std::cout << "    {" << std::endl
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      checkHasRequiredParameter(params, name);" << std::endl
-              << "      " << javaClass << " value = params.get(name, " << javaClass << ".class);" << std::endl
-              << "      IO.set" << typeName << "Param(name, value);" << std::endl
+              << "      " << javaClass << " value = params.get(name, "
+              << javaClass << ".class);" << std::endl
+              << "      IO.set" << typeName << "Param(name, value);"
+              << std::endl
               << "      IO.setPassed(name);" << std::endl
               << "    }" << std::endl
               << std::endl;
@@ -71,9 +79,11 @@ void PrintInputParam(
   {
     std::cout << "    {" << std::endl
               << "      String name = \"" << d.name << "\";" << std::endl
-              << "      " << javaClass << " value = params.get(name, " << javaClass << ".class);" << std::endl
+              << "      " << javaClass << " value = params.get(name, "
+              << javaClass << ".class);" << std::endl
               << "      if (value != null) {" << std::endl
-              << "        IO.set" << typeName << "Param(name, value);" << std::endl
+              << "        IO.set" << typeName << "Param(name, value);"
+              << std::endl
               << "        IO.setPassed(name);" << std::endl
               << "      }" << std::endl
               << "    }" << std::endl
@@ -113,8 +123,10 @@ void PrintInputParam(
     std::cout << "    {" << std::endl
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      checkHasRequiredParameter(params, name);" << std::endl
-              << "      INDArray value = params.get(name, INDArray.class);" << std::endl
-              << "      IO.set" << uChar << matTypeSuffix << "Param(name, value);" << std::endl
+              << "      INDArray value = params.get(name, INDArray.class);"
+              << std::endl
+              << "      IO.set" << uChar << matTypeSuffix << "Param(name, value"
+              << ");" << std::endl
               << "      IO.setPassed(name);" << std::endl
               << "    }" << std::endl
               << std::endl;
@@ -123,9 +135,11 @@ void PrintInputParam(
   {
     std::cout << "    {" << std::endl
               << "      String name = \"" << d.name << "\";" << std::endl
-              << "      INDArray value = params.get(name, INDArray.class);" << std::endl
+              << "      INDArray value = params.get(name, INDArray.class);"
+              << std::endl
               << "      if (value != null) {" << std::endl
-              << "        IO.set" << uChar << matTypeSuffix << "Param(name, value);" << std::endl
+              << "        IO.set" << uChar << matTypeSuffix << "Param(name, "
+              << "value);" << std::endl
               << "        IO.setPassed(name);" << std::endl
               << "      }" << std::endl
               << "    }" << std::endl
@@ -144,15 +158,17 @@ void PrintInputParam(
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
 {
-  std::string type = StripType(d.cppType);
+  std::string type = util::StripType(d.cppType);
 
   if (d.required)
   {
     std::cout << "    {" << std::endl
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      checkHasRequiredParameter(params, name);" << std::endl
-              << "      " << type << "Type value = params.get(name, " << type << "Type.class);" << std::endl
-              << "      set" << type << "Ptr(name, value.getPointer());" << std::endl
+              << "      " << type << "Type value = params.get(name, " << type
+              << "Type.class);" << std::endl
+              << "      set" << type << "Ptr(name, value.getPointer());"
+              << std::endl
               << "      IO.setPassed(name);" << std::endl
               << "    }" << std::endl
               << std::endl;
@@ -161,9 +177,11 @@ void PrintInputParam(
   {
     std::cout << "    {" << std::endl
               << "      String name = \"" << d.name << "\";" << std::endl
-              << "      " << type << "Type value = params.get(name, " << type << "Type.class);" << std::endl
+              << "      " << type << "Type value = params.get(name, " << type
+              << "Type.class);" << std::endl
               << "      if (value != null) {" << std::endl
-              << "        set" << type << "Ptr(name, value.getPointer());" << std::endl
+              << "        set" << type << "Ptr(name, value.getPointer());"
+              << std::endl
               << "        IO.setPassed(name);" << std::endl
               << "      }" << std::endl
               << "    }" << std::endl
@@ -186,7 +204,8 @@ void PrintInputParam(
     std::cout << "    {" << std::endl
               << "      String name = \"" << d.name << "\";" << std::endl
               << "      checkHasRequiredParameter(params, name);" << std::endl
-              << "      MatrixWithInfo value = params.get(name, MatrixWithInfo.class);" << std::endl
+              << "      MatrixWithInfo value = params.get(name, MatrixWithInfo"
+              << ".class);" << std::endl
               << "      IO.setMatWithInfoParam(name, value);" << std::endl
               << "      IO.setPassed(name);" << std::endl
               << "    }" << std::endl
@@ -196,7 +215,8 @@ void PrintInputParam(
   {
     std::cout << "    {" << std::endl
               << "      String name = \"" << d.name << "\";" << std::endl
-              << "      MatrixWithInfo value = params.get(name, MatrixWithInfo.class);" << std::endl
+              << "      MatrixWithInfo value = params.get(name, MatrixWithInfo"
+              << ".class);" << std::endl
               << "      if (value != null) {" << std::endl
               << "        IO.setMatWithInfoParam(name, value);" << std::endl
               << "        IO.setPassed(name);" << std::endl

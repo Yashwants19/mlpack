@@ -1,11 +1,16 @@
 /**
- * @file util.hpp
+ * @file bindings/java/java_util.hpp
  * @author Vasyl Teliman
  *
- * Various utilities used to generate Java bindings
+ * Various utilities used to generate Java bindings.
+ *
+ * mlpack is free software; you may redistribute it and/or modify it under the
+ * terms of the 3-clause BSD license.  You should have received a copy of the
+ * 3-clause BSD license along with mlpack.  If not, see
+ * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
-#ifndef MLPACK_BINDINGS_JAVA_UTIL_HPP
-#define MLPACK_BINDINGS_JAVA_UTIL_HPP
+#ifndef MLPACK_BINDINGS_JAVA_JAVA_UTIL_HPP
+#define MLPACK_BINDINGS_JAVA_JAVA_UTIL_HPP
 
 #include <ios>
 #include <streambuf>
@@ -23,9 +28,8 @@ namespace java {
 class RedirectStream
 {
  public:
-  RedirectStream(std::ios& from, const std::ios& to)
-  : from(from),
-    buffer(from.rdbuf(to.rdbuf()))
+  RedirectStream(std::ios& from, const std::ios& to) : from(from),
+      buffer(from.rdbuf(to.rdbuf()))
   {}
 
   ~RedirectStream()
@@ -43,11 +47,6 @@ class RedirectStream
  */
 void PrintModelPointers(std::vector<util::ParamData>& in,
                         std::vector<util::ParamData>& out);
-
-/**
- * Convert snake_case name to CamelCase
- */
-std::string ToCamelCase(const std::string& s);
 
 } // namespace java
 } // namespace bindings

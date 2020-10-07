@@ -1,5 +1,5 @@
 /**
- * @file print_output_param_impl.hpp
+ * @file bindings/java/print_output_param_impl.hpp
  * @author VasylTeliman
  *
  * Print Java code to handle output arguments.
@@ -9,7 +9,7 @@
 
 #include "print_output_param.hpp"
 #include "get_java_type.hpp"
-#include "strip_type.hpp"
+#include <mlpack/bindings/util/strip_type.hpp>
 
 namespace mlpack {
 namespace bindings {
@@ -80,10 +80,12 @@ void PrintOutputParam(
     const typename std::enable_if<!std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
 {
-  std::string type = StripType(d.cppType);
+  std::string type = util::StripType(d.cppType);
 
-  std::cout << "    params.put(\"" << d.name << "\", new " << type << "Type(" << std::endl
-            << "        " << type << "Ptr.create(get" << type << "Ptr(\"" << d.name << "\"))));" << std::endl;
+  std::cout << "    params.put(\"" << d.name << "\", new " << type << "Type("
+            << std::endl
+            << "        " << type << "Ptr.create(get" << type << "Ptr(\""
+            << d.name << "\"))));" << std::endl;
 }
 
 /**
@@ -95,7 +97,8 @@ void PrintOutputParam(
     const typename std::enable_if<std::is_same<T,
         std::tuple<data::DatasetInfo, arma::mat>>::value>::type*)
 {
-  std::cout << "    params.put(\"" << d.name << "\", IO.getMatWithInfoParam(\"" << d.name << "\"));" << std::endl;
+  std::cout << "    params.put(\"" << d.name << "\", IO.getMatWithInfoParam(\""
+            << d.name << "\"));" << std::endl;
 }
 
 } // namespace java

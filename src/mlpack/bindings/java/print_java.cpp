@@ -1,17 +1,23 @@
 /**
- * @file print_java.cpp
+ * @file bindings/java/print_java.cpp
  * @author Vasyl Teliman
  *
  * Implementation of utility PrintJava() function.
+ *
+ * mlpack is free software; you may redistribute it and/or modify it under the
+ * terms of the 3-clause BSD license.  You should have received a copy of the
+ * 3-clause BSD license along with mlpack.  If not, see
+ * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #include <iostream>
 #include <fstream>
 #include <mlpack/core/util/hyphenate_string.hpp>
+#include <mlpack/bindings/util/camel_case.hpp>
 #include <mlpack/core.hpp>
 #include <vector>
 #include "print_java.hpp"
 #include "get_java_type.hpp"
-#include "util.hpp"
+#include "java_util.hpp"
 
 namespace mlpack {
 namespace bindings {
@@ -28,7 +34,7 @@ void PrintJava(const util::BindingDetails& doc,
                const std::string& methodPath)
 {
   string methodFile = methodName + "_main.cpp";
-  string className = ToCamelCase(methodName);
+  string className = util::CamelCase(methodName, true);
   ofstream fout(className + ".java");
   RedirectStream raii(cout, fout);
 
@@ -72,8 +78,10 @@ void PrintJava(const util::BindingDetails& doc,
     {
       string desc = util::HyphenateString(param.desc, " *         ");
       string type;
-      IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
-      cout << " *   <li>" << type << ' ' << param.name << ": " << desc << "</li>" << endl;
+      IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr,
+          (void*) &type);
+      cout << " *   <li>" << type << ' ' << param.name << ": " << desc
+           << "</li>" << endl;
     }
   }
 
@@ -83,8 +91,10 @@ void PrintJava(const util::BindingDetails& doc,
     {
       string desc = util::HyphenateString(param.desc, " *         ");
       string type;
-      IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
-      cout << " *   <li>" << type << ' ' << param.name << " [optional]: " << desc << "</li>" << endl;
+      IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr,
+          (void*) &type);
+      cout << " *   <li>" << type << ' ' << param.name << " [optional]: "
+           << desc << "</li>" << endl;
     }
   }
 
@@ -97,8 +107,10 @@ void PrintJava(const util::BindingDetails& doc,
   {
     string desc = util::HyphenateString(param.desc, " *         ");
     string type;
-    IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr, (void*) &type);
-    cout << " *   <li>" << type << ' ' << param.name << ": " << desc << "</li>" << endl;
+    IO::GetSingleton().functionMap[param.tname]["GetJavaType"](param, nullptr,
+        (void*) &type);
+    cout << " *   <li>" << type << ' ' << param.name << ": " << desc
+         << "</li>" << endl;
   }
 
   cout << " * </ol>" << endl
@@ -112,11 +124,12 @@ void PrintJava(const util::BindingDetails& doc,
        << "    link = \"mlpack\"," << endl
        << "    includepath = \"" << methodPath << "\")" << endl
        << "public class " << className << " {" << endl
-       << "  private static final String THIS_NAME = \"" << doc.programName << "\";" << endl
+       << "  private static final String THIS_NAME = \"" << doc.programName
+       << "\";" << endl
        << endl
        << "  public static final class Params {" << endl
-       << "    private final Map<String, Object> params = new HashMap<>();" << endl
-       << endl
+       << "    private final Map<String, Object> params = new HashMap<>();"
+       << endl << endl
        << "    public Params() {" << endl;
 
   for (util::ParamData& param : input)
@@ -134,7 +147,8 @@ void PrintJava(const util::BindingDetails& doc,
        << "    private void checkHasParameter(String name) {" << endl
        << "      if (!params.containsKey(name)) {" << endl
        << "        throw new IllegalArgumentException(" << endl
-       << "            THIS_NAME + \" doesn't have \" + name + \" parameter\");" << endl
+       << "            THIS_NAME + \" doesn't have \" + name + \" parameter\");"
+       << endl
        << "      }" << endl
        << "    }" << endl
        << endl
@@ -151,7 +165,8 @@ void PrintJava(const util::BindingDetails& doc,
        << "        return clazz.cast(params.get(name));" << endl
        << "      } catch (ClassCastException e) {" << endl
        << "        throw new IllegalArgumentException(" << endl
-       << "            \"Parameter \" + name + \" is not an instance of \" + clazz.getName(), e);" << endl
+       << "            \"Parameter \" + name + \" is not an instance of \" + "
+       << "clazz.getName(), e);" << endl
        << "      }" << endl
        << "    }" << endl
        << "  }" << endl
@@ -168,9 +183,11 @@ void PrintJava(const util::BindingDetails& doc,
        << endl
        << "  private static native void mlpackMain();" << endl
        << endl
-       << "  private static void checkHasRequiredParameter(Params params, String name) {" << endl
+       << "  private static void checkHasRequiredParameter(Params params, "
+       << "String name) {" << endl
        << "    if (params.get(name, Object.class) == null) {" << endl
-       << "      throw new IllegalArgumentException(\"Missing required parameter \" + name);" << endl
+       << "      throw new IllegalArgumentException(\"Missing required "
+       << "parameter \" + name);" << endl
        << "    }" << endl
        << "  }" << endl
        << endl
@@ -180,7 +197,8 @@ void PrintJava(const util::BindingDetails& doc,
 
   for (util::ParamData& param : input)
   {
-    IO::GetSingleton().functionMap[param.tname]["PrintInputParam"](param, nullptr, nullptr);
+    IO::GetSingleton().functionMap[param.tname]["PrintInputParam"](param,
+        nullptr, nullptr);
   }
 
   for (util::ParamData& param : output)
@@ -194,13 +212,14 @@ void PrintJava(const util::BindingDetails& doc,
 
   for (util::ParamData& param : output)
   {
-    IO::GetSingleton().functionMap[param.tname]["PrintOutputParam"](param, nullptr, nullptr);
+    IO::GetSingleton().functionMap[param.tname]["PrintOutputParam"](param,
+        nullptr, nullptr);
   }
 
   cout << "  }" << endl
        << "}" << endl;
 }
 
-}
-}
-}
+} // namespace java
+} // namespace bindings
+} // namespace mlpack

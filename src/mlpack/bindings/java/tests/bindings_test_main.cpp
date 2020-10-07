@@ -1,5 +1,5 @@
 /**
- * @file bindings/java/bindings_test_main.cpp
+ * @file bindings/java/tests/bindings_test_main.cpp
  * @author Ryan Curtin
  *
  * A binding test for Java.

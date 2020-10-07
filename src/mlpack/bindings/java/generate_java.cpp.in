@@ -1,5 +1,5 @@
 /**
- * @file generate_java.cpp.in
+ * @file bindings/java/generate_java.cpp.in
  * @author Ryan Curtin
  * @author Vasyl Teliman
  *

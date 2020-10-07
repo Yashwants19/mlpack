@@ -1,5 +1,5 @@
 /**
- * @file print_param_defn.hpp
+ * @file bindings/java/print_param_defn.hpp
  * @author Ryan Curtin
  * @author Vasyl Teliman
  *
@@ -10,7 +10,7 @@
 #define MLPACK_BINDINGS_JAVA_PRINT_PARAM_DEFN_HPP
 
 #include <fstream>
-#include "strip_type.hpp"
+#include <mlpack/bindings/util/strip_type.hpp>
 
 namespace mlpack {
 namespace bindings {
@@ -57,11 +57,13 @@ void PrintParamDefn(
     const typename std::enable_if<!arma::is_arma_type<T>::value>::type* = 0,
     const typename std::enable_if<data::HasSerialize<T>::value>::type* = 0)
 {
-  std::string ptr = StripType(d.cppType) + "Ptr";
-  std::string type = StripType(d.cppType) + "Type";
-  std::cout << "  private static class " << ptr << " extends Pointer {" << std::endl
+  std::string ptr = util::StripType(d.cppType) + "Ptr";
+  std::string type = util::StripType(d.cppType) + "Type";
+  std::cout << "  private static class " << ptr << " extends Pointer {" 
+            << std::endl
             << "    private static class MethodDeallocator" << std::endl
-            << "        extends " << ptr << " implements Deallocator {" << std::endl
+            << "        extends " << ptr << " implements Deallocator {"
+            << std::endl
             << "      private MethodDeallocator(" << ptr << " p) {" << std::endl
             << "        super(p);" << std::endl
             << "      }" << std::endl
@@ -73,7 +75,8 @@ void PrintParamDefn(
             << std::endl
             << "      @Namespace(\"::mlpack::util\")" << std::endl
             << "      @Name(\"Delete<" << d.cppType << ">\")" << std::endl
-            << "      private static native void delete(Pointer p);" << std::endl
+            << "      private static native void delete(Pointer p);"
+            << std::endl
             << "    }" << std::endl
             << std::endl
             << "    private " << ptr << "(Pointer p) {" << std::endl
@@ -82,18 +85,20 @@ void PrintParamDefn(
             << std::endl
             << "    static Pointer create(Pointer p) {" << std::endl
             << "      " << ptr << " result = new " << ptr << "(p);" << std::endl
-            << "      result.deallocator(new MethodDeallocator(result));" << std::endl
+            << "      result.deallocator(new MethodDeallocator(result));"
+            << std::endl
             << "      return result;" << std::endl
             << "    }" << std::endl
             << "  }" << std::endl
             << std::endl
             << "  @Namespace(\"::mlpack::util\")" << std::endl
             << "  @Name(\"GetParam<" << d.cppType << "*>\")" << std::endl
-            << "  private static native Pointer get" << ptr << "(String name);" << std::endl
-            << std::endl
+            << "  private static native Pointer get" << ptr << "(String name);"
+            << std::endl << std::endl
             << "  @Namespace(\"::mlpack::util\")" << std::endl
             << "  @Name(\"SetParam<" << d.cppType << "*>\")" << std::endl
-            << "  private static native void set" << ptr << "(String name, @Cast(\"" << d.cppType << "*\") Pointer model);" << std::endl
+            << "  private static native void set" << ptr << "(String name, "
+            << "@Cast(\"" << d.cppType << "*\") Pointer model);" << std::endl
             << std::endl;
 
   const std::string& name = type + ".java";

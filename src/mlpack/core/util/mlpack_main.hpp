@@ -151,6 +151,9 @@ using Option = mlpack::bindings::tests::TestOption<T>;
 }
 }
 
+// testName symbol should be defined in each binding test file
+#include <mlpack/core/util/param.hpp>
+
 #elif(BINDING_TYPE == BINDING_TYPE_JAVA) // This is a Java binding.
 
 // TODO: not sure where we use this

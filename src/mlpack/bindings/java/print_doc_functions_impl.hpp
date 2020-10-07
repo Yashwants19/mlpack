@@ -1,8 +1,13 @@
 /**
- * @file print_doc_functions_impl.hpp
+ * @file bindings/java/print_doc_functions_impl.hpp
  * @author Vasyl Teliman
  *
- * Implementation of functions to generate documentation
+ * Implementation of functions to generate documentation.
+ *
+ * mlpack is free software; you may redistribute it and/or modify it under the
+ * terms of the 3-clause BSD license.  You should have received a copy of the
+ * 3-clause BSD license along with mlpack.  If not, see
+ * http://www.opensource.org/licenses/BSD-3-Clause for more information.
  */
 #ifndef MLPACK_BINDINGS_JAVA_PRINT_DOC_FUNCTIONS_IMPL_HPP
 #define MLPACK_BINDINGS_JAVA_PRINT_DOC_FUNCTIONS_IMPL_HPP
