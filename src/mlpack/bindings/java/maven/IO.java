@@ -14,7 +14,7 @@ import org.bytedeco.javacpp.annotation.*;
 @Platform(include = {"io_util.hpp", "deleter.hpp"}, link = "mlpack")
 @Namespace("mlpack::util")
 class IO {
-  private static final char ARMA_ORDER = 'f';
+  private static final char ARMA_ORDER = 'c';
   static final DataType FP_TYPE = DataType.DOUBLE;
   static final DataType UNSIGNED_TYPE = DataType.UINT64;
 
@@ -93,7 +93,7 @@ class IO {
     int rows = mat.rows();
     int columns = mat.columns();
 
-    nativeSetMatParam(name, new DoublePointer(data), rows, columns);
+    nativeSetMatParam(name, new DoublePointer(data), columns, rows);
   }
 
   static void setUMatParam(String name, INDArray mat) {
@@ -109,7 +109,7 @@ class IO {
     int rows = mat.rows();
     int columns = mat.columns();
 
-    nativeSetMatParam(name, new SizeTPointer(data), rows, columns);
+    nativeSetMatParam(name, new SizeTPointer(data), columns, rows);
   }
 
   @Name("SetParam<int>")
@@ -167,7 +167,7 @@ class IO {
   private static native void nativeSetColParam(String name, SizeTPointer data, long size);
 
   static void setColParam(String name, INDArray array) {
-    argumentCheck(array.isColumnVectorOrScalar(), "Argument is not a column vector");
+    argumentCheck(array.isVectorOrScalar(), "Argument is not a column vector");
     argumentCheck(array.dataType() == FP_TYPE,
         "Column data type is %s but %s is expected", array.dataType(), FP_TYPE);
 
@@ -182,7 +182,7 @@ class IO {
   }
 
   static void setUColParam(String name, INDArray array) {
-    argumentCheck(array.isColumnVectorOrScalar(), "Argument is not a column vector");
+    argumentCheck(array.isVectorOrScalar(), "Argument is not a column vector");
     argumentCheck(array.dataType() == UNSIGNED_TYPE,
         "Column data type is %s but %s is expected", array.dataType(), UNSIGNED_TYPE);
 
@@ -203,7 +203,7 @@ class IO {
   private static native void nativeSetRowParam(String name, SizeTPointer data, long size);
 
   static void setRowParam(String name, INDArray array) {
-    argumentCheck(array.isRowVectorOrScalar(), "Argument is not a row vector");
+    argumentCheck(array.isVectorOrScalar(), "Argument is not a row vector");
     argumentCheck(array.dataType() == FP_TYPE,
         "Column data type is %s but %s is expected", array.dataType(), FP_TYPE);
 
@@ -218,7 +218,7 @@ class IO {
   }
 
   static void setURowParam(String name, INDArray array) {
-    argumentCheck(array.isRowVectorOrScalar(), "Argument is not a row vector");
+    argumentCheck(array.isVectorOrScalar(), "Argument is not a row vector");
     argumentCheck(array.dataType() == UNSIGNED_TYPE,
         "Column data type is %s but %s is expected", array.dataType(), UNSIGNED_TYPE);
 
@@ -247,7 +247,7 @@ class IO {
     DoublePointer data = new DoublePointer(matrix.data().addressPointer());
     long rows = matrix.rows();
     long columns = matrix.columns();
-    nativeSetMatWithInfoParam(name, data, info, rows, columns);
+    nativeSetMatWithInfoParam(name, data, info, columns, rows);
   }
 
   // getters
@@ -305,7 +305,7 @@ class IO {
     data.capacity(length);
 
     DataBuffer buffer = Nd4j.createBuffer(data, length, type);
-    long[] shape = {rows, columns};
+    long[] shape = {columns, rows};
     long[] stride = Nd4j.getStrides(shape, ARMA_ORDER);
     long offset = 0;
     char ordering = ARMA_ORDER;
@@ -329,7 +329,7 @@ class IO {
     data.capacity(length);
 
     DataBuffer buffer = Nd4j.createBuffer(data, length, type);
-    long[] shape = {rows, columns};
+    long[] shape = {columns, rows};
     long[] stride = Nd4j.getStrides(shape, ARMA_ORDER);
     long offset = 0;
     char ordering = ARMA_ORDER;
@@ -398,7 +398,7 @@ class IO {
     data.capacity(length);
 
     DataBuffer buffer = Nd4j.createBuffer(data, length, type);
-    long[] shape = {length, 1};
+    long[] shape = {length};
     long[] stride = Nd4j.getStrides(shape, ARMA_ORDER);
     long offset = 0;
     char ordering = ARMA_ORDER;
@@ -420,7 +420,7 @@ class IO {
     data.capacity(length);
 
     DataBuffer buffer = Nd4j.createBuffer(data, length, type);
-    long[] shape = {length, 1};
+    long[] shape = {length};
     long[] stride = Nd4j.getStrides(shape, ARMA_ORDER);
     long offset = 0;
     char ordering = ARMA_ORDER;
@@ -454,7 +454,7 @@ class IO {
     data.capacity(length);
 
     DataBuffer buffer = Nd4j.createBuffer(data, length, type);
-    long[] shape = {1, length};
+    long[] shape = {length};
     long[] stride = Nd4j.getStrides(shape, ARMA_ORDER);
     long offset = 0;
     char ordering = ARMA_ORDER;
@@ -476,7 +476,7 @@ class IO {
     data.capacity(length);
 
     DataBuffer buffer = Nd4j.createBuffer(data, length, type);
-    long[] shape = {1, length};
+    long[] shape = {length};
     long[] stride = Nd4j.getStrides(shape, ARMA_ORDER);
     long offset = 0;
     char ordering = ARMA_ORDER;
@@ -515,7 +515,7 @@ class IO {
     data.capacity(length);
 
     DataBuffer buffer = Nd4j.createBuffer(data, length, type);
-    long[] shape = {rows, columns};
+    long[] shape = {columns, rows};
     long[] stride = Nd4j.getStrides(shape, ARMA_ORDER);
     long offset = 0;
     char ordering = ARMA_ORDER;
@@ -534,3 +534,4 @@ class IO {
     return new MatrixWithInfo(matrix, info);
   }
 }
+

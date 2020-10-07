@@ -97,7 +97,7 @@ public class BindingsJUnitTest {
 
   @Test
   public void runWithMatrix() {
-    INDArray m = Nd4j.rand(DataType.DOUBLE, 'c', new long[] {5, 100});
+    INDArray m = Nd4j.rand(DataType.DOUBLE, 'c', new long[] {100, 5});
 
     BindingsTest.Params params = new BindingsTest.Params();
     params.put("int_in", 12);
@@ -109,25 +109,25 @@ public class BindingsJUnitTest {
     BindingsTest.run(params);
 
     INDArray result = params.get("matrix_out", INDArray.class);
-    assertEquals(4, result.size(0));
-    assertEquals(100, result.size(1));
+    assertEquals(100, result.size(0));
+    assertEquals(4, result.size(1));
     assertEquals(DataType.DOUBLE, result.dataType());
 
     int[] rows = {0, 1, 3};
     for (int i : rows) {
       for (int j = 0, n = (int) result.size(1); j < n; ++j) {
-        assertEquals(m.getDouble(i, j), result.getDouble(i, j), 0.0001);
+        assertEquals(m.getDouble(j, i), result.getDouble(j, i), 0.0001);
       }
     }
 
     for (int i = 0, n = (int) result.size(1); i < n; ++i) {
-      assertEquals(m.getDouble(2, i) * 2, result.getDouble(2, i), 0.0001);
+      assertEquals(m.getDouble(i ,2) * 2, result.getDouble(i, 2), 0.0001);
     }
   }
 
   @Test
   public void runWithMatrixColMajor() {
-    INDArray m = Nd4j.rand(DataType.DOUBLE, 'f', new long[] {5, 100});
+    INDArray m = Nd4j.rand(DataType.DOUBLE, 'f', new long[] {100, 5});
 
     BindingsTest.Params params = new BindingsTest.Params();
     params.put("int_in", 12);
@@ -139,19 +139,20 @@ public class BindingsJUnitTest {
     BindingsTest.run(params);
 
     INDArray result = params.get("matrix_out", INDArray.class);
-    assertEquals(4, result.size(0));
-    assertEquals(100, result.size(1));
+    assertEquals(100, result.size(0));
+    assertEquals(4, result.size(1));
     assertEquals(DataType.DOUBLE, result.dataType());
+
 
     int[] rows = {0, 1, 3};
     for (int i : rows) {
       for (int j = 0, n = (int) result.size(1); j < n; ++j) {
-        assertEquals(m.getDouble(i, j), result.getDouble(i, j), 0.0001);
+        assertEquals(m.getDouble(j, i), result.getDouble(j, i), 0.0001);
       }
     }
 
     for (int i = 0, n = (int) result.size(1); i < n; ++i) {
-      assertEquals(m.getDouble(2, i) * 2, result.getDouble(2, i), 0.0001);
+      assertEquals(m.getDouble(i ,2) * 2, result.getDouble(i, 2), 0.0001);
     }
   }
 
@@ -178,19 +179,19 @@ public class BindingsJUnitTest {
     BindingsTest.run(params);
 
     INDArray result = params.get("umatrix_out", INDArray.class);
-    assertEquals(4, result.size(0));
-    assertEquals(5, result.size(1));
+    assertEquals(5, result.size(0));
+    assertEquals(4, result.size(1));
     assertEquals(DataType.UINT64, result.dataType());
 
     int[] rows = {0, 1, 3};
     for (int i : rows) {
       for (int j = 0, n = (int) result.size(1); j < n; ++j) {
-        assertEquals(m.getLong(i, j), result.getLong(i, j));
+        assertEquals(m.getLong(j, i), result.getLong(j, i));
       }
     }
 
     for (int i = 0, n = (int) result.size(1); i < n; ++i) {
-      assertEquals(m.getLong(2, i) * 2, result.getLong(2, i));
+      assertEquals(m.getLong(i, 2) * 2, result.getLong(i, 2));
     }
   }
 
@@ -219,25 +220,25 @@ public class BindingsJUnitTest {
     BindingsTest.run(params);
 
     INDArray result = params.get("umatrix_out", INDArray.class);
-    assertEquals(m.size(0) - 1, result.size(0));
-    assertEquals(m.size(1), result.size(1));
+    assertEquals(m.size(0), result.size(0));
+    assertEquals(m.size(1) - 1, result.size(1));
     assertEquals(DataType.UINT64, result.dataType());
 
     int[] rows = {0, 1, 3};
     for (int i : rows) {
       for (int j = 0, n = (int) result.size(1); j < n; ++j) {
-        assertEquals(m.getLong(i, j), result.getLong(i, j));
+        assertEquals(m.getLong(j, i), result.getLong(j, i));
       }
     }
 
     for (int i = 0, n = (int) result.size(1); i < n; ++i) {
-      assertEquals(m.getLong(2, i) * 2, result.getLong(2, i));
+      assertEquals(m.getLong(i, 2) * 2, result.getLong(i, 2));
     }
   }
 
   @Test
   public void runWithCol() {
-    INDArray data = Nd4j.rand(DataType.DOUBLE, 'c', new long[] {100, 1});
+    INDArray data = Nd4j.rand(DataType.DOUBLE, 'c', new long[] {100});
 
     BindingsTest.Params params = new BindingsTest.Params();
     params.put("int_in", 12);
@@ -253,7 +254,7 @@ public class BindingsJUnitTest {
     assertEquals(DataType.DOUBLE, result.dataType());
 
     for (int i = 0, n = (int) data.size(0); i < n; ++i) {
-      assertEquals(data.getDouble(i, 0) * 2, result.getDouble(i, 0), 0.0001);
+      assertEquals(data.getDouble(i) * 2, result.getDouble(i), 0.0001);
     }
   }
 
@@ -261,7 +262,7 @@ public class BindingsJUnitTest {
   public void runWithUCol() {
     long[] raw = {3, 4, 5, 6, 7, 8, 9, 2, 4, 4};
 
-    INDArray data = Nd4j.create(raw, new long[] {raw.length, 1}, DataType.UINT64);
+    INDArray data = Nd4j.create(raw, new long[] {raw.length}, DataType.UINT64);
 
     BindingsTest.Params params = new BindingsTest.Params();
     params.put("int_in", 12);
@@ -277,13 +278,13 @@ public class BindingsJUnitTest {
     assertEquals(DataType.UINT64, result.dataType());
 
     for (int i = 0, n = (int) result.size(0); i < n; ++i) {
-      assertEquals(data.getLong(i, 0) * 2, result.getLong(i, 0));
+      assertEquals(data.getLong(i) * 2, result.getLong(i));
     }
   }
 
   @Test
   public void runWithRow() {
-    INDArray data = Nd4j.rand(DataType.DOUBLE, 'c', new long[] {1, 100});
+    INDArray data = Nd4j.rand(DataType.DOUBLE, 'c', new long[] {100});
 
     BindingsTest.Params params = new BindingsTest.Params();
     params.put("int_in", 12);
@@ -295,11 +296,11 @@ public class BindingsJUnitTest {
     BindingsTest.run(params);
 
     INDArray result = params.get("row_out", INDArray.class);
-    assertEquals(data.size(1), result.size(1));
+    assertEquals(data.size(0), result.size(0));
     assertEquals(DataType.DOUBLE, result.dataType());
 
-    for (int i = 0, n = (int) result.size(1); i < n; ++i) {
-      assertEquals(data.getDouble(0, i) * 2, result.getDouble(0, i), 0.0001);
+    for (int i = 0, n = (int) result.size(0); i < n; ++i) {
+      assertEquals(data.getDouble(i) * 2, result.getDouble(i), 0.0001);
     }
   }
 
@@ -307,7 +308,7 @@ public class BindingsJUnitTest {
   public void runWithURow() {
     long[] raw = {3, 4, 5, 6, 7, 8, 9, 2, 4, 4};
 
-    INDArray data = Nd4j.create(raw, new long[] {1, raw.length}, DataType.UINT64);
+    INDArray data = Nd4j.create(raw, new long[] {raw.length}, DataType.UINT64);
 
     BindingsTest.Params params = new BindingsTest.Params();
     params.put("int_in", 12);
@@ -319,11 +320,11 @@ public class BindingsJUnitTest {
     BindingsTest.run(params);
 
     INDArray result = params.get("urow_out", INDArray.class);
-    assertEquals(data.size(1), result.size(1));
+    assertEquals(data.size(0), result.size(0));
     assertEquals(DataType.UINT64, result.dataType());
 
-    for (int i = 0, n = (int) result.size(1); i < n; ++i) {
-      assertEquals(data.getLong(0, i) * 2, result.getLong(0, i));
+    for (int i = 0, n = (int) result.size(0); i < n; ++i) {
+      assertEquals(data.getLong(i) * 2, result.getLong(i));
     }
   }
 
@@ -452,8 +453,8 @@ public class BindingsJUnitTest {
 
   @Test
   public void runWithMatrixAndInfo() {
-    INDArray matrix = Nd4j.rand(DataType.DOUBLE, 'c', new long[] {10, 100});
-    boolean[] info = new boolean[10];
+    INDArray matrix = Nd4j.rand(DataType.DOUBLE, 'c', new long[] {100, 10});
+    boolean[] info = new boolean[100];
     MatrixWithInfo data = new MatrixWithInfo(matrix, info);
 
     BindingsTest.Params params = new BindingsTest.Params();
@@ -495,17 +496,12 @@ public class BindingsJUnitTest {
         .put("int_in", 12)
         .put("double_in", 4.0)
         .put("string_in", "hello")
-        // it fails because of the `true` value below.
-        // true means `keep dimensions intact`, at which point Nd4j will copy
-        // row's data with the default ordering, which is 'c',
-        // whereas the correct ordering remains the same - 'f'
-        // (i.e. data is still laid out in column wise order)
         .put("row_view_in", matrix.getRow(0, true));
 
     BindingsTest.run(params);
 
     INDArray result = params.get("row_view_out", INDArray.class);
-    assertEquals(result, matrix.getRow(0, true));
+    assertEquals(result, matrix.getRow(0));
   }
 
   @Test
@@ -519,7 +515,7 @@ public class BindingsJUnitTest {
     };
 
     long[] shape = {5, 5};
-    char order = 'f';
+    char order = 'c';
     long[] strides = Nd4j.getStrides(shape, order);
     INDArray matrix = Nd4j.create(data, shape, strides, order, DataType.DOUBLE);
 
@@ -527,12 +523,12 @@ public class BindingsJUnitTest {
         .put("int_in", 12)
         .put("double_in", 4.0)
         .put("string_in", "hello")
-        .put("row_view_in", matrix.getRow(0));
+        .put("row_view_in", matrix.getRow(0, true));
 
     BindingsTest.run(params);
 
     INDArray result = params.get("row_view_out", INDArray.class);
-    assertEquals(result, matrix.getRow(0, true));
+    assertEquals(matrix.getRow(0), result);
   }
 
   @Test
@@ -559,6 +555,6 @@ public class BindingsJUnitTest {
     BindingsTest.run(params);
 
     INDArray result = params.get("col_view_out", INDArray.class);
-    assertEquals(matrix.getColumn(0, true), result);
+    assertEquals(result, matrix.getColumn(0));
   }
 }
