@@ -12,6 +12,8 @@
 #ifndef MLPACK_BINDINGS_UTIL_CAMEL_CASE_HPP
 #define MLPACK_BINDINGS_UTIL_CAMEL_CASE_HPP
 
+using namespace std;
+
 namespace mlpack {
 namespace util {
 
@@ -26,9 +28,9 @@ namespace util {
 inline std::string CamelCase(std::string s, bool lower)
 {
   if (!lower)
-    s[0] = std::toupper(s[0]);
+    s[0] = toupper(s[0]);
   else
-    s[0] = std::tolower(s[0]);
+    s[0] = tolower(s[0]);
   size_t n = s.length();
   size_t resInd = 0;
   for (size_t i = 0; i < n; i++)
