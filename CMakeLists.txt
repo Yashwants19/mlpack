@@ -75,7 +75,14 @@ else()
 endif()
 option(BUILD_R_BINDINGS "Build R bindings." ON)
 
-option(BUILD_JAVA_BINDINGS "Build Java bindings" OFF)
+# Detect whether the user passed BUILD_JAVA_BINDINGS in order to determine if
+# we should fail if Java isn't found.
+if (BUILD_JAVA_BINDINGS)
+  set(FORCE_BUILD_JAVA_BINDINGS ON)
+else()
+  set(FORCE_BUILD_JAVA_BINDINGS OFF)
+endif()
+option(BUILD_JAVA_BINDINGS "Build Java bindings." ON)
 
 # Build Markdown bindings for documentation.  This is used as part of website
 # generation.

@@ -15,37 +15,45 @@ endif ()
 
 # Check that JDK is installed
 set(JAVA_VERSION 1.7)
-find_package(Java ${JAVA_VERSION} REQUIRED COMPONENTS Development)
+find_package(Java ${JAVA_VERSION} COMPONENTS Development)
 if (Java_FOUND)
   include(UseJava)
 else()
-  not_found_return("Java components weren't found; Java bindings will not be built.")
+  set(JAVA_NOT_FOUND_MSG "${JAVA_NOT_FOUND_MSG}\n    - Java")
 endif()
 
 # Check that JNI exists
-find_package(JNI REQUIRED)
+find_package(JNI)
 if (NOT JNI_FOUND)
-  not_found_return("JNI wasn't found; Java bindings will not be built.")
-endif()
-
-# Check if target platform is specified (TODO: test on different platforms)
-if (NOT MLPACK_JAVA_TARGET_PLATFORM)
-  #not_found_return("[JAVA BINDINGS] Target platform should be specified (e.g. linux-x86_64)")
-  message(STATUS "[JAVA BINDINGS] Building for this platform")
+  set(JAVA_NOT_FOUND_MSG "${JAVA_NOT_FOUND_MSG}\n    - JNI")
 endif()
 
 # Check that maven is installed
 if (WIN32)
-  find_program(MAVEN_BIN mvn.bat REQUIRED)
+  find_program(MAVEN_BIN mvn.bat)
 else()
-  find_program(MAVEN_BIN mvn REQUIRED)
+  find_program(MAVEN_BIN mvn)
 endif()
 
 # Check that maven exists
 if (MAVEN_BIN)
   message(STATUS "Found maven: ${MAVEN_BIN}")
 else()
-  not_found_return("Maven not found; Java bindings will not be built.")
+  set(JAVA_NOT_FOUND_MSG "${JAVA_NOT_FOUND_MSG}\n    - Maven")
+endif()
+
+## We need to check here if Java and other dependencies is even available, as
+## it is require to build java-bindings.
+if (FORCE_BUILD_JAVA_BINDINGS)
+  if (NOT Java_FOUND OR NOT JNI_FOUND OR NOT MAVEN_BIN)
+    unset(BUILD_JAVA_BINDINGS CACHE)
+    message(FATAL_ERROR "\nCould not Build Java Bindings; the following modules are not available: ${JAVA_NOT_FOUND_MSG}")
+  endif()
+else()
+  if (NOT Java_FOUND OR NOT JNI_FOUND OR NOT MAVEN_BIN)
+    unset(BUILD_JAVA_BINDINGS CACHE)
+    not_found_return("Not building Java bindings; the following modules are not available: ${JAVA_NOT_FOUND_MSG}")
+  endif()
 endif()
 
 set(MAVEN ${MAVEN_BIN} CACHE INTERNAL "")
