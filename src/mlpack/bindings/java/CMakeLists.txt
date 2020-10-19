@@ -29,11 +29,10 @@ if (NOT JNI_FOUND)
 endif()
 
 # Check that maven is installed
-if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-  find_program(MAVEN_BIN mvn.bat)
-else()
-  find_program(MAVEN_BIN mvn)
-endif()
+set (MAVEN_ROOT /usr/bin CACHE STRING "maven directory")
+
+find_program(MAVEN_BIN NAMES mvn
+    HINTS ENV${MAVEN_ROOT}/mvn ${MAVEN_ROOT}/mvn)
 
 # Check that maven exists
 if (MAVEN_BIN)
