@@ -87,6 +87,11 @@ foreach (flag ${MLPACK_JAVA_COMPILER_OPTIONS_RAW})
   set(MLPACK_JAVA_COMPILER_OPTIONS "${MLPACK_JAVA_COMPILER_OPTIONS}<param>${flag}</param>")
 endforeach()
 
+# Extra options for MSVC compiler.
+if (WIN32)
+  set(MLPACK_JAVA_COMPILER_OPTIONS "${MLPACK_JAVA_COMPILER_OPTIONS}<param>/MD</param><param>/O2</param><param>/Ob2</param><param>/DNDEBUG</param>")
+endif()
+
 if (NOT WIN32)
   string(REPLACE ";" ":" MLPACK_JAVA_INCLUDE_PATH "${MLPACK_JAVA_INCLUDE_PATH}")
   string(REPLACE ";" ":" MLPACK_JAVA_LINK_PATH "${MLPACK_JAVA_LINK_PATH}")
