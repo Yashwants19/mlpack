@@ -81,7 +81,7 @@ set(MLPACK_JAVA_LINK_PATH ${MLPACK_LIBRARY_DIRS} ${CMAKE_BINARY_DIR}/lib)
 
 # TODO: make sure that all flags are being passed here (-D flags are not ATM)
 string(REPLACE " " ";" MLPACK_JAVA_COMPILER_OPTIONS_RAW "${CMAKE_CXX_FLAGS}")
-set(MLPACK_JAVA_COMPILER_OPTIONS "<param>-Wno-unused-parameter</param><param>-std=c++11</param><param>-DBINDING_TYPE=BINDING_TYPE_JAVA</param>")
+set(MLPACK_JAVA_COMPILER_OPTIONS "<param>-std=c++11</param><param>-DBINDING_TYPE=BINDING_TYPE_JAVA</param>")
 foreach (flag ${MLPACK_JAVA_COMPILER_OPTIONS_RAW})
   set(MLPACK_JAVA_COMPILER_OPTIONS "${MLPACK_JAVA_COMPILER_OPTIONS}<param>${flag}</param>")
 endforeach()
