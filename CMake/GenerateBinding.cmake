@@ -6,7 +6,7 @@
 #   GENERATE_BINDING_PROGRAM: the program to run to generate the binding file.
 #   BINDING_OUTPUT_FILE: the file to store the output in. (optional)
 
-if (${BINDING_OUTPUT_FILE})
+if (DEFINED BINDING_OUTPUT_FILE)
   execute_process(COMMAND ${GENERATE_BINDING_PROGRAM}
                   OUTPUT_FILE ${BINDING_OUTPUT_FILE})
 else()
