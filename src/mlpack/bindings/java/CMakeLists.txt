@@ -30,7 +30,6 @@ endif()
 
 # Check that maven is installed
 set (MAVEN_ROOT /usr/bin CACHE STRING "maven directory")
-
 find_program(MAVEN_BIN NAMES mvn
     HINTS ENV${MAVEN_ROOT}/mvn ${MAVEN_ROOT}/mvn)
 
@@ -79,7 +78,6 @@ add_custom_command(TARGET java_configure PRE_BUILD
 set(MLPACK_JAVA_INCLUDE_PATH ${MLPACK_INCLUDE_DIRS} ${CMAKE_BINARY_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR})
 set(MLPACK_JAVA_LINK_PATH ${MLPACK_LIBRARY_DIRS} ${CMAKE_BINARY_DIR}/lib)
 
-# TODO: make sure that all flags are being passed here (-D flags are not ATM)
 string(REPLACE " " ";" MLPACK_JAVA_COMPILER_OPTIONS_RAW "${CMAKE_CXX_FLAGS}")
 set(MLPACK_JAVA_COMPILER_OPTIONS "<param>-std=c++11</param><param>-DBINDING_TYPE=BINDING_TYPE_JAVA</param>")
 foreach (flag ${MLPACK_JAVA_COMPILER_OPTIONS_RAW})
