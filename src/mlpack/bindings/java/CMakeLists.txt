@@ -29,7 +29,7 @@ if (NOT JNI_FOUND)
 endif()
 
 # Check that maven is installed
-if (WIN32)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
   find_program(MAVEN_BIN mvn.bat)
 else()
   find_program(MAVEN_BIN mvn)
