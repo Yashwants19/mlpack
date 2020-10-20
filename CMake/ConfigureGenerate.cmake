@@ -8,4 +8,8 @@
 #
 # Any other defined variables will be passed on to the file that is being
 # generated.
-configure_file(${GENERATE_CPP_IN} ${GENERATE_CPP_OUT})
+if (DEFINED ONLY)
+  configure_file(${GENERATE_CPP_IN} ${GENERATE_CPP_OUT} @ONLY)
+else()
+  configure_file(${GENERATE_CPP_IN} ${GENERATE_CPP_OUT})
+endif()
