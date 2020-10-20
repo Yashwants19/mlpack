@@ -115,8 +115,8 @@ add_custom_command(TARGET java_configure PRE_BUILD
       COMMAND ${CMAKE_COMMAND}
           -D GENERATE_CPP_IN=${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/maven/pom.xml.in
           -D GENERATE_CPP_OUT=${MAVEN_BUILD_DIR}/pom.xml
-          -D PACKAGE_VERSION="${PACKAGE_VERSION}"
-          -D JAVA_VERSION="${JAVA_VERSION}"
+          -D PACKAGE_VERSION=${PACKAGE_VERSION}
+          -D JAVA_VERSION=${JAVA_VERSION}
           -D MLPACK_JAVA_INCLUDE_PATH="${MLPACK_JAVA_INCLUDE_PATH}"
           -D MLPACK_JAVA_LINK_PATH="${MLPACK_JAVA_LINK_PATH}"
           -D MLPACK_JAVA_COMPILER_OPTIONS="${MLPACK_JAVA_COMPILER_OPTIONS}"
@@ -190,13 +190,13 @@ macro(add_java_binding method_name)
   camel_case("${method_name}")
   add_custom_command(TARGET generate_java_${method_name} POST_BUILD
       COMMAND ${CMAKE_COMMAND}
-          -DGENERATE_BINDING_PROGRAM="${BUILD_BIN_DIR}/generate_java_${method_name}"
-          -DBINDING_OUTPUT_FILE="${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/${CAMEL_CASE_PROGRAM_NAME}.java"
+          -DGENERATE_BINDING_PROGRAM=${BUILD_BIN_DIR}/generate_java_${method_name}
+          -DBINDING_OUTPUT_FILE=${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/${CAMEL_CASE_PROGRAM_NAME}.java
           -P ${CMAKE_SOURCE_DIR}/CMake/GenerateBinding.cmake)
   add_custom_command(TARGET generate_java_${method_name} POST_BUILD
       COMMAND ${CMAKE_COMMAND}
           -DPROGRAM_MAIN_FILE=${CMAKE_CURRENT_SOURCE_DIR}/${method_name}_main.cpp
-          -DMAVEN_BUILD_DIR="${MAVEN_BUILD_DIR}"
+          -DMAVEN_BUILD_DIR=${MAVEN_BUILD_DIR}
           -DSOURCE_DIR=${CMAKE_SOURCE_DIR}
           -P ${CMAKE_SOURCE_DIR}/CMake/java/GenerateModelFile.cmake)
   add_dependencies(java_package generate_java_${method_name})
