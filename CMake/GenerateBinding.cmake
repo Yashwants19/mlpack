@@ -8,7 +8,14 @@
 
 if (DEFINED BINDING_OUTPUT_FILE)
   execute_process(COMMAND ${GENERATE_BINDING_PROGRAM}
-                  OUTPUT_FILE ${BINDING_OUTPUT_FILE})
+                  OUTPUT_FILE ${BINDING_OUTPUT_FILE}
+                  ERROR_VARIABLE err)
 else()
-  execute_process(COMMAND ${GENERATE_BINDING_PROGRAM})
+  execute_process(COMMAND ${GENERATE_BINDING_PROGRAM}
+                  ERROR_VARIABLE err
+                  WORKING_DIRECTORY ${JAVA_WORKING_DIRECTORY})
 endif()
+
+if (err)
+  message(FATAL_ERROR "Fatal error running ${PROGRAM}: ${err}!")
+endif ()

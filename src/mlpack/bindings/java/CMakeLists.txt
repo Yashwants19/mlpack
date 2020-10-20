@@ -111,7 +111,7 @@ string(REGEX REPLACE ".*#define MLPACK_VERSION_PATCH [\"]?([0-9x]+)[\"]?.*"
 set(PACKAGE_VERSION
       "${MLPACK_VERSION_MAJOR}.${MLPACK_VERSION_MINOR}.${MLPACK_VERSION_PATCH}")
 
-add_custom_target(java_pom_configure
+add_custom_command(TARGET java_configure PRE_BUILD
       COMMAND ${CMAKE_COMMAND}
           -D GENERATE_CPP_IN=${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/maven/pom.xml.in
           -D GENERATE_CPP_OUT=${MAVEN_BUILD_DIR}/pom.xml
@@ -123,9 +123,7 @@ add_custom_target(java_pom_configure
           -D ONLY=TRUE
           -P "${CMAKE_SOURCE_DIR}/CMake/ConfigureGenerate.cmake"
       BYPRODUCTS "${MAVEN_BUILD_DIR}/pom.xml"
-      COMMENT "Configuring poml.xml..."
-      COMMAND ${CMAKE_COMMAND} -E cat ${MAVEN_BUILD_DIR}/pom.xml
-      DEPENDS java_configure)
+      COMMENT "Configuring poml.xml...")
 
 # Compile io_util library for java
 add_custom_target(java_io_util ALL
@@ -135,7 +133,7 @@ add_custom_target(java_io_util ALL
     COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_SOURCE_DIR}/maven/MatrixWithInfo.java
         ${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/MatrixWithInfo.java
-    DEPENDS java_configure java_pom_configure)
+    DEPENDS java_configure)
 
 # Group some commonly used files into a single library
 # so that we don't need to recompile the every time
@@ -191,6 +189,7 @@ macro(add_java_binding method_name)
   add_custom_command(TARGET generate_java_${method_name} POST_BUILD
       COMMAND ${CMAKE_COMMAND}
           -DGENERATE_BINDING_PROGRAM="${BUILD_BIN_DIR}/generate_java_${method_name}"
+          -DJAVA_WORKING_DIRECTORY=${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/
           -P ${CMAKE_SOURCE_DIR}/CMake/GenerateBinding.cmake
       WORKING_DIRECTORY ${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/)
 
