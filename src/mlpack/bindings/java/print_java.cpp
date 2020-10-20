@@ -33,10 +33,7 @@ void PrintJava(const util::BindingDetails& doc,
                const std::string& methodName,
                const std::string& methodPath)
 {
-  string methodFile = methodName + "_main.cpp";
   string className = util::CamelCase(methodName, false);
-  ofstream fout(className + ".java");
-  RedirectStream raii(cout, fout);
 
   IO::RestoreSettings(doc.programName);
 

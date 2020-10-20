@@ -185,17 +185,20 @@ macro(add_java_binding method_name)
       COMPILE_FLAGS -DBINDING_TYPE=BINDING_TYPE_JAVA
       RUNTIME_OUTPUT_DIRECTORY "${BUILD_BIN_DIR}")
 
+  # Run generator to generate bindings (*.java files)
   include("${CMAKE_SOURCE_DIR}/CMake/CamelCase.cmake")
   camel_case("${method_name}")
-  # Run generator to generate bindings (*.java files)
   add_custom_command(TARGET generate_java_${method_name} POST_BUILD
       COMMAND ${CMAKE_COMMAND}
           -DGENERATE_BINDING_PROGRAM="${BUILD_BIN_DIR}/generate_java_${method_name}"
-          -P ${CMAKE_SOURCE_DIR}/CMake/GenerateBinding.cmake
-      WORKING_DIRECTORY ${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/
-      COMMAND ${CMAKE_COMMAND} -E cat ${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/${CAMEL_CASE_PROGRAM_NAME}.java)
-
-
+          -DBINDING_OUTPUT_FILE="${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/${CAMEL_CASE_PROGRAM_NAME}.java"
+          -P ${CMAKE_SOURCE_DIR}/CMake/GenerateBinding.cmake)
+  add_custom_command(TARGET generate_java_${method_name} POST_BUILD
+      COMMAND ${CMAKE_COMMAND}
+          -DPROGRAM_MAIN_FILE=${CMAKE_CURRENT_SOURCE_DIR}/${method_name}_main.cpp
+          -DMAVEN_BUILD_DIR="${MAVEN_BUILD_DIR}"
+          -DSOURCE_DIR=${CMAKE_SOURCE_DIR}
+          -P ${CMAKE_SOURCE_DIR}/CMake/java/GenerateModelFile.cmake)
   add_dependencies(java_package generate_java_${method_name})
 endmacro()
 

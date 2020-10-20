@@ -40,15 +40,6 @@ void PrintParamDefn(
 }
 
 /**
- * Check if file exists
- */
-bool FileExists(const std::string& name)
-{
-  std::ifstream fin(name);
-  return fin.good();
-}
-
-/**
  * For non-matrix serializable types we need to print something.
  */
 template<typename T>
@@ -100,29 +91,6 @@ void PrintParamDefn(
             << "  private static native void set" << ptr << "(String name, "
             << "@Cast(\"" << d.cppType << "*\") Pointer model);" << std::endl
             << std::endl;
-
-  const std::string& name = type + ".java";
-  if (!FileExists(name))
-  {
-    std::ofstream fout(name);
-    fout << "package org.mlpack;" << std::endl
-         << std::endl
-         << "import org.bytedeco.javacpp.*;" << std::endl
-         << "import org.bytedeco.javacpp.annotation.*;" << std::endl
-         << std::endl
-         << "@Platform(not = \"\")" << std::endl
-         << "public class " << type << " {" << std::endl
-         << "  private final Pointer pointer;" << std::endl
-         << std::endl
-         << "  " << type << "(Pointer pointer) {" << std::endl
-         << "    this.pointer = pointer;" << std::endl
-         << "  }" << std::endl
-         << std::endl
-         << "  Pointer getPointer() {" << std::endl
-         << "    return pointer;" << std::endl
-         << "  }" << std::endl
-         << "}" << std::endl;
-  }
 }
 
 /**
