@@ -22,7 +22,7 @@ set(MLPACK_SRCS ${MLPACK_SRCS} ${DIR_SRCS} PARENT_SCOPE)
 
 add_cli_executable(fastmks)
 add_python_binding(fastmks)
-add_java_binding(fastmks)
+##add_java_binding(fastmks)
 add_julia_binding(fastmks)
 add_go_binding(fastmks)
 add_r_binding(fastmks)

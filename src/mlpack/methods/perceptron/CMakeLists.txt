@@ -19,7 +19,7 @@ set(MLPACK_SRCS ${MLPACK_SRCS} ${DIR_SRCS} PARENT_SCOPE)
 
 add_cli_executable(perceptron)
 add_python_binding(perceptron)
-add_java_binding(perceptron)
+##add_java_binding(perceptron)
 add_julia_binding(perceptron)
 add_go_binding(perceptron)
 add_r_binding(perceptron)

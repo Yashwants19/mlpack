@@ -18,7 +18,7 @@ set(MLPACK_SRCS ${MLPACK_SRCS} ${DIR_SRCS} PARENT_SCOPE)
 
 add_cli_executable(dbscan)
 add_python_binding(dbscan)
-add_java_binding(dbscan)
+##add_java_binding(dbscan)
 add_julia_binding(dbscan)
 add_go_binding(dbscan)
 add_r_binding(dbscan)
