@@ -104,6 +104,7 @@ string(REGEX REPLACE ".*#define MLPACK_VERSION_PATCH [\"]?([0-9x]+)[\"]?.*"
     "\\1" MLPACK_VERSION_PATCH "${VERSION_HPP_CONTENTS}")
 set(PACKAGE_VERSION
       "${MLPACK_VERSION_MAJOR}.${MLPACK_VERSION_MINOR}.${MLPACK_VERSION_PATCH}")
+
 if (WIN32)
   set(MLPACK_LINK_SEPARATOR ";")
 else()
@@ -123,8 +124,8 @@ add_custom_target(java_pom_configure
           -D MLPACK_LIBDIR=${MLPACK_LINK_SEPARATOR}$<TARGET_LINKER_FILE_DIR:mlpack>
           -P "${CMAKE_SOURCE_DIR}/CMake/ConfigureGenerate.cmake"
       BYPRODUCTS "${MAVEN_BUILD_DIR}/pom.xml"
-      COMMENT "Configuring poml.xml...")
-add_dependencies(java_pom_configure java_configure)
+      COMMENT "Configuring poml.xml..."
+      DEPENDS java_configure)
 
 # Compile io_util library for java
 add_custom_target(java_io_util ALL
@@ -134,7 +135,7 @@ add_custom_target(java_io_util ALL
     COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_CURRENT_SOURCE_DIR}/maven/MatrixWithInfo.java
         ${MAVEN_BUILD_DIR}/src/main/java/org/mlpack/MatrixWithInfo.java
-    DEPENDS java_configure)
+    DEPENDS java_configure java_pom_configure)
 
 # Group some commonly used files into a single library
 # so that we don't need to recompile the every time
