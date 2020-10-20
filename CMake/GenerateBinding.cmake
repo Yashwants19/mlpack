@@ -12,8 +12,7 @@ if (DEFINED BINDING_OUTPUT_FILE)
                   ERROR_VARIABLE err)
 else()
   execute_process(COMMAND ${GENERATE_BINDING_PROGRAM}
-                  ERROR_VARIABLE err
-                  WORKING_DIRECTORY ${JAVA_WORKING_DIRECTORY})
+                  ERROR_VARIABLE err)
 endif()
 
 if (err)
