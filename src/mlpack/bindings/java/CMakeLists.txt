@@ -89,6 +89,8 @@ endforeach()
 # Extra options for MSVC compiler.
 if (WIN32)
   set(MLPACK_JAVA_COMPILER_OPTIONS "${MLPACK_JAVA_COMPILER_OPTIONS}<param>/MD</param><param>/O2</param><param>/Ob2</param><param>/DNDEBUG</param>")
+else ()
+  set(MLPACK_JAVA_COMPILER_OPTIONS "${MLPACK_JAVA_COMPILER_OPTIONS}<param>-Wno-unused-parameter</param>")
 endif()
 
 if (NOT WIN32)
@@ -120,6 +122,7 @@ add_custom_target(java_pom_configure
           -P "${CMAKE_SOURCE_DIR}/CMake/ConfigureGenerate.cmake"
       BYPRODUCTS "${MAVEN_BUILD_DIR}/pom.xml"
       COMMENT "Configuring poml.xml..."
+      COMMAND ${CMAKE_COMMAND} -E cat ${MAVEN_BUILD_DIR}/pom.xml
       DEPENDS java_configure)
 
 # Compile io_util library for java
