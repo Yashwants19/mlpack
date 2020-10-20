@@ -104,8 +104,27 @@ string(REGEX REPLACE ".*#define MLPACK_VERSION_PATCH [\"]?([0-9x]+)[\"]?.*"
     "\\1" MLPACK_VERSION_PATCH "${VERSION_HPP_CONTENTS}")
 set(PACKAGE_VERSION
       "${MLPACK_VERSION_MAJOR}.${MLPACK_VERSION_MINOR}.${MLPACK_VERSION_PATCH}")
+if (WIN32)
+  set(MLPACK_LINK_SEPARATOR ";")
+else()
+  set(MLPACK_LINK_SEPARATOR ":")
+endif()
 
-configure_file(maven/pom.xml.in ${MAVEN_BUILD_DIR}/pom.xml @ONLY)
+add_custom_target(java_pom_configure
+      COMMAND ${CMAKE_COMMAND}
+          -D GENERATE_CPP_IN=${CMAKE_SOURCE_DIR}/src/mlpack/bindings/java/maven/pom.xml.in
+          -D GENERATE_CPP_OUT=${MAVEN_BUILD_DIR}/pom.xml
+          -D PACKAGE_VERSION="${PACKAGE_VERSION}"
+          -D MLPACK_JAVA_TARGET_PLATFORM="${MLPACK_JAVA_TARGET_PLATFORM}"
+          -D JAVA_VERSION="${JAVA_VERSION}"
+          -D MLPACK_JAVA_INCLUDE_PATH="${MLPACK_JAVA_INCLUDE_PATH}"
+          -D MLPACK_JAVA_LINK_PATH="${MLPACK_JAVA_LINK_PATH}"
+          -D MLPACK_JAVA_COMPILER_OPTIONS="${MLPACK_JAVA_COMPILER_OPTIONS}"
+          -D MLPACK_LIBDIR=${MLPACK_LINK_SEPARATOR}$<TARGET_LINKER_FILE_DIR:mlpack>
+          -P "${CMAKE_SOURCE_DIR}/CMake/ConfigureGenerate.cmake"
+      BYPRODUCTS "${MAVEN_BUILD_DIR}/pom.xml"
+      COMMENT "Configuring poml.xml...")
+add_dependencies(java_pom_configure java_configure)
 
 # Compile io_util library for java
 add_custom_target(java_io_util ALL
@@ -177,6 +196,6 @@ macro(add_java_binding method_name)
   add_dependencies(java_package generate_java_${method_name})
 endmacro()
 
-if (BUILD_TESTS)
+#if (BUILD_TESTS)
   add_subdirectory(tests)
-endif()
+#endif()
