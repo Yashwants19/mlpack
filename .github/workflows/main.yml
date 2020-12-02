@@ -1,11 +1,6 @@
 on:
   workflow_dispatch:
   push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
   release:
     types: [published, created, edited]
 name: mlpack.mlpack
@@ -13,7 +8,6 @@ name: mlpack.mlpack
 jobs:
   jobR:
     name: mlpack R tarball
-    if: ${{ github.repository == 'mlpack/mlpack' }}
     runs-on: ubuntu-20.04
 
     outputs:
@@ -64,7 +58,7 @@ jobs:
         - name: CMake
           run: |
             mkdir build
-            cd build && cmake -DDEBUG=OFF -DPROFILE=OFF -DBUILD_CLI_EXECUTABLES=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_JULIA_BINDINGS=OFF -DBUILD_GO_BINDINGS=OFF -DBUILD_R_BINDINGS=ON ..
+            cd build && cmake -DDEBUG=OFF -DPROFILE=OFF -DBUILD_TESTS=OFF -DBUILD_CLI_EXECUTABLES=OFF -DBUILD_PYTHON_BINDINGS=OFF -DBUILD_JULIA_BINDINGS=OFF -DBUILD_GO_BINDINGS=OFF -DBUILD_R_BINDINGS=ON ..
 
         - name: Build
           run: |
@@ -85,7 +79,6 @@ jobs:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.name }}
-    if: ${{ github.repository == 'mlpack/mlpack' }}
 
     strategy:
       fail-fast: false
