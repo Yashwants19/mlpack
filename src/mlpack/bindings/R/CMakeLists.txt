@@ -314,6 +314,18 @@ macro (post_r_setup)
        "${CEREAL_INCLUDE_DIR}/cereal/*.hpp")
   set(RCEREAL_SRC_FILES ${RCEREAL_SRC_HPP_FILES} ${RCEREAL_SRC_H_FILES})
 
+  file(GLOB_RECURSE BOOST_MATH_SRC_H_FILES RELATIVE "${Boost_INCLUDE_DIRS}"
+       "${Boost_INCLUDE_DIRS}/boost/math/*.h")
+  file(GLOB_RECURSE BOOST_MATH_SRC_HPP_FILES RELATIVE "${Boost_INCLUDE_DIRS}"
+       "${Boost_INCLUDE_DIRS}/boost/math/*.hpp")
+  set(BOOST_MATH_SRC_FILES ${BOOST_MATH_SRC_HPP_FILES} ${BOOST_MATH_SRC_H_FILES})
+
+  file(GLOB_RECURSE BOOST_SPIRIT_SRC_H_FILES RELATIVE "${Boost_INCLUDE_DIRS}"
+       "${Boost_INCLUDE_DIRS}/boost/spirit/*.h")
+  file(GLOB_RECURSE BOOST_SPIRIT_SRC_HPP_FILES RELATIVE "${Boost_INCLUDE_DIRS}"
+       "${Boost_INCLUDE_DIRS}/boost/spirit/*.hpp")
+  set(BOOST_SPIRIT_SRC_FILES ${BOOST_SPIRIT_SRC_HPP_FILES} ${BOOST_SPIRIT_SRC_H_FILES})
+
   # First we have to create that directory though.
   execute_process(
     COMMAND ${CMAKE_COMMAND} -E
@@ -362,6 +374,24 @@ macro (post_r_setup)
       COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CEREAL_INCLUDE_DIR}/${rcereal_src_file}
         ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/${rcereal_src_file}
+    )
+  endforeach()
+
+  # Copy boost-math headers for R-bindings.
+  foreach(boost_math_src_file ${BOOST_MATH_SRC_FILES})
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${Boost_INCLUDE_DIRS}/${boost_math_src_file}
+        ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/${boost_math_src_file}
+    )
+  endforeach()
+
+  # Copy boost-spirit headers for R-bindings.
+  foreach(boost_spirit_src_file ${BOOST_SPIRIT_SRC_FILES})
+    execute_process(
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${Boost_INCLUDE_DIRS}/${boost_spirit_src_file}
+        ${CMAKE_BINARY_DIR}/src/mlpack/bindings/R/mlpack/src/${boost_spirit_src_file}
     )
   endforeach()
 
