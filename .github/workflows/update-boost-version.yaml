@@ -43,7 +43,7 @@ jobs:
             if [[ "$FOUND_SIMILAR" != "YES" ]];
             then
               FOUND_NEW="YES"
-              BOOST_VERSION="$BOOST_VERSION\"$i\" "
+              BOOST_VERSION="$BOOST_VERSION$i\ "
             fi
             FOUND_SIMILAR="NO"
             for j in `grep Boost_ADDITIONAL_VERSIONS_LAST CMakeCache.txt | \
@@ -58,14 +58,16 @@ jobs:
             if [[ "$FOUND_SIMILAR" != "YES" ]];
             then
               FOUND_NEW="YES"
-              BOOST_VERSION="$BOOST_VERSION\"$(echo $i | grep -Po "(\d+)\.\d+")\" "
+              BOOST_VERSION="$BOOST_VERSION$(echo $i | grep -Po "(\d+)\.\d+") "
             fi
           done
 
           # If found the new boost version, then update the CMake script.
           if [[ "$FOUND_NEW" == "YES" ]]
           then
-            sed --in-place "s/set(Boost_ADDITIONAL_VERSIONS/set(Boost_ADDITIONAL_VERSIONS\n  ${BOOST_VERSION: : -1}/" ../CMakeLists.txt
+            # Remove duplicate if any.
+            BOOST_VERSION=$(echo "$BOOST_VERSION" | xargs -n1 | sort -ur | xargs | sed 's/^/"/;s/$/"/;s/[ ]/" "/g')
+            sed --in-place "s/set(Boost_ADDITIONAL_VERSIONS/set(Boost_ADDITIONAL_VERSIONS\n  $BOOST_VERSION/" ../CMakeLists.txt
           fi
 
       - name: Create Pull Request For Boost Version
